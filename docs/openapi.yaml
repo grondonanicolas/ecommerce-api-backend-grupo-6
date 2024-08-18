@@ -1,0 +1,113 @@
+# Links que pueden llegar a ser útiles:
+# - Tutorial breve sobre cómo confeccionar OpenAPI specs: https://support.smartbear.com/swaggerhub/docs/en/get-started/openapi-3-0-tutorial.html
+# - Guía más extensa sobre OpenAPI: https://swagger.io/docs/specification/about/
+# - Mejores prácticas sobre OpenAPI: https://learn.openapis.org/best-practices.html
+# - Mejores prácticas sobre REST: https://www.restapitutorial.com/
+# - Guía de estilo sobre REST: https://opensource.zalando.com/restful-api-guidelines/
+
+# todo: hacer que chatgpt me haga code review de esto
+openapi: 3.1.0
+
+info:
+  title: ecommerce-api-backend-grupo-6
+  description: Backend del TP de Aplicaciones Interactivas (2do cuatrimestre de 2024).
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:8080  # Actualizar o agregar nueva entrada si se despliega en un entorno público
+
+security:
+  - JwtAuth: []
+
+paths:
+  /login:  # Agrego esta ruta solo para mostrar cómo se pueden marcar los endpoints que no requieren autenticación
+    post:
+      tags:
+        - Gestión de usuarios
+      security: []
+
+  /cart:
+    get:
+      tags:
+        - Carrito de compras
+      summary: Obtener detalle del carrito
+      description: |
+        Nota: Analizar si es necesario este endpoint. Quizás quede más claro cuando tengamos las vistas de la aplicación.
+        
+        El detalle debe incluir el costo total de los productos.
+      responses:
+        "200":
+          description: Detalle del carrito enviado de forma exitosa
+        "401":
+          $ref: "#/components/responses/AuthenticationError"
+    delete:
+      tags:
+        - Carrito de compras
+      summary: Vaciar carrito
+      responses:
+        "200":
+          description: Carrito vaciado de forma exitosa
+        "401":
+          $ref: "#/components/responses/AuthenticationError"
+
+  /cart/products:
+    post:
+      tags:
+        - Carrito de compras
+      summary: Agregar producto al carrito
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Producto agregado de forma exitosa
+        "400":
+          description: Petición inválida
+        "401":
+          $ref: "#/components/responses/AuthenticationError"
+
+  /cart/products/{productId}:
+    delete:
+      tags:
+        - Carrito de compras
+      summary: Eliminar producto del carrito
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado del carrito de forma exitosa
+        "404":
+          description: El producto del ID indicado no existe
+        "401":
+          $ref: "#/components/responses/AuthenticationError"
+
+  /cart/checkout:
+    post:
+      tags:
+        - Carrito de compras
+      summary: Realizar checkout del carrito
+      description: Una vez realizado el checkout, se debe descontar el stock de los productos.
+      responses:
+        "200":
+          description: Checkout realizado de forma exitosa
+        "409":
+          description: Error al realizar el checkout debido a falta de stock
+        "401":
+          $ref: "#/components/responses/AuthenticationError"
+
+components:
+  securitySchemes:
+    JwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    AuthenticationError:
+      description: Petición no autenticada
