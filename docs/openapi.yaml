@@ -5,7 +5,6 @@
 # - Mejores prácticas sobre REST: https://www.restapitutorial.com/
 # - Guía de estilo sobre REST: https://opensource.zalando.com/restful-api-guidelines/
 
-# todo: hacer que chatgpt me haga code review de esto
 openapi: 3.1.0
 
 info:
