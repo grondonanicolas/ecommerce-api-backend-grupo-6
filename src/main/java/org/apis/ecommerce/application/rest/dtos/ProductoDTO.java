@@ -8,7 +8,11 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class ProductoDTO {
-    private String nombre;
-    private String descripcion;
+    private Integer id;
+    private String description;
     private double precio;
+    private int stock;
+    // private String productState;
+    // private String category;
+    // private String user;
 }
