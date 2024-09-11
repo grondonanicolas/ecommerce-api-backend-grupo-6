@@ -1,5 +1,7 @@
 package org.apis.ecommerce.domain.services;
 
+import java.util.List;
+
 import org.apis.ecommerce.application.rest.dtos.ProductoDTO;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.repositories.ProductRepository;
@@ -15,5 +17,17 @@ public class ProductService {
     public ProductoDTO getProductById(Integer id) throws Exception{
         Product product = productRepository.findById(id).orElseThrow(() -> new Exception("An error has ocurred"));
         return new ProductoDTO(product.getId(),product.getDescription(), product.getPrecio(),product.getStock());
+    }
+
+    public List<ProductoDTO> getProductsByCategoryId(Integer categoryId) {
+        List<Product> products = productRepository.getProductsByCategoryId(categoryId);
+        return products.stream()
+                .map(product -> 
+                        new ProductoDTO(
+                            product.getId(), 
+                            product.getDescription(), 
+                            product.getPrecio(), 
+                            product.getStock()))
+                .toList();
     }
 }

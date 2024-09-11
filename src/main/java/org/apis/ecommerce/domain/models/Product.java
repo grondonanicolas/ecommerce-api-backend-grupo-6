@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,18 +23,18 @@ public class Product {
     private double precio;
 
     private int stock;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+      name = "product_category",
+      joinColumns = @JoinColumn(name = "product_id"), 
+      inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> category;
 
     // @ManyToOne
     // @JoinColumn(name = "product_state_id", nullable = false)
     // private ProductState productState;
-
-    // @ManyToOne
-    // @JoinColumn(name = "category_id", nullable = false)
-    // private Category category;
-
-    // @ManyToOne
-    // @JoinColumn(name = "user_id", nullable = false)
-    // private User user;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
