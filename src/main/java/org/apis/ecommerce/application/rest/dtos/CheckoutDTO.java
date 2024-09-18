@@ -9,5 +9,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CheckoutDTO {
         private String fecha;
-        private ProductoDTO[] productosComprados;
+        private ProductDTO[] productosComprados;
 }
