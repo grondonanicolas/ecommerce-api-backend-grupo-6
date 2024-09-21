@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
+import java.util.List;
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,13 +30,9 @@ public class Product {
     // @JoinColumn(name = "product_state_id", nullable = false)
     // private ProductState productState;
 
-    // @ManyToOne
-    // @JoinColumn(name = "category_id", nullable = false)
-    // private Category category;
-
-    // @ManyToOne
-    // @JoinColumn(name = "user_id", nullable = false)
-    // private User user;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
