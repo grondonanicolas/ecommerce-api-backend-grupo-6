@@ -32,7 +32,7 @@ public class ProductService implements IProductService {
 
     public void addProductOutstanding(Integer productId) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new Exception("Producto no encontrado"));
-        Outstanding outstanding = new Outstanding(product);;
+        Outstanding outstanding = new Outstanding(product);
         outstandingRepository.save(outstanding);
     }
 
