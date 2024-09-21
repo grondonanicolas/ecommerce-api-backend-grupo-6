@@ -19,7 +19,7 @@ public class Product {
 
     private String description;
 
-    private double precio;
+    private double price;
 
     private int stock;
 

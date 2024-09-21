@@ -1,8 +1,8 @@
 package org.apis.ecommerce.application.rest.controllers;
 
-import org.apis.ecommerce.application.rest.dtos.ProductoDTO;
+import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.domain.models.Product;
-import org.apis.ecommerce.domain.services.ProductService;
+import org.apis.ecommerce.rest.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     @GetMapping
     public String listProducts(
@@ -26,8 +26,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductoDTO getProductById(@PathVariable Integer id) throws Exception {
-        return productService.getProductById(id);
+    public ProductDTO getProductById(@PathVariable Integer id) throws Exception {
+        Product product = productService.getProductById(id);
+        return new ProductDTO(product.getId(), product.getDescription(), product.getPrice(), product.getStock());
     }
     
 }
