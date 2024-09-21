@@ -1,4 +1,4 @@
-package org.apis.ecommerce.rest.services;
+package org.apis.ecommerce.application.rest.services;
 
 import org.apis.ecommerce.domain.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

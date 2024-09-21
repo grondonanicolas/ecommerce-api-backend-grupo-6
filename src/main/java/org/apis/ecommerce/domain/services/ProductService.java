@@ -4,7 +4,7 @@ import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.apis.ecommerce.rest.services.IProductService;
+import org.apis.ecommerce.application.rest.services.IProductService;
 
 @Service
 public class ProductService implements IProductService {

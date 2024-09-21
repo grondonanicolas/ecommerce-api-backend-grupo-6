@@ -2,7 +2,7 @@ package org.apis.ecommerce.application.rest.controllers;
 
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.domain.models.Product;
-import org.apis.ecommerce.rest.services.IProductService;
+import org.apis.ecommerce.application.rest.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
