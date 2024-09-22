@@ -10,9 +10,9 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "product_bought")
-public class CheckoutProduct {
+public class BoughtProduct {
     @EmbeddedId
-    private CheckoutProductId id;
+    private BoughtProductId id;
     
     @ManyToOne
     @MapsId("productId")
@@ -22,7 +22,7 @@ public class CheckoutProduct {
     @ManyToOne
     @MapsId("transactionId")
     @JoinColumn(name = "transaction_id")
-    private Checkout checkout;
+    private Transaction transaction;
     
     private int quantity;
     private double pricePerUnit;

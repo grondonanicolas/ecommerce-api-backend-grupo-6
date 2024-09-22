@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "transactions")
-public class Checkout {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,9 +23,9 @@ public class Checkout {
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_id")
-    private List<CheckoutProduct> purchasedProducts;
+    private List<BoughtProduct> boughtProducts;
 
-    public void addCheckoutProducts(List<CheckoutProduct> checkoutProducts) {
-        purchasedProducts.addAll(checkoutProducts);
+    public void addBoughtProducts(List<BoughtProduct> boughtProducts) {
+        this.boughtProducts.addAll(boughtProducts);
     }
 }

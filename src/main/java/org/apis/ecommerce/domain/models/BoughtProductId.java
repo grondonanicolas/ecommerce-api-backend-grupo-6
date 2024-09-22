@@ -16,7 +16,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class CheckoutProductId implements Serializable {
+public class BoughtProductId implements Serializable {
     @Column(name = "product_id")
     private Integer productId;
     
@@ -30,7 +30,7 @@ public class CheckoutProductId implements Serializable {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        CheckoutProductId that = (CheckoutProductId) o;
+        BoughtProductId that = (BoughtProductId) o;
         return getProductId() != null && Objects.equals(getProductId(), that.getProductId())
                 && getTransactionId() != null && Objects.equals(getTransactionId(), that.getTransactionId());
     }
