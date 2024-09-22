@@ -43,15 +43,17 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void validateHasRequiredStock(int requestedQuantity) {
-        if (requestedQuantity > currentStock) {
-            throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
-        }
-    }
-
     public void validateThatItIsActive() {
         if (!currentState.equals(ProductState.ACTIVE)) {
             throw new IllegalStateException("El producto no está activo");
         }
+    }
+
+    public void subtractStock(int requestedQuantity) {
+        if (requestedQuantity > currentStock) {
+            throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
+        }
+
+        currentStock -= requestedQuantity;
     }
 }

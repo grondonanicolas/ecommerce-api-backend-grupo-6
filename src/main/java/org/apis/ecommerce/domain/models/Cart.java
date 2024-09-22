@@ -65,4 +65,19 @@ public class Cart {
                 .orElseThrow(() -> new EntityNotFoundException("El producto indicado no está en el carrito de compras"));
         selectedProducts.remove(productInCartToRemove);
     }
+    
+    public List<ProductInCart> getSelectedProducts() {
+        return selectedProducts.stream().toList();
+    }
+
+    public void checkOutProducts() {
+        selectedProducts.forEach(ProductInCart::checkOut);
+        clear();
+    }
+
+    public void validateIsNotEmpty() {
+        if (selectedProducts.isEmpty()) {
+            throw new IllegalStateException("No hay productos para comprar en el carrito");
+        }
+    }
 }

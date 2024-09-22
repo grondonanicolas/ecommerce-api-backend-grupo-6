@@ -19,7 +19,7 @@ public class ProductInCart {
     @JoinColumn(name = "cart_id")
     private Cart cart;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @MapsId(value = "productId")
     @JoinColumn(name = "product_id")
     private Product product;
@@ -51,6 +51,15 @@ public class ProductInCart {
     public boolean isSameProductId(int comparingProductId) {
         int thisProductId = this.product.getId();
         return thisProductId == comparingProductId;
+    }
+
+    public void checkOut() {
+        product.subtractStock(currentQuantity);
+    }
+
+
+    public int getProductId() {
+        return product.getId();
     }
 }
 
