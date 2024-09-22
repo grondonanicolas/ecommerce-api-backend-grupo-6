@@ -2,6 +2,8 @@ package org.apis.ecommerce.application.rest.controllers;
 
 import org.apis.ecommerce.application.rest.dtos.CartRequestDto;
 import org.apis.ecommerce.application.rest.dtos.CartResponseDto;
+import org.apis.ecommerce.domain.models.Cart;
+import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +68,17 @@ public class CartController {
         cartService.checkOutUserCart(requestingUser);
         
         return new CartResponseDto("Carrito comprado");
+    }
+    
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public CartDetailDto getCartDetail() {
+        // todo: volar esto cuando se agregue spring security
+        User requestingUser = new User();
+        requestingUser.setId(1);
+        
+        Cart userCart = cartService.getUserCart(requestingUser);
+        
+        return userCart.toDto();   
     }
 }
