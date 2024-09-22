@@ -2,6 +2,7 @@ package org.apis.ecommerce.domain.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.apis.ecommerce.application.rest.dtos.ProductInCartDto;
 
 @Getter
 @Setter
@@ -60,6 +61,15 @@ public class ProductInCart {
 
     public int getProductId() {
         return product.getId();
+    }
+
+    public ProductInCartDto toDto() {
+        return ProductInCartDto.builder()
+                .productId(product.getId())
+                .description(product.getDescription())
+                .quantity(currentQuantity)
+                .pricePerUnit(product.getPricePerUnit())
+                .build();
     }
 }
 

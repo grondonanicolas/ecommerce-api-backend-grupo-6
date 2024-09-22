@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
+import org.apis.ecommerce.application.rest.dtos.ProductInCartDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,5 +81,18 @@ public class Cart {
         if (selectedProducts.isEmpty()) {
             throw new IllegalStateException("No hay productos para comprar en el carrito");
         }
+    }
+
+    public CartDetailDto toDto() {
+        List<ProductInCartDto> productInCartDtos = selectedProducts.stream().map(ProductInCart::toDto).toList();
+        
+        double cartPriceForDto = productInCartDtos.stream()
+                .map(product -> product.getQuantity() * product.getPricePerUnit())
+                .reduce(0d, Double::sum);
+        
+        return CartDetailDto.builder()
+                .productsInCart(productInCartDtos)
+                .cartPrice(cartPriceForDto)
+                .build();
     }
 }

@@ -38,7 +38,7 @@ public class CartService {
         cartRepository.save(userCart);
     }
 
-    private Cart getUserCart(User requestingUser) {
+    public Cart getUserCart(User requestingUser) {
         return cartRepository.findByUser(requestingUser).orElseThrow(() -> new EntityNotFoundException("El carrito del usuario solicitante no existe"));
     }
 
