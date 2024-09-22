@@ -42,4 +42,17 @@ public class CartController {
         
         return new CartResponseDto("Carrito vaciado");
     }
+    
+    // todo: no olvidarme de agregar un global exception handler para devolver los códigos de error correctos con las excepciones
+    @DeleteMapping(path = "/products/{productIdToRemove}")
+    @ResponseStatus(HttpStatus.OK)
+    public CartResponseDto removeProductFromUserCart(@PathVariable int productIdToRemove) {
+        // todo: remover cuando se agregue spring security
+        User requestingUser = new User();
+        requestingUser.setId(1);
+        
+        cartService.removeProductFromUserCart(productIdToRemove, requestingUser);
+        
+        return new CartResponseDto("Producto removido");
+    }
 }

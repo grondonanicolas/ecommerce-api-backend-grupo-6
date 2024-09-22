@@ -47,5 +47,10 @@ public class ProductInCart {
             throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
         }
     }
+
+    public boolean isSameProductId(int comparingProductId) {
+        int thisProductId = this.product.getId();
+        return thisProductId == comparingProductId;
+    }
 }
 
