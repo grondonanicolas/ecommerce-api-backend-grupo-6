@@ -19,13 +19,13 @@ public class CartService {
     
     private final CartRepository cartRepository;
     private final IProductRepository productRepository;
-    private final CheckoutRepository checkoutRepository;
+    private final TransactionRepository transactionRepository;
 
     public CartService(CartRepository cartRepository, IProductRepository productRepository,
-                       CheckoutRepository checkoutRepository) {
+                       TransactionRepository transactionRepository) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
-        this.checkoutRepository = checkoutRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public void addProductToCart(CartRequestDto cartRequestDto, User requestingUser) {
@@ -65,36 +65,36 @@ public class CartService {
         List<ProductInCart> purchasedProducts = userCart.getSelectedProducts();
         userCart.checkOutProducts();
         
-        Checkout checkout = Checkout.builder()
+        Transaction transaction = Transaction.builder()
                 .user(requestingUser)
-                .purchasedProducts(new ArrayList<>())
+                .boughtProducts(new ArrayList<>())
                 .build();
         
-        checkout = checkoutRepository.save(checkout);
+        transaction = transactionRepository.save(transaction);
         
-        List<CheckoutProduct> checkoutProducts = new ArrayList<>();
+        List<BoughtProduct> boughtProducts = new ArrayList<>();
         
         for (ProductInCart purchasedProduct : purchasedProducts) {
-            int checkoutId = checkout.getId();
+            int transactionId = transaction.getId();
             int productId = purchasedProduct.getProductId();
             Product product = purchasedProduct.getProduct();
             int currentQuantity = purchasedProduct.getCurrentQuantity();
             double pricePerUnit = purchasedProduct.getProduct().getPricePerUnit();
 
-            CheckoutProductId checkoutProductId = new CheckoutProductId(productId, checkoutId);
+            BoughtProductId boughtProductId = new BoughtProductId(productId, transactionId);
 
-            CheckoutProduct checkoutProduct = CheckoutProduct.builder()
-                    .id(checkoutProductId)
+            BoughtProduct boughtProduct = BoughtProduct.builder()
+                    .id(boughtProductId)
                     .product(product)
-                    .checkout(checkout)
+                    .transaction(transaction)
                     .quantity(currentQuantity)
                     .pricePerUnit(pricePerUnit)
                     .build();
             
-            checkoutProducts.add(checkoutProduct);
+            boughtProducts.add(boughtProduct);
         }
         
-        checkout.addCheckoutProducts(checkoutProducts);
-        checkoutRepository.save(checkout);
+        transaction.addBoughtProducts(boughtProducts);
+        transactionRepository.save(transaction);
     }
 }
