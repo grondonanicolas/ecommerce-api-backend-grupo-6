@@ -88,7 +88,7 @@ VALUES (1, 1, 10),
 -- Inserciones para la tabla `historic`
 INSERT INTO historic (`user_id`, `product_id`)
 VALUES (2, 1),
-       (3, 2),
-       (4, 3),
-       (5, 4),
-       (2, 5);
+       (2, 2),
+       (3, 3),
+       (4, 4),
+       (5, 5);
