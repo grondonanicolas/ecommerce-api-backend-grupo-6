@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS product
     `category_id`      INT          NOT NULL,
     `user_id`          INT          NOT NULL,
     `stock`            INT          NOT NULL,
-    `description`      VARCHAR(255) NOT NULL,
-    `price`            DOUBLE,
+    `description`      VARCHAR(255) NOT NULL, -- todo: agregar este límite a nivel aplicación para que no rompa de forma inesperada. esto hacerlo con todos los varchar y también tener en cuenta los límites de los otros tipos de dato (p ej, INT es hasta 4 mil millones de IDs).
+    `price_per_unit`   DOUBLE       NOT NULL,
     `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS product_bought
     `transaction_id` INT          NOT NULL,
     `price`          DOUBLE,
     `description`    VARCHAR(255) NOT NULL,
+    `price_per_unit` DOUBLE NOT NULL,
 
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON UPDATE CASCADE,
     FOREIGN KEY (`transaction_id`) REFERENCES transactions (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
