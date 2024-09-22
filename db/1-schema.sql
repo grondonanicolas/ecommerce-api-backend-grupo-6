@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users
     `password`   VARCHAR(255) NOT NULL,
     `birth_date` TIMESTAMP    NOT NULL,
 
-    FOREIGN KEY (`rol_id`) REFERENCES rol (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`rol_id`) REFERENCES rol (`id`) ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
@@ -67,6 +67,8 @@ CREATE TABLE IF NOT EXISTS product
     PRIMARY KEY (`id`),
     FOREIGN KEY (`product_state_id`) REFERENCES product_state (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`product_state_id`) REFERENCES product_state (`id`) ON UPDATE CASCADE,
+    FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON UPDATE CASCADE,
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
@@ -78,7 +80,7 @@ CREATE TABLE IF NOT EXISTS product_bought
     `price`          DOUBLE,
     `description`    VARCHAR(255) NOT NULL,
 
-    FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON UPDATE CASCADE,
     FOREIGN KEY (`transaction_id`) REFERENCES transactions (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
