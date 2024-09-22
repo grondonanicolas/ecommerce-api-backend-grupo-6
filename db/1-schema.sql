@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS product_cart
 (
     `cart_id`    INT NOT NULL,
     `product_id` INT NOT NULL,
+    `quantity`   INT NOT NULL,
 
     FOREIGN KEY (`cart_id`) REFERENCES cart (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
