@@ -74,16 +74,14 @@ CREATE TABLE IF NOT EXISTS product
 
 CREATE TABLE IF NOT EXISTS product_bought
 (
-    `id`             INT          NOT NULL AUTO_INCREMENT,
-    `category_id`    INT          NOT NULL,
-    `transaction_id` INT          NOT NULL,
-    `price`          DOUBLE,
-    `description`    VARCHAR(255) NOT NULL,
+    `product_id`     INT    NOT NULL,
+    `transaction_id` INT    NOT NULL,
+    `quantity`       INT    NOT NULL,
     `price_per_unit` DOUBLE NOT NULL,
 
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON UPDATE CASCADE,
     FOREIGN KEY (`transaction_id`) REFERENCES transactions (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`product_id`, `transaction_id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
@@ -120,13 +118,12 @@ CREATE TABLE IF NOT EXISTS cart
 
 CREATE TABLE IF NOT EXISTS product_cart
 (
-    `id`         INT NOT NULL AUTO_INCREMENT,
     `cart_id`    INT NOT NULL,
     `product_id` INT NOT NULL,
 
     FOREIGN KEY (`cart_id`) REFERENCES cart (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`cart_id`, `product_id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
