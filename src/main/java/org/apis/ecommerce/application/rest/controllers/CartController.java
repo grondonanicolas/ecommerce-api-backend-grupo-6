@@ -30,4 +30,16 @@ public class CartController {
         cartService.addProductToCart(cartRequestDto, requestingUser);
         return new CartResponseDto("Producto agregado");  // todo: revisar en qué idioma vamos a devolver nuestras respuestas y alinearlas
     }
+    
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.OK)
+    public CartResponseDto clearUserCart() {
+        // todo: remover cuando se agregue spring security
+        User requestingUser = new User();
+        requestingUser.setId(1);
+        
+        cartService.clearUserCart(requestingUser);
+        
+        return new CartResponseDto("Carrito vaciado");
+    }
 }
