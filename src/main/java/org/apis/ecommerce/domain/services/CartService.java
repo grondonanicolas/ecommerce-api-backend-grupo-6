@@ -38,4 +38,10 @@ public class CartService {
         userCart.clear();
         cartRepository.save(userCart);
     }
+
+    public void removeProductFromUserCart(int productIdToRemove, User requestingUser) {
+        Cart userCart = getUserCart(requestingUser);
+        userCart.removeProduct(productIdToRemove);
+        cartRepository.save(userCart);
+    }
 }
