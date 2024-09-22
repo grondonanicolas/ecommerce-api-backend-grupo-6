@@ -3,13 +3,14 @@ package org.apis.ecommerce.domain.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-import java.util.List;
-
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -25,6 +26,9 @@ public class Product {
     private double price;
 
     private int stock;
+
+    @Column(name="is_outstanding")
+    private boolean isOutstanding;
 
     // @ManyToOne
     // @JoinColumn(name = "product_state_id", nullable = false)

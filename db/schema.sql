@@ -78,19 +78,10 @@ CREATE TABLE IF NOT EXISTS product_bought
     `transaction_id`         INT NOT NULL,
     `price`                  DOUBLE,
     `description`            VARCHAR(255) NOT NULL,
+    `is_outstanding`         BOOLEAN,
 
     FOREIGN KEY (`category_id`) REFERENCES category(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`transaction_id`) REFERENCES transactions(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (`id`)
-) CHARACTER SET utf8mb4
-  COLLATE utf8mb4_bin;
-
-CREATE TABLE IF NOT EXISTS outstanding
-(
-    `id`                     INT NOT NULL AUTO_INCREMENT,
-    `product_id`             INT NOT NULL,
-
-    FOREIGN KEY (`product_id`) REFERENCES product(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
@@ -140,6 +131,20 @@ CREATE TABLE IF NOT EXISTS historic
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
+
+CREATE TABLE IF NOT EXISTS favourite
+(
+    `id`                  INT NOT NULL AUTO_INCREMENT,
+    `user_id`             INT NOT NULL,
+    `product_id`          INT NOT NULL,
+
+    FOREIGN KEY (`product_id`) REFERENCES product(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (`id`)
+) CHARACTER SET utf8mb4
+  COLLATE utf8mb4_bin;
+
+
 -- Inserciones para la tabla `rol`
 INSERT INTO rol (`rol`) VALUES ('Admin'), ('Cliente'), ('Vendedor'), ('Invitado'), ('Soporte');
 
@@ -183,9 +188,6 @@ INSERT INTO product_bought (`category_id`, `transaction_id`, `price`, `descripti
 (3, 3, 79.99, 'Chaqueta de cuero'),
 (4, 4, 59.99, 'Zapatillas deportivas'),
 (5, 5, 9.99, 'Gorra de béisbol');
-
--- Inserciones para la tabla `outstanding`
-INSERT INTO outstanding (`product_id`) VALUES (1), (2), (3), (4), (5);
 
 
 -- Inserciones para la tabla `photo`

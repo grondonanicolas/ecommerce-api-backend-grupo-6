@@ -9,6 +9,10 @@ import java.util.List;
 public interface IProductRepository {
     public Optional<Product> findById(Integer id );
 
-    List<Product> getProductsByCategoryId(Integer categoryId);
+    public List<Product> getProductsByCategoryId(Integer categoryId);
+
+    public Product save(Product product);
+
+    public List<Product> findAllOutstanding();
 
 }
