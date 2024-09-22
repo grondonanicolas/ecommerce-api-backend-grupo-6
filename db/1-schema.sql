@@ -65,10 +65,9 @@ CREATE TABLE IF NOT EXISTS product
     `updated_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`product_state_id`) REFERENCES product_state (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON DELETE CASCADE ON UPDATE CASCADE
     FOREIGN KEY (`product_state_id`) REFERENCES product_state (`id`) ON UPDATE CASCADE,
     FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON UPDATE CASCADE
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
