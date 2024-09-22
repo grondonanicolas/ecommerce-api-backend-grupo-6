@@ -48,8 +48,8 @@ public class ProductController {
                         new ProductDTO(
                             product.getId(), 
                             product.getDescription(), 
-                            product.getPrice(), 
-                            product.getStock()))
+                            product.getPricePerUnit(), 
+                            product.getCurrentStock()))
                 .toList();
     }
 
@@ -63,7 +63,7 @@ public class ProductController {
     public List<ProductDTO> getOutstandingProducts() throws Exception {
         List<Product> products = productService.getOutstandingProducts();
         return products.stream()
-            .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPrice(), product.getStock()))
+            .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock()))
             .collect(Collectors.toList());
     }
 }
