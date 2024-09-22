@@ -2,7 +2,6 @@ package org.apis.ecommerce.application.rest.controllers;
 
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
-import org.apis.ecommerce.domain.models.Outstanding;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.application.rest.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +60,7 @@ public class ProductController {
 
     @GetMapping("/outstanding")
     public List<ProductDTO> getOutstandingProducts() throws Exception {
-        List<Product> products = productService.getOutstandingProducts();
+        List<Product> products = productService.findAllOutstanding();
         return products.stream()
             .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPrice(), product.getStock()))
             .collect(Collectors.toList());
