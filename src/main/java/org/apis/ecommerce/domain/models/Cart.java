@@ -57,4 +57,12 @@ public class Cart {
     public void clear() {
         selectedProducts.clear();
     }
+
+    public void removeProduct(int productIdToRemove) {
+        ProductInCart productInCartToRemove = selectedProducts.stream()
+                .filter(productInCart -> productInCart.isSameProductId(productIdToRemove))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("El producto indicado no está en el carrito de compras"));
+        selectedProducts.remove(productInCartToRemove);
+    }
 }
