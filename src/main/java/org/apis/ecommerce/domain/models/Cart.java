@@ -26,7 +26,6 @@ public class Cart {
     private List<ProductInCart> selectedProducts;
 
     public void addRequestedProductQuantity(Product requestedProduct, int requestedQuantity) {
-        requestedProduct.validateHasRequiredStock(requestedQuantity);
         requestedProduct.validateThatItIsActive();
         Optional<ProductInCart> productInCart = getProductInCart(requestedProduct);
         productInCart.ifPresentOrElse(
@@ -47,8 +46,10 @@ public class Cart {
                 .id(new ProductInCartId(this.id, productId))
                 .cart(this)
                 .product(product)
-                .quantity(requestedQuantity)
+                .currentQuantity(0)
                 .build();
+        
+        productInCart.addRequestedQuantity(requestedQuantity);
 
         selectedProducts.add(productInCart);
     }

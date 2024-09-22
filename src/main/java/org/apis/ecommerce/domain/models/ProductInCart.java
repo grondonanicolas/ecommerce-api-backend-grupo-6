@@ -24,7 +24,8 @@ public class ProductInCart {
     @JoinColumn(name = "product_id")
     private Product product;
     
-    private int quantity;
+    @Column(name = "quantity")
+    private int currentQuantity;
     
     public boolean isSameProduct(Product comparingProduct) {
         int thisProductId = this.product.getId();
@@ -33,9 +34,18 @@ public class ProductInCart {
     }
 
     public void addRequestedQuantity(int requestedQuantity) {
-        product.validateHasRequiredStock(requestedQuantity);
-        product.validateThatItIsActive();
-        quantity += requestedQuantity;
+        validateHasRequiredStock(requestedQuantity);
+        product.validateThatItIsActive(); 
+        currentQuantity += requestedQuantity;
+    }
+    
+    public void validateHasRequiredStock(int requestedQuantity) {
+        int requiredStock = currentQuantity + requestedQuantity;
+        int currentStock = product.getCurrentStock();
+        
+        if (requiredStock > currentStock) {
+            throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
+        }
     }
 }
 
