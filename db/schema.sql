@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS product
     `stock`                  INT NOT NULL,
     `description`            VARCHAR(255) NOT NULL,
     `price`                  DOUBLE,
+    `is_outstanding`         BOOLEAN,
     `created_at`             TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`             TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
