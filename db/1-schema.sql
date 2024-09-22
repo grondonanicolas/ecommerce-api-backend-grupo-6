@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS users
 
 CREATE TABLE IF NOT EXISTS product_state
 (
-    `id`     INT                                      NOT NULL AUTO_INCREMENT,
+    `id`     INT                                      NOT NULL,
     `status` ENUM ('BORRADOR', 'ACTIVO', 'ELIMINADO') NOT NULL,
 
     PRIMARY KEY (`id`)
