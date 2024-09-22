@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS product
     `stock`            INT          NOT NULL,
     `description`      VARCHAR(255) NOT NULL, -- todo: agregar este límite a nivel aplicación para que no rompa de forma inesperada. esto hacerlo con todos los varchar y también tener en cuenta los límites de los otros tipos de dato (p ej, INT es hasta 4 mil millones de IDs).
     `price_per_unit`   DOUBLE       NOT NULL,
+    `is_outstanding`   BOOLEAN      NOT NULL DEFAULT FALSE,
     `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
