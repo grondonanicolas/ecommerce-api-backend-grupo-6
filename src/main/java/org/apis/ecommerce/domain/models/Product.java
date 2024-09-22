@@ -2,14 +2,15 @@ package org.apis.ecommerce.domain.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.apis.ecommerce.domain.enums.ProductState;
+
 import java.time.LocalDateTime;
 
-import java.util.List;
-
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -21,14 +22,19 @@ public class Product {
     private Integer id;
 
     private String description;
+    
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "product_state_id", columnDefinition = "INT")
+    private ProductState currentState;
 
-    private double price;
+    @Column(name = "price_per_unit")
+    private double pricePerUnit;
 
-    private int stock;
+    @Column(name = "stock")
+    private int currentStock;
 
-    // @ManyToOne
-    // @JoinColumn(name = "product_state_id", nullable = false)
-    // private ProductState productState;
+    @Column(name="is_outstanding")
+    private boolean isOutstanding;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -40,4 +46,17 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public void validateThatItIsActive() {
+        if (!currentState.equals(ProductState.ACTIVE)) {
+            throw new IllegalStateException("El producto no está activo");
+        }
+    }
+
+    public void subtractStock(int requestedQuantity) {
+        if (requestedQuantity > currentStock) {
+            throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
+        }
+
+        currentStock -= requestedQuantity;
+    }
 }

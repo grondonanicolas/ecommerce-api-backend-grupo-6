@@ -10,12 +10,13 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
