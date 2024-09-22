@@ -36,7 +36,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductDTO getProductById(@PathVariable Integer id) throws Exception {
         Product product = productService.getProductById(id);
-        return new ProductDTO(product.getId(), product.getDescription(), product.getPrice(), product.getStock());
+        return new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock());
     }
 
     @GetMapping("/category/{categoryId}")
@@ -47,8 +47,8 @@ public class ProductController {
                         new ProductDTO(
                             product.getId(), 
                             product.getDescription(), 
-                            product.getPrice(), 
-                            product.getStock()))
+                            product.getPricePerUnit(), 
+                            product.getCurrentStock()))
                 .toList();
     }
 
@@ -62,7 +62,7 @@ public class ProductController {
     public List<ProductDTO> getOutstandingProducts() throws Exception {
         List<Product> products = productService.findAllOutstanding();
         return products.stream()
-            .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPrice(), product.getStock()))
+            .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock()))
             .collect(Collectors.toList());
     }
 }

@@ -18,14 +18,14 @@ CREATE TABLE IF NOT EXISTS users
     `password`   VARCHAR(255) NOT NULL,
     `birth_date` TIMESTAMP    NOT NULL,
 
-    FOREIGN KEY (`rol_id`) REFERENCES rol (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`rol_id`) REFERENCES rol (`id`) ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
 CREATE TABLE IF NOT EXISTS product_state
 (
-    `id`     INT                                      NOT NULL AUTO_INCREMENT,
+    `id`     INT                                      NOT NULL,
     `status` ENUM ('BORRADOR', 'ACTIVO', 'ELIMINADO') NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS category
 
 CREATE TABLE IF NOT EXISTS transactions
 (
-    `id`         INT NOT NULL AUTO_INCREMENT,
-    `user_id`    INT NOT NULL,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `id`         INT       NOT NULL AUTO_INCREMENT,
+    `user_id`    INT       NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
@@ -59,29 +59,29 @@ CREATE TABLE IF NOT EXISTS product
     `category_id`      INT          NOT NULL,
     `user_id`          INT          NOT NULL,
     `stock`            INT          NOT NULL,
-    `description`      VARCHAR(255) NOT NULL,
-    `price`            DOUBLE,
-    `is_outstanding`   BOOLEAN,
+    `description`      VARCHAR(255) NOT NULL, -- todo: agregar este límite a nivel aplicación para que no rompa de forma inesperada. esto hacerlo con todos los varchar y también tener en cuenta los límites de los otros tipos de dato (p ej, INT es hasta 4 mil millones de IDs).
+    `price_per_unit`   DOUBLE       NOT NULL,
+    `is_outstanding`   BOOLEAN      NOT NULL DEFAULT FALSE,
     `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`product_state_id`) REFERENCES product_state (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`product_state_id`) REFERENCES product_state (`id`) ON UPDATE CASCADE,
+    FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON UPDATE CASCADE
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
 CREATE TABLE IF NOT EXISTS product_bought
 (
-    `id`             INT          NOT NULL AUTO_INCREMENT,
-    `category_id`    INT          NOT NULL,
-    `transaction_id` INT          NOT NULL,
-    `price`          DOUBLE,
-    `description`    VARCHAR(255) NOT NULL,
+    `product_id`     INT    NOT NULL,
+    `transaction_id` INT    NOT NULL,
+    `quantity`       INT    NOT NULL,
+    `price_per_unit` DOUBLE NOT NULL,
 
-    FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON UPDATE CASCADE,
     FOREIGN KEY (`transaction_id`) REFERENCES transactions (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`product_id`, `transaction_id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 
@@ -118,13 +118,13 @@ CREATE TABLE IF NOT EXISTS cart
 
 CREATE TABLE IF NOT EXISTS product_cart
 (
-    `id`         INT NOT NULL AUTO_INCREMENT,
     `cart_id`    INT NOT NULL,
     `product_id` INT NOT NULL,
+    `quantity`   INT NOT NULL,
 
     FOREIGN KEY (`cart_id`) REFERENCES cart (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`cart_id`, `product_id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
 

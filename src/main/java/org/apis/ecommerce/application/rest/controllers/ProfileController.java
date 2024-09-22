@@ -14,7 +14,7 @@ public class ProfileController {
     }
 
     @GetMapping("/checkouts")
-    public CheckoutDTO[] getUserCheckouts() {
+    public CheckoutDTO[] getUserCheckouts() {  // todo: revisar si no deberiamos mover esto a data.sql u otro lado
 
         ProductDTO producto1 = new ProductDTO(1, "Camiseta deportiva de algodón con logo Reebok", 2999.99,5);
         ProductDTO producto2 = new ProductDTO(2, "Zapatillas deportivas con tecnología Air Max para mayor confort", 12499.90,2);
