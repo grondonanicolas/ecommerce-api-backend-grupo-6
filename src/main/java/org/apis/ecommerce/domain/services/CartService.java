@@ -24,8 +24,18 @@ public class CartService {
         int requestedQuantity = cartRequestDto.getQuantity();
         
         Product requestedProduct = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("El producto solicitado no existe"));
-        Cart userCart = cartRepository.findByUser(requestingUser).orElseThrow(() -> new EntityNotFoundException("El carrito del usuario solicitante no existe"));
+        Cart userCart = getUserCart(requestingUser);
         userCart.addRequestedProductQuantity(requestedProduct, requestedQuantity);
+        cartRepository.save(userCart);
+    }
+
+    private Cart getUserCart(User requestingUser) {
+        return cartRepository.findByUser(requestingUser).orElseThrow(() -> new EntityNotFoundException("El carrito del usuario solicitante no existe"));
+    }
+
+    public void clearUserCart(User requestingUser) {
+        Cart userCart = getUserCart(requestingUser);
+        userCart.clear();
         cartRepository.save(userCart);
     }
 }

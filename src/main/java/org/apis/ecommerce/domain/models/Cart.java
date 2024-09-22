@@ -22,7 +22,7 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductInCart> selectedProducts;
 
     public void addRequestedProductQuantity(Product requestedProduct, int requestedQuantity) {
@@ -54,4 +54,7 @@ public class Cart {
         selectedProducts.add(productInCart);
     }
 
+    public void clear() {
+        selectedProducts.clear();
+    }
 }
