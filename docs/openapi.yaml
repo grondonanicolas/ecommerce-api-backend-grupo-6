@@ -37,6 +37,7 @@ paths:
     post:
       tags:
         - Gestión de usuarios
+      security: []
       summary: Registrar un nuevo usuario
       description: Registra un usuario con la información proporcionada
       requestBody:

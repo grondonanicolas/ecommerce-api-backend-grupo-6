@@ -5,11 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.apis.ecommerce.application.rest.dtos.AuthenticationRequest;
 import org.apis.ecommerce.application.rest.dtos.AuthenticationResponse;
 import org.apis.ecommerce.application.rest.dtos.RegisterRequest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +23,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(service.authenticate(request));
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
+            AuthenticationResponse response = service.authenticate(request);
+            return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        return new ResponseEntity<>("El nombre de usuario ya está en uso. Por favor, elige otro.", HttpStatus.CONFLICT);
     }
 }

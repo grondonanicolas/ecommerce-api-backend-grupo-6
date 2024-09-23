@@ -1,25 +1,14 @@
-CREATE TABLE IF NOT EXISTS rol
-(
-    `id`  INT          NOT NULL AUTO_INCREMENT,
-    `rol` VARCHAR(255) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) CHARACTER SET utf8mb4
-  COLLATE utf8mb4_bin;
-
 CREATE TABLE IF NOT EXISTS users
 (
     `id`         INT          NOT NULL AUTO_INCREMENT,
-    `rol_id`     INT          NOT NULL,
     `first_name` VARCHAR(255) NOT NULL,
     `last_name`  VARCHAR(255) NOT NULL,
     `email`      VARCHAR(255) NOT NULL,
-    `user_name`  VARCHAR(255) NOT NULL,
+    `user_name`  VARCHAR(255) UNIQUE NOT NULL,
     `password`   VARCHAR(255) NOT NULL,
     `birth_date` DATE    NOT NULL,
     `role`       ENUM ('USER', 'ADMIN') NOT NULL,
 
-    FOREIGN KEY (`rol_id`) REFERENCES rol (`id`) ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
