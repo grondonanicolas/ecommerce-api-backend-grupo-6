@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apis.ecommerce.domain.enums.ProductState;
+import java.util.List;
+
 
 import java.time.LocalDateTime;
 
@@ -45,6 +47,12 @@ public class Product {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Historic> historic;
+    
+    @ManyToMany(mappedBy = "products")
+    private List<Favourite> favourite;
 
     public void validateThatItIsActive() {
         if (!currentState.equals(ProductState.ACTIVE)) {

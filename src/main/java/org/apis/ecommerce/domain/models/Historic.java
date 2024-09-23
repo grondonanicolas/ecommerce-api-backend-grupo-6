@@ -3,9 +3,13 @@ package org.apis.ecommerce.domain.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.Data;
+import lombok.Setter;
+import lombok.Getter;
+import java.util.List;
 
-@Data
+
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -16,15 +20,13 @@ public class Historic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // @ManyToMany
-    // @JoinTable(name = "historic_user",
-    //             joinColumns = {@JoinColumn(name="historic_id")},
-    //             inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    // private User userId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 
-    // @ManyToMany
-    // @JoinTable(name = "historic_product",
-    //             joinColumns = @JoinColumn(name="historic_id"),
-    //             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    // private Product productId;
+    @ManyToMany
+    @JoinTable(name="historic_product",
+                joinColumns = @JoinColumn(name="historic_id"),
+                inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products;
 }
