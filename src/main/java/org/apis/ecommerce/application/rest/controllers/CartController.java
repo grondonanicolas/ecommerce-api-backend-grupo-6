@@ -27,7 +27,7 @@ public class CartController {
     public CartResponseDto addProductToCart(@RequestBody CartRequestDto cartRequestDto) {
         // todo: remover cuando se agregue spring security
         User requestingUser = new User();
-        requestingUser.setId(1L);
+        requestingUser.setId(1);
         
         cartService.addProductToCart(cartRequestDto, requestingUser);
         return new CartResponseDto("Producto agregado");  // todo: revisar en qué idioma vamos a devolver nuestras respuestas y alinearlas
@@ -38,7 +38,7 @@ public class CartController {
     public CartResponseDto clearUserCart() {
         // todo: remover cuando se agregue spring security
         User requestingUser = new User();
-        requestingUser.setId(1L);
+        requestingUser.setId(1);
         
         cartService.clearUserCart(requestingUser);
         
@@ -51,7 +51,7 @@ public class CartController {
     public CartResponseDto removeProductFromUserCart(@PathVariable int productIdToRemove) {
         // todo: remover cuando se agregue spring security
         User requestingUser = new User();
-        requestingUser.setId(1L);
+        requestingUser.setId(1);
         
         cartService.removeProductFromUserCart(productIdToRemove, requestingUser);
         
@@ -63,7 +63,7 @@ public class CartController {
     public CartResponseDto checkOutUserCart() {
         // todo: remover cuando se agregue spring security
         User requestingUser = new User();
-        requestingUser.setId(1L);
+        requestingUser.setId(1);
         
         cartService.checkOutUserCart(requestingUser);
         
@@ -75,7 +75,7 @@ public class CartController {
     public CartDetailDto getCartDetail() {
         // todo: volar esto cuando se agregue spring security
         User requestingUser = new User();
-        requestingUser.setId(1L);
+        requestingUser.setId(1);
         
         Cart userCart = cartService.getUserCart(requestingUser);
         

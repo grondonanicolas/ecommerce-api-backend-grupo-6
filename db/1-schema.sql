@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users
     `email`      VARCHAR(255) NOT NULL,
     `user_name`  VARCHAR(255) NOT NULL,
     `password`   VARCHAR(255) NOT NULL,
-    `birth_date` TIMESTAMP    NOT NULL,
+    `birth_date` DATE    NOT NULL,
 
     FOREIGN KEY (`rol_id`) REFERENCES rol (`id`) ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
