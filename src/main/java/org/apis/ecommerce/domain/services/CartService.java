@@ -2,7 +2,7 @@ package org.apis.ecommerce.domain.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.apis.ecommerce.application.rest.dtos.CartRequestDto;
+import org.apis.ecommerce.application.rest.dtos.AddProductToCartDto;
 import org.apis.ecommerce.domain.models.*;
 import org.apis.ecommerce.domain.repositories.CartRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
@@ -28,9 +28,9 @@ public class CartService {
         this.transactionRepository = transactionRepository;
     }
 
-    public void addProductToCart(CartRequestDto cartRequestDto, User requestingUser) {
-        int productId = cartRequestDto.getProductId();
-        int requestedQuantity = cartRequestDto.getQuantity();
+    public void addProductToCart(AddProductToCartDto addProductToCartDto, User requestingUser) {
+        int productId = addProductToCartDto.getProductId();
+        int requestedQuantity = addProductToCartDto.getQuantity();
         
         Product requestedProduct = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("El producto solicitado no existe"));
         Cart userCart = getUserCart(requestingUser);  // todo: ver si refactorizo para obtener los datos desde la entidad User o no
@@ -96,5 +96,11 @@ public class CartService {
         
         transaction.addBoughtProducts(boughtProducts);
         transactionRepository.save(transaction);
+    }
+
+    public void modifyProductQuantity(ProductQuantityRequest productQuantityRequest) {
+        Cart userCart = getUserCart(productQuantityRequest.getUser());
+        userCart.modifyProductQuantity(productQuantityRequest);
+        cartRepository.save(userCart);
     }
 }

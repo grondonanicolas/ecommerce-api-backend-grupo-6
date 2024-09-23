@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.application.rest.dtos.ProductInCartDto;
+import org.apis.ecommerce.domain.services.ProductQuantityRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user;  // Se utiliza para el método cartRepository.findByUser
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductInCart> selectedProducts;
@@ -61,13 +62,17 @@ public class Cart {
     }
 
     public void removeProduct(int productIdToRemove) {
-        ProductInCart productInCartToRemove = selectedProducts.stream()
-                .filter(productInCart -> productInCart.isSameProductId(productIdToRemove))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("El producto indicado no está en el carrito de compras"));
+        ProductInCart productInCartToRemove = findProductInCart(productIdToRemove);
         selectedProducts.remove(productInCartToRemove);
     }
-    
+
+    private ProductInCart findProductInCart(int productToModifyId) {
+        return selectedProducts.stream()
+                .filter(productInCart -> productInCart.isSameProductId(productToModifyId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("El producto indicado no se encuentra en el carrito"));
+    }
+
     public List<ProductInCart> getSelectedProducts() {
         return selectedProducts.stream().toList();
     }
@@ -95,4 +100,13 @@ public class Cart {
                 .cartPrice(cartPriceForDto)
                 .build();
     }
+
+    public void modifyProductQuantity(ProductQuantityRequest productQuantityRequest) {
+        int productToModifyId = productQuantityRequest.getProductToModifyId();
+        int requestedQuantity = productQuantityRequest.getQuantity();
+        
+        ProductInCart productInCartToModify = findProductInCart(productToModifyId);
+        productInCartToModify.modifyQuantity(requestedQuantity);
+    }
+
 }

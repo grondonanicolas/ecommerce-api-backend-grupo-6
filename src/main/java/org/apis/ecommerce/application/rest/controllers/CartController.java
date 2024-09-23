@@ -1,11 +1,13 @@
 package org.apis.ecommerce.application.rest.controllers;
 
-import org.apis.ecommerce.application.rest.dtos.CartRequestDto;
+import org.apis.ecommerce.application.rest.dtos.AddProductToCartDto;
 import org.apis.ecommerce.application.rest.dtos.CartResponseDto;
+import org.apis.ecommerce.application.rest.dtos.ProductQuantityInCartDto;
 import org.apis.ecommerce.domain.models.Cart;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.services.CartService;
+import org.apis.ecommerce.domain.services.ProductQuantityRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,14 +24,15 @@ public class CartController {
         this.cartService = cartService;
     }
     
+    // todo: creo que no deberia permitir seguir agregando productos si ya están en el carrito, sino que para eso deberia usar el put, ver de fixear eso
     @PostMapping(path = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public CartResponseDto addProductToCart(@RequestBody CartRequestDto cartRequestDto) {
+    public CartResponseDto addProductToCart(@RequestBody AddProductToCartDto addProductToCartDto) {
         // todo: remover cuando se agregue spring security
         User requestingUser = new User();
         requestingUser.setId(1);
         
-        cartService.addProductToCart(cartRequestDto, requestingUser);
+        cartService.addProductToCart(addProductToCartDto, requestingUser);
         return new CartResponseDto("Producto agregado");  // todo: revisar en qué idioma vamos a devolver nuestras respuestas y alinearlas
     }
     
@@ -80,5 +83,26 @@ public class CartController {
         Cart userCart = cartService.getUserCart(requestingUser);
         
         return userCart.toDto();   
+    }
+    
+    @PutMapping(path = "/products/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public CartResponseDto modifyProductQuantityInCart(@PathVariable(name = "productId") int productToModifyId, 
+                                                       @RequestBody ProductQuantityInCartDto productQuantityInCartDto) {
+        // todo: volar esto cuando se agregue spring security
+        User requestingUser = new User();
+        requestingUser.setId(1);
+        
+        int requestedQuantity = productQuantityInCartDto.getQuantity(); 
+        
+        ProductQuantityRequest productQuantityRequest = ProductQuantityRequest.builder()
+               .productToModifyId(productToModifyId)
+               .quantity(requestedQuantity)
+               .user(requestingUser)
+               .build();
+        
+        cartService.modifyProductQuantity(productQuantityRequest);
+        
+        return new CartResponseDto("Se modificó la cantidad indicada del producto en el carrito");
     }
 }

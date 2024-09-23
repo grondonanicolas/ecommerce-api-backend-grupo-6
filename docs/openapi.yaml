@@ -202,6 +202,35 @@ paths:
           description: Producto no encontrado
         "401":
           $ref: "#/components/responses/AuthenticationError"
+    put:
+      tags:
+        - Carrito de compras
+      summary: Cambiar la cantidad del producto en el carrito
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - quantity
+              properties:
+                quantity: 
+                  type: integer
+      operationId: putProductoCarrito
+      responses:
+        "200":
+          description: Cantidad del producto en carrito cambiada de forma exitosa
+        "404":
+          description: Producto no encontrado
+        "401":
+          $ref: "#/components/responses/AuthenticationError"
 
   /cart/checkout:
     post:

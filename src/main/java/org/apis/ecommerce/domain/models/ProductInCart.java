@@ -71,5 +71,13 @@ public class ProductInCart {
                 .pricePerUnit(product.getPricePerUnit())
                 .build();
     }
+
+    public void modifyQuantity(int requestedQuantity) {
+        if (!product.hasStockForRequestedQuantity(requestedQuantity)) {
+            throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
+        }
+        
+        currentQuantity = requestedQuantity;
+    }
 }
 

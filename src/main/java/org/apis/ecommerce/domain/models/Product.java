@@ -59,4 +59,8 @@ public class Product {
 
         currentStock -= requestedQuantity;
     }
+
+    public boolean hasStockForRequestedQuantity(int requestedQuantity) {
+        return currentStock >= requestedQuantity;
+    }
 }
