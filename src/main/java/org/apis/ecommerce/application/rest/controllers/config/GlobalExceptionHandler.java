@@ -1,5 +1,6 @@
 package org.apis.ecommerce.application.rest.controllers.config;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +16,12 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body("Credenciales incorrectas.");
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleGlobalException(ConstraintViolationException ex) {
+        return new ResponseEntity<>("Error de validacion por favor revise lo que esta enviando: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGlobalException(Exception ex) {
         return new ResponseEntity<>("Error inesperado: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
