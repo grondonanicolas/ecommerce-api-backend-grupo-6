@@ -11,6 +11,8 @@ import org.apis.ecommerce.application.rest.services.IProductService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.apis.ecommerce.domain.enums.ProductState.REMOVED;
+
 @Service
 public class ProductService implements IProductService {
     
@@ -35,5 +37,21 @@ public class ProductService implements IProductService {
     public List<Product> findAllOutstanding() {
         List<Product> outstandingList = productRepository.findAllOutstanding();
         return outstandingList;
+    }
+
+    public Product createProduct(Product product) throws Exception{
+        return productRepository.save(product);
+    }
+
+    public void updateProductStock(Integer productID, Integer stock) throws Exception{
+        Product product = productRepository.findById(productID).orElseThrow(() -> new Exception("Producto no encontrado"));
+        product.setCurrentStock(stock);
+        productRepository.save(product);
+    }
+
+    public void deleteProduct(Integer productID) throws Exception{
+        Product product = productRepository.findById(productID).orElseThrow(() -> new Exception("Producto no encontrado"));
+        product.setCurrentState(REMOVED);
+        productRepository.save(product);
     }
 }
