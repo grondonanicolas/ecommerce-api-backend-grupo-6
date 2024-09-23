@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Cart {
-    // todo: tener en cuenta que hay que crear el carrito cuando se crea el usuario
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

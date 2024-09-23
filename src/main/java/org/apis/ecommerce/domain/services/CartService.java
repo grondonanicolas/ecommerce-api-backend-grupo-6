@@ -54,7 +54,6 @@ public class CartService {
         cartRepository.save(userCart);
     }
 
-    // todo: limpiar y mejorar este método, además algo me dice que tiene algún bug escondido y seguramente se podrían asignar mejor las responsabilidades
     @Transactional
     public void checkOutUserCart(User requestingUser) {
         Cart userCart = getUserCart(requestingUser);
