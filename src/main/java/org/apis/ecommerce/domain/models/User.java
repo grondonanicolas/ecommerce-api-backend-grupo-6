@@ -20,7 +20,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -43,6 +43,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Historic historic;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Favourite favourite;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
