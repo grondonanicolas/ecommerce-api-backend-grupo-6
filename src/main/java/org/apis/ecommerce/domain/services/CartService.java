@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,13 +18,12 @@ public class CartService {
     
     private final CartRepository cartRepository;
     private final IProductRepository productRepository;
-    private final TransactionRepository transactionRepository;
+    private final TransactionService transactionService;
 
-    public CartService(CartRepository cartRepository, IProductRepository productRepository,
-                       TransactionRepository transactionRepository) {
+    public CartService(CartRepository cartRepository, IProductRepository productRepository, TransactionService transactionService) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
-        this.transactionRepository = transactionRepository;
+        this.transactionService = transactionService;
     }
 
     public void addProductToCart(AddProductToCartDto addProductToCartDto, User requestingUser) {
@@ -63,38 +61,8 @@ public class CartService {
 
         List<ProductInCart> purchasedProducts = userCart.getSelectedProducts();
         userCart.checkOutProducts();
-        
-        Transaction transaction = Transaction.builder()
-                .user(requestingUser)
-                .boughtProducts(new ArrayList<>())
-                .build();
-        
-        transaction = transactionRepository.save(transaction);
-        
-        List<BoughtProduct> boughtProducts = new ArrayList<>();
-        
-        for (ProductInCart purchasedProduct : purchasedProducts) {
-            int transactionId = transaction.getId();
-            int productId = purchasedProduct.getProductId();
-            Product product = purchasedProduct.getProduct();
-            int currentQuantity = purchasedProduct.getCurrentQuantity();
-            double pricePerUnit = purchasedProduct.getProduct().getPricePerUnit();
 
-            BoughtProductId boughtProductId = new BoughtProductId(productId, transactionId);
-
-            BoughtProduct boughtProduct = BoughtProduct.builder()
-                    .id(boughtProductId)
-                    .product(product)
-                    .transaction(transaction)
-                    .quantity(currentQuantity)
-                    .pricePerUnit(pricePerUnit)
-                    .build();
-            
-            boughtProducts.add(boughtProduct);
-        }
-        
-        transaction.addBoughtProducts(boughtProducts);
-        transactionRepository.save(transaction);
+        transactionService.create(requestingUser, purchasedProducts);
     }
 
     public void modifyProductQuantity(ProductQuantityRequest productQuantityRequest) {
