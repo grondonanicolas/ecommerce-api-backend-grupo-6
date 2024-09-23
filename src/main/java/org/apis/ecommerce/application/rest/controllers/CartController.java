@@ -11,6 +11,7 @@ import org.apis.ecommerce.domain.services.ProductQuantityRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 // todo: mepa que me falta agregar una api para descontar solo una cantidad del producto? analizarlo
@@ -27,72 +28,47 @@ public class CartController {
     // todo: creo que no deberia permitir seguir agregando productos si ya están en el carrito, sino que para eso deberia usar el put, ver de fixear eso
     @PostMapping(path = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public CartResponseDto addProductToCart(@RequestBody AddProductToCartDto addProductToCartDto) {
-        // todo: remover cuando se agregue spring security
-        User requestingUser = new User();
-        requestingUser.setId(1);
-        
+    public CartResponseDto addProductToCart(@RequestBody AddProductToCartDto addProductToCartDto, 
+                                            @AuthenticationPrincipal User requestingUser) {
         cartService.addProductToCart(addProductToCartDto, requestingUser);
         return new CartResponseDto("Producto agregado");  // todo: revisar en qué idioma vamos a devolver nuestras respuestas y alinearlas
     }
     
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public CartResponseDto clearUserCart() {
-        // todo: remover cuando se agregue spring security
-        User requestingUser = new User();
-        requestingUser.setId(1);
-        
+    public CartResponseDto clearUserCart(@AuthenticationPrincipal User requestingUser) {
         cartService.clearUserCart(requestingUser);
-        
         return new CartResponseDto("Carrito vaciado");
     }
     
     // todo: no olvidarme de agregar un global exception handler para devolver los códigos de error correctos con las excepciones
     @DeleteMapping(path = "/products/{productIdToRemove}")
     @ResponseStatus(HttpStatus.OK)
-    public CartResponseDto removeProductFromUserCart(@PathVariable int productIdToRemove) {
-        // todo: remover cuando se agregue spring security
-        User requestingUser = new User();
-        requestingUser.setId(1);
-        
+    public CartResponseDto removeProductFromUserCart(@PathVariable int productIdToRemove, 
+                                                     @AuthenticationPrincipal User requestingUser) {
         cartService.removeProductFromUserCart(productIdToRemove, requestingUser);
-        
         return new CartResponseDto("Producto removido");
     }
     
     @PostMapping(path = "/checkout")
     @ResponseStatus(HttpStatus.OK)
-    public CartResponseDto checkOutUserCart() {
-        // todo: remover cuando se agregue spring security
-        User requestingUser = new User();
-        requestingUser.setId(1);
-        
+    public CartResponseDto checkOutUserCart(@AuthenticationPrincipal User requestingUser) {
         cartService.checkOutUserCart(requestingUser);
-        
         return new CartResponseDto("Carrito comprado");
     }
     
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public CartDetailDto getCartDetail() {
-        // todo: volar esto cuando se agregue spring security
-        User requestingUser = new User();
-        requestingUser.setId(1);
-        
+    public CartDetailDto getCartDetail(@AuthenticationPrincipal User requestingUser) {
         Cart userCart = cartService.getUserCart(requestingUser);
-        
         return userCart.toDto();   
     }
     
     @PutMapping(path = "/products/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public CartResponseDto modifyProductQuantityInCart(@PathVariable(name = "productId") int productToModifyId, 
-                                                       @RequestBody ProductQuantityInCartDto productQuantityInCartDto) {
-        // todo: volar esto cuando se agregue spring security
-        User requestingUser = new User();
-        requestingUser.setId(1);
-        
+                                                       @RequestBody ProductQuantityInCartDto productQuantityInCartDto,
+                                                       @AuthenticationPrincipal User requestingUser) {
         int requestedQuantity = productQuantityInCartDto.getQuantity(); 
         
         ProductQuantityRequest productQuantityRequest = ProductQuantityRequest.builder()
