@@ -9,14 +9,12 @@ import org.apis.ecommerce.application.rest.dtos.ProductInCartDto;
 import org.apis.ecommerce.domain.services.ProductQuantityRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 public class Cart {
-    // todo: tener en cuenta que hay que crear el carrito cuando se crea el usuario
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -28,33 +26,32 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductInCart> selectedProducts;
 
-    public void addRequestedProductQuantity(Product requestedProduct, int requestedQuantity) {
+    public void addNewProductWithRequestedQuantity(Product requestedProduct, int requestedQuantity) {
         requestedProduct.validateThatItIsActive();
-        Optional<ProductInCart> productInCart = getProductInCart(requestedProduct);
-        productInCart.ifPresentOrElse(
-                existingProduct -> existingProduct.addRequestedQuantity(requestedQuantity), 
-                () -> addNewProductWithRequestedQuantity(requestedProduct, requestedQuantity));
-    }
-
-    private Optional<ProductInCart> getProductInCart(Product requestedProduct) {
-        return selectedProducts.stream()
-                .filter(productInCart -> productInCart.isSameProduct(requestedProduct))
-                .findFirst();
-    }
-
-    private void addNewProductWithRequestedQuantity(Product product, int requestedQuantity) {
-        int productId = product.getId();
-
-        ProductInCart productInCart = ProductInCart.builder()
-                .id(new ProductInCartId(this.id, productId))
-                .cart(this)
-                .product(product)
-                .currentQuantity(0)
-                .build();
+        validateProductIsNotInCart(requestedProduct);
+        requestedProduct.validateHasRequestedQuantity(requestedQuantity);
         
-        productInCart.addRequestedQuantity(requestedQuantity);
+        int requestedProductId = requestedProduct.getId();
+        
+        ProductInCart productInCart = ProductInCart.builder()
+                .id(new ProductInCartId(this.id, requestedProductId))
+                .cart(this)
+                .product(requestedProduct)
+                .currentQuantity(requestedQuantity)
+                .build();
 
         selectedProducts.add(productInCart);
+    }
+
+    private void validateProductIsNotInCart(Product requestedProduct) {
+        if (this.hasRequestedProduct(requestedProduct)) {
+            throw new IllegalStateException("El producto ya existe dentro del carrito");
+        }
+    }
+
+    private boolean hasRequestedProduct(Product requestedProduct) {
+        return selectedProducts.stream()
+                .anyMatch(productInCart -> productInCart.isSameProduct(requestedProduct));
     }
 
     public void clear() {

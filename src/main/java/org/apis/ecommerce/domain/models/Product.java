@@ -53,14 +53,17 @@ public class Product {
     }
 
     public void subtractStock(int requestedQuantity) {
-        if (requestedQuantity > currentStock) {
-            throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
-        }
-
+        validateHasRequestedQuantity(requestedQuantity);
         currentStock -= requestedQuantity;
     }
 
     public boolean hasStockForRequestedQuantity(int requestedQuantity) {
         return currentStock >= requestedQuantity;
+    }
+
+    public void validateHasRequestedQuantity(int requestedQuantity) {
+        if (requestedQuantity > currentStock) {
+            throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
+        }
     }
 }

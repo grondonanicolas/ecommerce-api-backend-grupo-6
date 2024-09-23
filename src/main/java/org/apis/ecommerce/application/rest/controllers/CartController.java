@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-// todo: mepa que me falta agregar una api para descontar solo una cantidad del producto? analizarlo
 @RestController
 @RequestMapping(path = "/cart", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CartController {
@@ -25,13 +24,12 @@ public class CartController {
         this.cartService = cartService;
     }
     
-    // todo: creo que no deberia permitir seguir agregando productos si ya están en el carrito, sino que para eso deberia usar el put, ver de fixear eso
     @PostMapping(path = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public CartResponseDto addProductToCart(@RequestBody AddProductToCartDto addProductToCartDto, 
                                             @AuthenticationPrincipal User requestingUser) {
         cartService.addProductToCart(addProductToCartDto, requestingUser);
-        return new CartResponseDto("Producto agregado");  // todo: revisar en qué idioma vamos a devolver nuestras respuestas y alinearlas
+        return new CartResponseDto("Producto agregado");
     }
     
     @DeleteMapping
@@ -41,7 +39,6 @@ public class CartController {
         return new CartResponseDto("Carrito vaciado");
     }
     
-    // todo: no olvidarme de agregar un global exception handler para devolver los códigos de error correctos con las excepciones
     @DeleteMapping(path = "/products/{productIdToRemove}")
     @ResponseStatus(HttpStatus.OK)
     public CartResponseDto removeProductFromUserCart(@PathVariable int productIdToRemove, 
