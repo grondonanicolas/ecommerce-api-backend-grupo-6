@@ -1,5 +1,6 @@
 package org.apis.ecommerce.application.rest.controllers;
 
+import org.apis.ecommerce.application.rest.dtos.ProductCreateDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductStockDTO;
@@ -32,18 +33,18 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductDTO getProductById(@PathVariable Integer id) throws Exception {
         Product product = productService.getProductById(id);
-        return new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock());
+        return new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock(), product.getCategory().getCategory());
     }
 
     @PostMapping("/")
-    public ProductDTO createProduct(@RequestBody ProductDTO product) throws Exception {
+    public ProductDTO createProduct(@RequestBody ProductCreateDTO product) throws Exception {
         Product newProduct = new Product();
         newProduct.setDescription(product.getDescription());
         newProduct.setPricePerUnit(product.getPrice());
         newProduct.setCurrentStock(product.getStock());
         newProduct.setCurrentState(ProductState.DRAFT);
-        Product productCreated = productService.createProduct(newProduct);
-        return new ProductDTO(productCreated.getId(), productCreated.getDescription(), productCreated.getPricePerUnit(), productCreated.getCurrentStock());
+        Product productCreated = productService.createProduct(newProduct, product.getCategoryId());
+        return new ProductDTO(productCreated.getId(), productCreated.getDescription(), productCreated.getPricePerUnit(), productCreated.getCurrentStock(), productCreated.getCategory().getCategory());
     }
 
     @PostMapping("/{id}/stock")
@@ -64,7 +65,8 @@ public class ProductController {
                             product.getId(), 
                             product.getDescription(), 
                             product.getPricePerUnit(), 
-                            product.getCurrentStock()))
+                            product.getCurrentStock(),
+                                product.getCategory().getCategory()))
                 .toList();
     }
 
@@ -78,7 +80,7 @@ public class ProductController {
     public List<ProductDTO> getOutstandingProducts() throws Exception {
         List<Product> products = productService.findAllOutstanding();
         return products.stream()
-            .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock()))
+            .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock(), product.getCategory().getCategory()))
             .collect(Collectors.toList());
     }
 }

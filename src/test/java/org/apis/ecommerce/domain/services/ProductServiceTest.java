@@ -2,6 +2,7 @@ package org.apis.ecommerce.domain.services;
 
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
+import org.apis.ecommerce.domain.repositories.ICategoryRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,8 @@ public class ProductServiceTest {
     @Mock
     private IProductRepository productRepository;
 
+    @Mock
+    private ICategoryRepository categoryRepository;
     @InjectMocks
     private ProductService productService;
 
@@ -113,10 +116,12 @@ public class ProductServiceTest {
     void testCreateProduct() throws Exception {
         Product product = new Product(null, "Nuevo Producto",ACTIVE, 200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
         Product savedProduct = new Product(1, "Nuevo Producto",ACTIVE, 200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
-
+        Category category = new Category(1, "Ropa");
+        savedProduct.setCategory(category);
         when(productRepository.save(product)).thenReturn(savedProduct);
+        when(categoryRepository.findById(1)).thenReturn(Optional.of(category));
 
-        Product result = productService.createProduct(product);
+        Product result = productService.createProduct(product, 1);
 
         assertNotNull(result);
         assertEquals(1, result.getId());

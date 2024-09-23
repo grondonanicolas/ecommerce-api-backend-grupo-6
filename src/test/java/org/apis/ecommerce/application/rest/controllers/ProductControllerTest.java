@@ -1,5 +1,6 @@
 package org.apis.ecommerce.application.rest.controllers;
 
+import org.apis.ecommerce.application.rest.dtos.ProductCreateDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductStockDTO;
@@ -63,12 +64,13 @@ public class ProductControllerTest {
 
     @Test
     void testCreateProduct() throws Exception {
-        ProductDTO productDTO = new ProductDTO(null, "Nuevo Producto", 200.0, 20);
+    ProductCreateDTO productDTO =
+        new ProductCreateDTO(null, "Nuevo Producto", 200.0, 20, 1);
         Product newProduct =
                 new Product(
                         1, "Nuevo Producto", ACTIVE,200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
 
-        when(productService.createProduct(any(Product.class))).thenReturn(newProduct);
+        when(productService.createProduct(any(Product.class), eq(1))).thenReturn(newProduct);
 
         ProductDTO result = productController.createProduct(productDTO);
 
