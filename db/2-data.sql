@@ -1,13 +1,5 @@
--- Inserciones para la tabla `rol`
-INSERT INTO rol (`rol`)
-VALUES ('Admin'),
-       ('Cliente'),
-       ('Vendedor'),
-       ('Invitado'),
-       ('Soporte');
-
 -- Inserciones para la tabla `users`
-INSERT INTO users (`rol`, `name`, `last_name`, `email`, `user_name`, `password`, `birth_date`)
+INSERT INTO users (`role`, `first_name`, `last_name`, `email`, `user_name`, `password`, `birth_date`)
 VALUES ("ADMIN", 'John', 'Doe', 'john.doe@example.com', 'johndoe', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1985-02-15'),
        ("USER", 'Jane', 'Smith', 'jane.smith@example.com', 'janesmith', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1990-05-21'),
        ("USER", 'Michael', 'Brown', 'michael.brown@example.com', 'michaelbrown', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1988-11-11'),
