@@ -13,7 +13,7 @@ public interface IProductService {
 
     public List<Product> findAllOutstanding() throws Exception;
 
-    public Product createProduct(Product product) throws Exception;
+    public Product createProduct(Product product, Integer categoryID) throws Exception;
 
     public void updateProductStock(Integer productID, Integer stock) throws Exception;
 

@@ -1,6 +1,8 @@
 package org.apis.ecommerce.domain.services;
 
+import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
+import org.apis.ecommerce.domain.repositories.ICategoryRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,8 @@ public class ProductService implements IProductService {
     
     @Autowired
     private IProductRepository productRepository;
-
+    @Autowired
+    private ICategoryRepository categoryRepository;
 
     public Product getProductById(Integer id) throws Exception{
         return productRepository.findById(id).orElseThrow(() -> new Exception("An error has ocurred"));
@@ -39,7 +42,9 @@ public class ProductService implements IProductService {
         return outstandingList;
     }
 
-    public Product createProduct(Product product) throws Exception{
+    public Product createProduct(Product product, Integer categoryID) throws Exception{
+        Category category = categoryRepository.findById(categoryID).orElseThrow(() -> new Exception("Categoria no encontrada"));
+        product.setCategory(category);
         return productRepository.save(product);
     }
 
