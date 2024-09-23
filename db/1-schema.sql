@@ -1,24 +1,14 @@
-CREATE TABLE IF NOT EXISTS rol
-(
-    `id`  INT          NOT NULL AUTO_INCREMENT,
-    `rol` VARCHAR(255) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) CHARACTER SET utf8mb4
-  COLLATE utf8mb4_bin;
-
 CREATE TABLE IF NOT EXISTS users
 (
     `id`         INT          NOT NULL AUTO_INCREMENT,
-    `rol_id`     INT          NOT NULL,
-    `name`       VARCHAR(255) NOT NULL,
+    `first_name` VARCHAR(255) NOT NULL,
     `last_name`  VARCHAR(255) NOT NULL,
     `email`      VARCHAR(255) NOT NULL,
-    `user_name`  VARCHAR(255) NOT NULL,
+    `user_name`  VARCHAR(255) UNIQUE NOT NULL,
     `password`   VARCHAR(255) NOT NULL,
-    `birth_date` TIMESTAMP    NOT NULL,
+    `birth_date` DATE    NOT NULL,
+    `role`       ENUM ('USER', 'ADMIN') NOT NULL,
 
-    FOREIGN KEY (`rol_id`) REFERENCES rol (`id`) ON UPDATE CASCADE,
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
@@ -61,6 +51,7 @@ CREATE TABLE IF NOT EXISTS product
     `stock`            INT          NOT NULL,
     `description`      VARCHAR(255) NOT NULL, -- todo: agregar este límite a nivel aplicación para que no rompa de forma inesperada. esto hacerlo con todos los varchar y también tener en cuenta los límites de los otros tipos de dato (p ej, INT es hasta 4 mil millones de IDs).
     `price_per_unit`   DOUBLE       NOT NULL,
+    `is_outstanding`   BOOLEAN      NOT NULL DEFAULT FALSE,
     `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 

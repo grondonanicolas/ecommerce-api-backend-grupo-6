@@ -33,6 +33,9 @@ public class Product {
     @Column(name = "stock")
     private int currentStock;
 
+    @Column(name="is_outstanding")
+    private boolean isOutstanding;
+
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

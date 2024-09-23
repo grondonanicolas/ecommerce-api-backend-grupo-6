@@ -7,12 +7,12 @@ VALUES ('Admin'),
        ('Soporte');
 
 -- Inserciones para la tabla `users`
-INSERT INTO users (`rol_id`, `name`, `last_name`, `email`, `user_name`, `password`, `birth_date`)
-VALUES (1, 'John', 'Doe', 'john.doe@example.com', 'johndoe', 'password123', '1985-02-15'),
-       (2, 'Jane', 'Smith', 'jane.smith@example.com', 'janesmith', 'password123', '1990-05-21'),
-       (3, 'Michael', 'Brown', 'michael.brown@example.com', 'michaelbrown', 'password123', '1988-11-11'),
-       (4, 'Emily', 'Johnson', 'emily.johnson@example.com', 'emilyjohnson', 'password123', '1995-03-30'),
-       (5, 'Sarah', 'Davis', 'sarah.davis@example.com', 'sarahdavis', 'password123', '1992-07-17');
+INSERT INTO users (`rol`, `name`, `last_name`, `email`, `user_name`, `password`, `birth_date`)
+VALUES ("ADMIN", 'John', 'Doe', 'john.doe@example.com', 'johndoe', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1985-02-15'),
+       ("USER", 'Jane', 'Smith', 'jane.smith@example.com', 'janesmith', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1990-05-21'),
+       ("USER", 'Michael', 'Brown', 'michael.brown@example.com', 'michaelbrown', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1988-11-11'),
+       ("USER", 'Emily', 'Johnson', 'emily.johnson@example.com', 'emilyjohnson', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1995-03-30'),
+       ("ADMIN", 'Sarah', 'Davis', 'sarah.davis@example.com', 'sarahdavis', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1992-07-17');
 
 -- Inserciones para la tabla `product_state`
 INSERT INTO product_state (`id`, `status`)

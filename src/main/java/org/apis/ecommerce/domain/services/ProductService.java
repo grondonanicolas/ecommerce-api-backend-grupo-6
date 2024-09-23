@@ -1,8 +1,6 @@
 package org.apis.ecommerce.domain.services;
 
-import org.apis.ecommerce.domain.models.Outstanding;
 import org.apis.ecommerce.domain.models.Product;
-import org.apis.ecommerce.domain.repositories.IOutstandingRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +11,14 @@ import org.apis.ecommerce.application.rest.services.IProductService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.apis.ecommerce.domain.enums.ProductState.REMOVED;
+
 @Service
 public class ProductService implements IProductService {
     
     @Autowired
     private IProductRepository productRepository;
 
-    @Autowired
-    private IOutstandingRepository outstandingRepository;
 
     public Product getProductById(Integer id) throws Exception{
         return productRepository.findById(id).orElseThrow(() -> new Exception("An error has ocurred"));
@@ -32,14 +30,28 @@ public class ProductService implements IProductService {
 
     public void addProductOutstanding(Integer productId) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new Exception("Producto no encontrado"));
-        Outstanding outstanding = new Outstanding(product);
-        outstandingRepository.save(outstanding);
+        product.setOutstanding(true);
+        productRepository.save(product);
     }
 
-    public List<Product> getOutstandingProducts() {
-        List<Outstanding> outstandingList = outstandingRepository.findAll();
-        return outstandingList.stream()
-                              .map(Outstanding::getProduct)
-                              .collect(Collectors.toList());
+    public List<Product> findAllOutstanding() {
+        List<Product> outstandingList = productRepository.findAllOutstanding();
+        return outstandingList;
+    }
+
+    public Product createProduct(Product product) throws Exception{
+        return productRepository.save(product);
+    }
+
+    public void updateProductStock(Integer productID, Integer stock) throws Exception{
+        Product product = productRepository.findById(productID).orElseThrow(() -> new Exception("Producto no encontrado"));
+        product.setCurrentStock(stock);
+        productRepository.save(product);
+    }
+
+    public void deleteProduct(Integer productID) throws Exception{
+        Product product = productRepository.findById(productID).orElseThrow(() -> new Exception("Producto no encontrado"));
+        product.setCurrentState(REMOVED);
+        productRepository.save(product);
     }
 }

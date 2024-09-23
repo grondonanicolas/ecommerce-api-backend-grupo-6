@@ -2,20 +2,15 @@ package org.apis.ecommerce.application.rest.controllers;
 
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
-import org.apis.ecommerce.domain.models.Outstanding;
+import org.apis.ecommerce.application.rest.dtos.ProductStockDTO;
+import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.application.rest.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +35,26 @@ public class ProductController {
         return new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock());
     }
 
+    @PostMapping("/")
+    public ProductDTO createProduct(@RequestBody ProductDTO product) throws Exception {
+        Product newProduct = new Product();
+        newProduct.setDescription(product.getDescription());
+        newProduct.setPricePerUnit(product.getPrice());
+        newProduct.setCurrentStock(product.getStock());
+        newProduct.setCurrentState(ProductState.DRAFT);
+        Product productCreated = productService.createProduct(newProduct);
+        return new ProductDTO(productCreated.getId(), productCreated.getDescription(), productCreated.getPricePerUnit(), productCreated.getCurrentStock());
+    }
+
+    @PostMapping("/{id}/stock")
+    public void updateProductStock(@RequestBody ProductStockDTO stock, @PathVariable Integer productID) throws Exception {
+        productService.updateProductStock(stock.getQuantity(), productID);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Integer id) throws Exception {
+        productService.deleteProduct(id);
+    }
     @GetMapping("/category/{categoryId}")
     public List<ProductDTO> getProductsByCategory(@PathVariable Integer categoryId ) throws Exception{
         List<Product> products = productService.getProductsByCategoryId(categoryId);
@@ -61,7 +76,7 @@ public class ProductController {
 
     @GetMapping("/outstanding")
     public List<ProductDTO> getOutstandingProducts() throws Exception {
-        List<Product> products = productService.getOutstandingProducts();
+        List<Product> products = productService.findAllOutstanding();
         return products.stream()
             .map(product -> new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock()))
             .collect(Collectors.toList());
