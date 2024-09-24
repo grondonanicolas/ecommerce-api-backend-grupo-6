@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.apis.ecommerce.domain.models.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,8 @@ public class AuthenticationService implements IAuthenticationService {
                         .role(request.getRole())
                         .birthDate(request.getBirthDate())
                         .username(request.getUserName())
+                        .historic(new ArrayList<>())
+                        .favourite(new ArrayList<>())
                         .build();
                 repository.save(user);
                 cartService.createUserCart(user);

@@ -9,6 +9,7 @@ import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import org.apis.ecommerce.application.rest.services.IProductService;
@@ -30,6 +31,7 @@ public class ProductService implements IProductService {
     }
 
     public List<Product> getProductsByCategoryId(Integer categoryId) {
+        categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada"));
        return productRepository.getProductsByCategoryId(categoryId);
     }
 
