@@ -1,5 +1,6 @@
 package org.apis.ecommerce.domain.services;
 
+import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.repositories.ICategoryRepository;
@@ -48,10 +49,38 @@ public class ProductService implements IProductService {
         return productRepository.save(product);
     }
 
-    public void updateProductStock(Integer productID, Integer stock) throws Exception{
-        Product product = productRepository.findById(productID).orElseThrow(() -> new Exception("Producto no encontrado"));
-        product.setCurrentStock(stock);
+    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name) throws Exception{
+        Product product = productRepository.findById(productID)
+                .orElseThrow(() -> new Exception("Producto no encontrado"));
+
+        if (stock != null && !stock.equals(product.getCurrentStock())) {
+            product.setCurrentStock(stock);
+        }
+
+        if (name != null && !name.equals(product.getName())) {
+            product.setName(name);
+        }
+
+        if (description != null && !description.trim().isEmpty() && !description.equals(product.getDescription())) {
+            product.setDescription(description);
+        }
+
+        if (price != 0 && price != product.getPricePerUnit()) {
+            product.setPricePerUnit(price);
+        }
+
+        if (categoryID != null && !categoryID.equals(product.getCategory().getId())) { // Suponiendo que Category tiene un método getId()
+            Category category = categoryRepository.findById(categoryID)
+                    .orElseThrow(() -> new Exception("Categoría no encontrada"));
+            product.setCategory(category);
+        }
+
+        if (state != null && !state.equals(product.getCurrentState())) {
+            product.setCurrentState(state);
+        }
+
         productRepository.save(product);
+
     }
 
     public void deleteProduct(Integer productID) throws Exception{

@@ -1,7 +1,9 @@
 package org.apis.ecommerce.domain.services;
 
+import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
+import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.repositories.ICategoryRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,7 +64,7 @@ public class ProductServiceTest {
     @Test
     void testGetProductsByCategoryId() {
         Integer categoryId = 1;
-        List<Product> products = List.of(new Product(1, "Producto 1",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now()));
+        List<Product> products = List.of(new Product(1, "Producto 1",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre"));
 
         when(productRepository.getProductsByCategoryId(categoryId)).thenReturn(products);
 
@@ -100,7 +102,19 @@ public class ProductServiceTest {
 
     @Test
     void testGetOutstandingProducts() {
-        Product outstandingProducts = new Product(1, "Remera Nike",ACTIVE, 100.0, 10, true, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
+    Product outstandingProducts =
+        new Product(
+            1,
+            "Remera Nike",
+            ACTIVE,
+            100.0,
+            10,
+            true,
+            new Category(1, "Ropa"),
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            new User(),
+                "nombre");
         List<Product> outstandingList = List.of(outstandingProducts);
 
         when(productRepository.findAllOutstanding()).thenReturn(outstandingList);
@@ -114,8 +128,19 @@ public class ProductServiceTest {
 
     @Test
     void testCreateProduct() throws Exception {
-        Product product = new Product(null, "Nuevo Producto",ACTIVE, 200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
-        Product savedProduct = new Product(1, "Nuevo Producto",ACTIVE, 200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
+        Product product = new Product(null, "Nuevo Producto",ACTIVE, 200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre");
+    Product savedProduct =
+        new Product(
+            1,
+            "Nuevo Producto",
+            ACTIVE,
+            200.0,
+            20,
+            false,
+            new Category(1, "Ropa"),
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            new User(), "nombre");
         Category category = new Category(1, "Ropa");
         savedProduct.setCategory(category);
         when(productRepository.save(product)).thenReturn(savedProduct);
@@ -133,18 +158,34 @@ public class ProductServiceTest {
     @Test
     void testUpdateProductStock() throws Exception {
         Integer productId = 1;
+        String description = "New description";
         Integer stock = 30;
+        double price = 100.0;
+        Integer categoryID = 2;
+        ProductState state = ProductState.ACTIVE;
+
         Product product = new Product();
         product.setId(productId);
+        product.setCurrentStock(20);
+        product.setDescription("Old description");
+        product.setPricePerUnit(80.0);
+        product.setCategory(new Category(1, "Old Category"));
+        product.setCurrentState(ProductState.DRAFT);
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
-        productService.updateProductStock(productId, stock);
+        Category newCategory = new Category(categoryID, "New Category");
+        when(categoryRepository.findById(categoryID)).thenReturn(Optional.of(newCategory));
+
+        productService.updateProduct(productId, description, stock, price, categoryID, state, "nombre");
 
         verify(productRepository, times(1)).save(product);
         assertEquals(stock, product.getCurrentStock());
+        assertEquals(description, product.getDescription());
+        assertEquals(price, product.getPricePerUnit());
+        assertEquals(newCategory, product.getCategory());
+        assertEquals(state, product.getCurrentState());
     }
-
     @Test
     void testDeleteProduct() throws Exception {
         Integer productId = 1;

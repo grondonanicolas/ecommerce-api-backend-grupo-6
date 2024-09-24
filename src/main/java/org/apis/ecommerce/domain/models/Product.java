@@ -48,6 +48,12 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(name = "name")
+    private String name;
     public void validateThatItIsActive() {
         if (!currentState.equals(ProductState.ACTIVE)) {
             throw new IllegalStateException("El producto no está activo");
