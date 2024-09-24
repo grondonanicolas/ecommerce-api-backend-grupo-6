@@ -3,6 +3,8 @@ package org.apis.ecommerce.application.rest.controllers;
 
 import lombok.AllArgsConstructor;
 import org.apis.ecommerce.application.rest.dtos.UserDTO;
+import org.apis.ecommerce.application.rest.dtos.CreateHistoricDTO;
+import org.apis.ecommerce.application.rest.dtos.CreateFavouriteDTO;
 import org.apis.ecommerce.application.rest.dtos.FavouriteDTO;
 import org.apis.ecommerce.application.rest.dtos.HistoricDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
@@ -31,14 +33,14 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) throws Exception {
+    public ResponseEntity<UserDTO> getUser(@PathVariable Integer id) throws Exception {
         UserDTO user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/historic")
-    public void addProductHistoric(@RequestBody HistoricDTO historic, @AuthenticationPrincipal User user) throws Exception {
-        userService.addProductHistoric(historic.getProductDTO().getId(), user);
+    public void addProductHistoric(@RequestBody CreateHistoricDTO historic, @AuthenticationPrincipal User user) throws Exception {
+        userService.addProductHistoric(historic.getProductId(), user);
     }
 
 
@@ -81,8 +83,8 @@ public class UserController {
     }
 
     @PostMapping("/favourite")
-    public void addProductFavourite(@RequestBody FavouriteDTO favourite, @AuthenticationPrincipal User user) throws Exception {
-        userService.addProductHistoric(favourite.getProductDTO().getId(), user);
+    public void addProductFavourite(@RequestBody CreateFavouriteDTO favourite, @AuthenticationPrincipal User user) throws Exception {
+        userService.addProductFavourite(favourite.getProductId(), user);
     }
 
 }

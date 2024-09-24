@@ -58,6 +58,7 @@ public class ProductController {
     public void deleteProduct(@PathVariable Integer id) throws Exception {
         productService.deleteProduct(id);
     }
+    
     @GetMapping("/category/{categoryId}")
     public List<ProductDTO> getProductsByCategory(@PathVariable Integer categoryId ) throws Exception{
         List<Product> products = productService.getProductsByCategoryId(categoryId);

@@ -8,6 +8,7 @@ import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import org.apis.ecommerce.application.rest.services.IProductService;
@@ -29,11 +30,12 @@ public class ProductService implements IProductService {
     }
 
     public List<Product> getProductsByCategoryId(Integer categoryId) {
+        categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada"));
        return productRepository.getProductsByCategoryId(categoryId);
     }
 
     public void addProductOutstanding(Integer productId) throws Exception {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new Exception("Producto no encontrado"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
         product.setOutstanding(true);
         productRepository.save(product);
     }
@@ -44,7 +46,7 @@ public class ProductService implements IProductService {
     }
 
     public Product createProduct(Product product, Integer categoryID) throws Exception{
-        Category category = categoryRepository.findById(categoryID).orElseThrow(() -> new Exception("Categoria no encontrada"));
+        Category category = categoryRepository.findById(categoryID).orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada"));
         product.setCategory(category);
         return productRepository.save(product);
     }
@@ -71,7 +73,7 @@ public class ProductService implements IProductService {
 
         if (categoryID != null && !categoryID.equals(product.getCategory().getId())) { // Suponiendo que Category tiene un método getId()
             Category category = categoryRepository.findById(categoryID)
-                    .orElseThrow(() -> new Exception("Categoría no encontrada"));
+                    .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada"));
             product.setCategory(category);
         }
 
@@ -84,7 +86,7 @@ public class ProductService implements IProductService {
     }
 
     public void deleteProduct(Integer productID) throws Exception{
-        Product product = productRepository.findById(productID).orElseThrow(() -> new Exception("Producto no encontrado"));
+        Product product = productRepository.findById(productID).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
         product.setCurrentState(REMOVED);
         productRepository.save(product);
     }
