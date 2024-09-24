@@ -61,6 +61,7 @@ public class CartService implements ICartService {
         
         logger.info("Carrito pagado");
 
+        // todo: agregar validacion de producto activo por cada producto
         List<ProductInCart> purchasedProducts = userCart.getSelectedProducts();
         userCart.checkOutProducts();
 

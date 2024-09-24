@@ -1,5 +1,6 @@
 package org.apis.ecommerce.application.rest.controllers;
 
+import jakarta.validation.Valid;
 import org.apis.ecommerce.application.rest.dtos.ProductCreateDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
@@ -44,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ProductDTO createProduct(@RequestBody ProductCreateDTO product, @AuthenticationPrincipal User user) throws Exception {
+    public ProductDTO createProduct(@RequestBody @Valid ProductCreateDTO product, @AuthenticationPrincipal User user) throws Exception {
         Product newProduct = new Product();
         newProduct.setDescription(product.getDescription());
         newProduct.setPricePerUnit(product.getPrice());
@@ -57,7 +58,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void updateProductStock(@RequestBody ProductUpdateDTO product, @PathVariable Integer id) throws Exception {
+    public void updateProductStock(@RequestBody @Valid ProductUpdateDTO product, @PathVariable Integer id) throws Exception {
         productService.updateProduct(id, product.getDescription(), product.getStock(), product.getPrice(), product.getCategoryId(), product.getState(), product.getName());
     }
 
@@ -82,7 +83,7 @@ public class ProductController {
 
     // Outstanding
     @PostMapping("/outstanding")
-    public void addProductOutstanding(@RequestBody OutstandingDTO outstandingDTO) throws Exception {
+    public void addProductOutstanding(@Valid @RequestBody OutstandingDTO outstandingDTO) throws Exception {
         productService.addProductOutstanding(outstandingDTO.getProductId());
     }
 

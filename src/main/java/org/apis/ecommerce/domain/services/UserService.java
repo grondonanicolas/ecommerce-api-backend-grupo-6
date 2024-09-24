@@ -2,6 +2,7 @@ package org.apis.ecommerce.domain.services;
 
 
 import org.apis.ecommerce.application.rest.dtos.UserDTO;
+import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Favourite;
 import org.apis.ecommerce.domain.models.Historic;
 import org.apis.ecommerce.domain.models.Product;
@@ -10,7 +11,6 @@ import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.apis.ecommerce.infrastructure.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,6 +33,10 @@ public class UserService implements IUserService {
     public void addProductHistoric(Integer productId, User user) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
 
+        if (!ProductState.ACTIVE.equals(product.getCurrentState())) {
+            throw new IllegalArgumentException("El producto seleccionado no está activo");
+        }
+        
         Historic historic = Historic.builder().user(user).product(product).build();
 
         user.addProductToHistoric(historic);
@@ -41,6 +45,11 @@ public class UserService implements IUserService {
 
     public void addProductFavourite(Integer productId, User user) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+
+        if (!ProductState.ACTIVE.equals(product.getCurrentState())) {
+            throw new IllegalArgumentException("El producto seleccionado no está activo");
+        }
+        
         Favourite favourite = Favourite.builder().user(user).product(product).build();
 
         user.addProductToFavourite(favourite);
@@ -49,12 +58,16 @@ public class UserService implements IUserService {
 
     public List<Historic> getProductHistoric(User user){
         user = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("An error has ocurred"));
-        return user.getHistoric();
+        return user.getHistoric().stream()
+                .filter(historic -> ProductState.ACTIVE.equals(historic.getProduct().getCurrentState()))
+                .toList();
     }
 
     public List<Favourite> getProductFavourites(User user){
         user = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("An error has ocurred"));
-        return user.getFavourite();
+        return user.getFavourite().stream()
+                .filter(favourite -> ProductState.ACTIVE.equals(favourite.getProduct().getCurrentState()))
+                .toList();
     }
 
 }

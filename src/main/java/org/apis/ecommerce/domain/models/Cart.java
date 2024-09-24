@@ -97,7 +97,8 @@ public class Cart {
                 .cartPrice(cartPriceForDto)
                 .build();
     }
-
+    
+    // todo: ver si pongo validacion de producto activo o no 
     public void modifyProductQuantity(ProductQuantityParameters productQuantityParameters) {
         int productToModifyId = productQuantityParameters.getProductToModifyId();
         int requestedQuantity = productQuantityParameters.getQuantity();
