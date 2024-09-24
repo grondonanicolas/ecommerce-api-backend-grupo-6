@@ -30,40 +30,39 @@ public class UserService {
 
     public void addProductHistoric(Integer productId, @AuthenticationPrincipal User user) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new Exception("Producto no encontrado"));
-        Historic historic = user.getHistoric();
 
-        if(!historic.getProducts().contains(product))
-        historic.getProducts().add(product);
+        Historic historic = Historic.builder().user(user).product(product).build();
+
+        user.addProductToHistoric(historic);
         userRepository.save(user);
     }
 
     public void addProductFavourite(Integer productId, User user) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new Exception("Producto no encontrado"));
-        Favourite favourite = user.getFavourite();
+        Favourite favourite = Favourite.builder().user(user).product(product).build();
 
-        if(!favourite.getProducts().contains(product))
-        favourite.getProducts().add(product);
+        user.addProductToFavourite(favourite);
         userRepository.save(user);
     }
 
-    public void removeProductFavourite(Integer productId, User user) throws Exception {
-        Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new Exception("Producto no encontrado"));
+    // public void removeProductFavourite(Integer productId, User user) throws Exception {
+    //     Product product = productRepository.findById(productId)
+    //         .orElseThrow(() -> new Exception("Producto no encontrado"));
     
-        Favourite favourite = user.getFavourite();
+    //     List<Favourite> favourites = user.getFavourite();
     
-        if (favourite.getProducts().contains(product)) {
-            favourite.getProducts().remove(product);
-        }
-        userRepository.save(user);
+    //     if (favourites.getProducts().contains(product)) {
+    //         favourite.getProducts().remove(product);
+    //     }
+    //     userRepository.save(user);
+    // }
+
+    public List<Historic> getProductHistoric(User user){
+        return user.getHistoric();
     }
 
-    public List<Product> getProductHistoric(User user){
-        return user.getHistoric().getProducts();
-    }
-
-    public List<Product> getProductFavourites(User user){
-        return user.getFavourite().getProducts();
+    public List<Favourite> getProductFavourites(User user){
+        return user.getFavourite();
     }
 
 }

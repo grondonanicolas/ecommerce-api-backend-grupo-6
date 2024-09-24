@@ -10,5 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor 
 public class HistoricDTO {
-    private Integer productId;
+    private ProductDTO productDTO;
 }
