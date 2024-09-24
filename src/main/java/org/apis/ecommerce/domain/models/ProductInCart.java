@@ -55,6 +55,7 @@ public class ProductInCart {
     }
 
     public void checkOut() {
+        product.validateThatItIsActive();
         product.subtractStock(currentQuantity);
     }
 
@@ -73,6 +74,8 @@ public class ProductInCart {
     }
 
     public void modifyQuantity(int requestedQuantity) {
+        product.validateThatItIsActive();
+        
         if (!product.hasStockForRequestedQuantity(requestedQuantity)) {
             throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
         }
