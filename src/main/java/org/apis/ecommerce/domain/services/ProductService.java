@@ -37,13 +37,20 @@ public class ProductService implements IProductService {
 
     public void addProductOutstanding(Integer productId) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+
+        if (!ProductState.ACTIVE.equals(product.getCurrentState())) {
+            throw new IllegalArgumentException("El producto seleccionado no está activo");
+        }
+        
         product.setOutstanding(true);
         productRepository.save(product);
     }
 
     public List<Product> findAllOutstanding() {
         List<Product> outstandingList = productRepository.findAllOutstanding();
-        return outstandingList;
+        return outstandingList.stream()
+                .filter(outstanding -> ProductState.ACTIVE.equals(outstanding.getCurrentState()))
+                .toList();
     }
 
     public Product createProduct(Product product, Integer categoryID) throws Exception{
