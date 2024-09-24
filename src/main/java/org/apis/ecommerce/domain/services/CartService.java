@@ -49,6 +49,10 @@ public class CartService implements ICartService {
     }
 
     public void removeProductFromUserCart(int productIdToRemove, User requestingUser) {
+        if (!Product.isValidProductId(productIdToRemove)) {
+            throw new IllegalArgumentException("El ID de producto debe ser mayor a 0");
+        }
+        
         Cart userCart = getUserCart(requestingUser);
         userCart.removeProduct(productIdToRemove);
         cartRepository.save(userCart);
