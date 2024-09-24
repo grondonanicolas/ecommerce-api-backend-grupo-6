@@ -54,7 +54,7 @@ public class Product {
     private String name;
     public void validateThatItIsActive() {
         if (!currentState.equals(ProductState.ACTIVE)) {
-            throw new IllegalStateException("El producto no está activo");
+            throw new IllegalStateException(String.format("El producto '%s' no está activo", description));
         }
     }
 
