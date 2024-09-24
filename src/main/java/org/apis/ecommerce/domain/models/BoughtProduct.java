@@ -26,4 +26,6 @@ public class BoughtProduct {
     
     private int quantity;
     private double pricePerUnit;
+    private String description;
+    private String category;
 }

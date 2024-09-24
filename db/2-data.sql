@@ -37,12 +37,12 @@ VALUES (1, 1, 3, 50, 'Camiseta de algodón', 15.99, '2024-07-10 11:27:31', '2024
        (1, 5, 5, 150, 'Gorra de béisbol', 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
 
 -- Inserciones para la tabla `product_bought`
-INSERT INTO product_bought (`product_id`, `transaction_id`, `price_per_unit`, `quantity`)
-VALUES (1, 1, 15.99, 1),
-       (2, 2, 39.99, 2),
-       (3, 3, 79.99, 3),
-       (4, 4, 59.99, 4),
-       (5, 5, 9.99, 5);
+INSERT INTO product_bought (`product_id`, `transaction_id`, `price_per_unit`, `quantity`, `description`, `category`)
+VALUES (1, 1, 15.99, 1, 'Camiseta de algodón', 'Camisetas'),
+       (2, 2, 39.99, 2, 'Pantalón vaquero', 'Pantalones'),
+       (3, 3, 79.99, 3, 'Chaqueta de cuero', 'Chaquetas'),
+       (4, 4, 59.99, 4, 'Zapatillas deportivas', 'Zapatos'),
+       (5, 5, 9.99, 5, 'Gorra de béisbol', 'Accesorios');
 
 -- Inserciones para la tabla `outstanding`
 INSERT INTO outstanding (`product_id`)
