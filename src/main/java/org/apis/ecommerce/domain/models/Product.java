@@ -66,4 +66,8 @@ public class Product {
             throw new IllegalArgumentException("La cantidad solicitada es mayor al stock actual");
         }
     }
+
+    public String getCategoryName() {
+        return category.getCategory();
+    }
 }

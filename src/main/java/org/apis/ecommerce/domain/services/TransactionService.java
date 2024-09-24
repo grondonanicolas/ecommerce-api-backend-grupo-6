@@ -29,20 +29,19 @@ public class TransactionService {
         List<BoughtProduct> boughtProducts = new ArrayList<>();
 
         for (ProductInCart purchasedProduct : purchasedProducts) {
-            int transactionId = transaction.getId();
             int productId = purchasedProduct.getProductId();
-            Product product = purchasedProduct.getProduct();
-            int currentQuantity = purchasedProduct.getCurrentQuantity();
-            double pricePerUnit = purchasedProduct.getProduct().getPricePerUnit();
-
+            int transactionId = transaction.getId();
             BoughtProductId boughtProductId = new BoughtProductId(productId, transactionId);
+            Product product = purchasedProduct.getProduct();
 
             BoughtProduct boughtProduct = BoughtProduct.builder()
                     .id(boughtProductId)
                     .product(product)
                     .transaction(transaction)
-                    .quantity(currentQuantity)
-                    .pricePerUnit(pricePerUnit)
+                    .quantity(purchasedProduct.getCurrentQuantity())
+                    .pricePerUnit(purchasedProduct.getProduct().getPricePerUnit())
+                    .description(product.getDescription())
+                    .category(product.getCategoryName())
                     .build();
 
             boughtProducts.add(boughtProduct);
