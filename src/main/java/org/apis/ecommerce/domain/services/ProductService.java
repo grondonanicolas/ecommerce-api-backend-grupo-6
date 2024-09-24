@@ -1,5 +1,6 @@
 package org.apis.ecommerce.domain.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
@@ -25,7 +26,7 @@ public class ProductService implements IProductService {
     private ICategoryRepository categoryRepository;
 
     public Product getProductById(Integer id) throws Exception{
-        return productRepository.findById(id).orElseThrow(() -> new Exception("An error has ocurred"));
+        return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("An error has ocurred"));
     }
 
     public List<Product> getProductsByCategoryId(Integer categoryId) {
@@ -33,7 +34,7 @@ public class ProductService implements IProductService {
     }
 
     public void addProductOutstanding(Integer productId) throws Exception {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new Exception("Producto no encontrado"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
         product.setOutstanding(true);
         productRepository.save(product);
     }
@@ -44,16 +45,18 @@ public class ProductService implements IProductService {
     }
 
     public Product createProduct(Product product, Integer categoryID) throws Exception{
-        Category category = categoryRepository.findById(categoryID).orElseThrow(() -> new Exception("Categoria no encontrada"));
+        Category category = categoryRepository.findById(categoryID).orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada"));
         product.setCategory(category);
         return productRepository.save(product);
     }
 
     public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name) throws Exception{
-        Product product = productRepository.findById(productID)
-                .orElseThrow(() -> new Exception("Producto no encontrado"));
+    Product product =
+        productRepository
+            .findById(productID)
+            .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
 
-        if (stock != null && !stock.equals(product.getCurrentStock())) {
+        if (stock != null && stock != 0 && !stock.equals(product.getCurrentStock())) {
             product.setCurrentStock(stock);
         }
 
@@ -71,7 +74,7 @@ public class ProductService implements IProductService {
 
         if (categoryID != null && !categoryID.equals(product.getCategory().getId())) { // Suponiendo que Category tiene un método getId()
             Category category = categoryRepository.findById(categoryID)
-                    .orElseThrow(() -> new Exception("Categoría no encontrada"));
+                    .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada"));
             product.setCategory(category);
         }
 
@@ -84,7 +87,7 @@ public class ProductService implements IProductService {
     }
 
     public void deleteProduct(Integer productID) throws Exception{
-        Product product = productRepository.findById(productID).orElseThrow(() -> new Exception("Producto no encontrado"));
+        Product product = productRepository.findById(productID).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
         product.setCurrentState(REMOVED);
         productRepository.save(product);
     }
