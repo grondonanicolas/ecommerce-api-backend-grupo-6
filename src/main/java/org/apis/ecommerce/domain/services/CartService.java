@@ -38,7 +38,7 @@ public class CartService implements ICartService {
     }
 
     public Cart getUserCart(User requestingUser) {
-        return cartRepository.findByUser(requestingUser).orElseThrow(() -> new EntityNotFoundException("El carrito del usuario solicitante no existe"));
+        return cartRepository.findByUser(requestingUser).orElseThrow(() -> new RuntimeException("El carrito del usuario solicitante no existe"));
     }
 
     public void clearUserCart(User requestingUser) {

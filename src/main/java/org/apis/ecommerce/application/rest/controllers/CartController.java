@@ -1,5 +1,6 @@
 package org.apis.ecommerce.application.rest.controllers;
 
+import jakarta.validation.Valid;
 import org.apis.ecommerce.application.rest.dtos.AddProductToCartDto;
 import org.apis.ecommerce.application.rest.dtos.CartResponseDto;
 import org.apis.ecommerce.application.rest.dtos.ProductQuantityInCartDto;
@@ -7,7 +8,6 @@ import org.apis.ecommerce.application.rest.services.ICartService;
 import org.apis.ecommerce.domain.models.Cart;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.domain.models.User;
-import org.apis.ecommerce.domain.services.CartService;
 import org.apis.ecommerce.domain.services.ProductQuantityParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class CartController {
     
     @PostMapping(path = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public CartResponseDto addProductToCart(@RequestBody AddProductToCartDto addProductToCartDto, 
+    public CartResponseDto addProductToCart(@Valid @RequestBody AddProductToCartDto addProductToCartDto, 
                                             @AuthenticationPrincipal User requestingUser) {
         cartService.addProductToCart(addProductToCartDto, requestingUser);
         return new CartResponseDto("Producto agregado");
