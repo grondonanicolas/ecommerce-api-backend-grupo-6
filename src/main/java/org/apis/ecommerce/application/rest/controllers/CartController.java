@@ -3,6 +3,7 @@ package org.apis.ecommerce.application.rest.controllers;
 import org.apis.ecommerce.application.rest.dtos.AddProductToCartDto;
 import org.apis.ecommerce.application.rest.dtos.CartResponseDto;
 import org.apis.ecommerce.application.rest.dtos.ProductQuantityInCartDto;
+import org.apis.ecommerce.application.rest.services.ICartService;
 import org.apis.ecommerce.domain.models.Cart;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.domain.models.User;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/cart", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CartController {
-    private final CartService cartService;
+    private final ICartService cartService;
     
     @Autowired
-    public CartController(CartService cartService) {
+    public CartController(ICartService cartService) {
         this.cartService = cartService;
     }
     

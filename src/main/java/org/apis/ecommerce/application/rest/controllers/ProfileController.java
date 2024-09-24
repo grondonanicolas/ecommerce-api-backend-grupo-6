@@ -2,6 +2,7 @@ package org.apis.ecommerce.application.rest.controllers;
 
 import org.apis.ecommerce.application.rest.dtos.TransactionDTO;
 import org.apis.ecommerce.application.rest.dtos.UserProfileDTO;
+import org.apis.ecommerce.application.rest.services.ITransactionService;
 import org.apis.ecommerce.domain.models.Transaction;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.services.TransactionService;
@@ -16,10 +17,10 @@ import java.util.List;
 @RequestMapping("/profile")
 public class ProfileController {
 
-    private final TransactionService transactionService;
+    private final ITransactionService transactionService;
 
     @Autowired
-    public ProfileController(TransactionService transactionService) {
+    public ProfileController(ITransactionService transactionService) {
         this.transactionService = transactionService;
     }
     @GetMapping
