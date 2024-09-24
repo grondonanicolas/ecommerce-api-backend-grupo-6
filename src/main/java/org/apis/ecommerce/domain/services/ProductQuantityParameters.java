@@ -6,7 +6,7 @@ import org.apis.ecommerce.domain.models.User;
 
 @Value
 @Builder
-public class ProductQuantityRequest {
+public class ProductQuantityParameters {
     int productToModifyId;
     int quantity;
     User user;
