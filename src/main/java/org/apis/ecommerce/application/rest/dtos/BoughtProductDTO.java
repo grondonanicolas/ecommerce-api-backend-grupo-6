@@ -12,10 +12,12 @@ public class BoughtProductDTO {
     private String description;
     private double pricePerUnit;
     private int quantity;
+    private double subtotal;
 
     public BoughtProductDTO(BoughtProduct entity) {
-        this.description = "Missing description";
+        this.description = entity.getDescription();
         this.pricePerUnit = entity.getPricePerUnit();
         this.quantity = entity.getQuantity();
+        this.subtotal = this.quantity * this.pricePerUnit;
     }
 }

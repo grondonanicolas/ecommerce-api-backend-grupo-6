@@ -23,9 +23,13 @@ public class BoughtProduct {
     @MapsId("transactionId")
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
-    
+
+    @Column(name = "quantity")
     private int quantity;
+    @Column(name = "price_per_unit")
     private double pricePerUnit;
+    @Column(name = "description")
     private String description;
+    @Column(name = "category")
     private String category;
 }

@@ -15,14 +15,18 @@ import java.util.List;
 public class TransactionDTO {
         private String fecha;
         private List<BoughtProductDTO> productosComprados;
+        private double total;
 
         public TransactionDTO(Transaction entity) {
                 this.fecha = entity.getCreatedAt().toString();
+                this.total = 0;
                 this.productosComprados = new ArrayList<>();
                 List<BoughtProduct> productos = entity.getBoughtProducts();
                 for (BoughtProduct producto : productos) {
                         BoughtProductDTO productoCompradoDTO = new BoughtProductDTO(producto);
                         this.productosComprados.add(productoCompradoDTO);
+                        this.total = this.total + productoCompradoDTO.getSubtotal();
                 }
+
         }
 }
