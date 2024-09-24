@@ -23,11 +23,18 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping
-    public String listProducts(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) Boolean recentlyViewed) {
-
-        return "Listando productos - Categoría: " + category + ", Vistos recientemente: " + recentlyViewed;
+    public List<ProductDTO> listProducts(
+            @AuthenticationPrincipal User user) throws Exception {
+         List<Product> products = productService.getAllByUser(user);;
+         return products.stream()
+                 .map(product ->
+                         new ProductDTO(
+                                 product.getId(),
+                                 product.getDescription(),
+                                 product.getPricePerUnit(),
+                                 product.getCurrentStock(),
+                                 product.getCategory().getCategory()))
+                 .toList();
     }
 
     @GetMapping("/{id}")

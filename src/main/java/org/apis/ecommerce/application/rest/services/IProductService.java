@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Product;
+import org.apis.ecommerce.domain.models.User;
 
 public interface IProductService {
     public Product getProductById(Integer id) throws Exception;
@@ -19,4 +20,5 @@ public interface IProductService {
     public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name) throws Exception;
 
     public void deleteProduct(Integer productID) throws Exception;
+    public List<Product> getAllByUser(User user) throws Exception;
 }
