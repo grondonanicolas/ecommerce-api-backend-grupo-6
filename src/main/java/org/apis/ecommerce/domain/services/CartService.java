@@ -3,6 +3,7 @@ package org.apis.ecommerce.domain.services;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.apis.ecommerce.application.rest.dtos.AddProductToCartDto;
+import org.apis.ecommerce.application.rest.services.ICartService;
 import org.apis.ecommerce.domain.models.*;
 import org.apis.ecommerce.domain.repositories.CartRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CartService {
+public class CartService implements ICartService {
     private static final Logger logger = LoggerFactory.getLogger(CartService.class);
     
     private final CartRepository cartRepository;
@@ -65,9 +66,9 @@ public class CartService {
         transactionService.create(requestingUser, purchasedProducts);
     }
 
-    public void modifyProductQuantity(ProductQuantityRequest productQuantityRequest) {
-        Cart userCart = getUserCart(productQuantityRequest.getUser());
-        userCart.modifyProductQuantity(productQuantityRequest);
+    public void modifyProductQuantity(ProductQuantityParameters productQuantityParameters) {
+        Cart userCart = getUserCart(productQuantityParameters.getUser());
+        userCart.modifyProductQuantity(productQuantityParameters);
         cartRepository.save(userCart);
     }
 }

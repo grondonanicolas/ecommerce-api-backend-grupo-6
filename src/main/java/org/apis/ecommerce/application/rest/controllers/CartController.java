@@ -3,11 +3,12 @@ package org.apis.ecommerce.application.rest.controllers;
 import org.apis.ecommerce.application.rest.dtos.AddProductToCartDto;
 import org.apis.ecommerce.application.rest.dtos.CartResponseDto;
 import org.apis.ecommerce.application.rest.dtos.ProductQuantityInCartDto;
+import org.apis.ecommerce.application.rest.services.ICartService;
 import org.apis.ecommerce.domain.models.Cart;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.services.CartService;
-import org.apis.ecommerce.domain.services.ProductQuantityRequest;
+import org.apis.ecommerce.domain.services.ProductQuantityParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/cart", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CartController {
-    private final CartService cartService;
+    private final ICartService cartService;
     
     @Autowired
-    public CartController(CartService cartService) {
+    public CartController(ICartService cartService) {
         this.cartService = cartService;
     }
     
@@ -68,13 +69,13 @@ public class CartController {
                                                        @AuthenticationPrincipal User requestingUser) {
         int requestedQuantity = productQuantityInCartDto.getQuantity(); 
         
-        ProductQuantityRequest productQuantityRequest = ProductQuantityRequest.builder()
+        ProductQuantityParameters productQuantityParameters = ProductQuantityParameters.builder()
                .productToModifyId(productToModifyId)
                .quantity(requestedQuantity)
                .user(requestingUser)
                .build();
         
-        cartService.modifyProductQuantity(productQuantityRequest);
+        cartService.modifyProductQuantity(productQuantityParameters);
         
         return new CartResponseDto("Se modificó la cantidad indicada del producto en el carrito");
     }

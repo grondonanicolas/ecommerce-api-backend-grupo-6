@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.application.rest.dtos.ProductInCartDto;
-import org.apis.ecommerce.domain.services.ProductQuantityRequest;
+import org.apis.ecommerce.domain.services.ProductQuantityParameters;
 
 import java.util.List;
 
@@ -98,9 +98,9 @@ public class Cart {
                 .build();
     }
 
-    public void modifyProductQuantity(ProductQuantityRequest productQuantityRequest) {
-        int productToModifyId = productQuantityRequest.getProductToModifyId();
-        int requestedQuantity = productQuantityRequest.getQuantity();
+    public void modifyProductQuantity(ProductQuantityParameters productQuantityParameters) {
+        int productToModifyId = productQuantityParameters.getProductToModifyId();
+        int requestedQuantity = productQuantityParameters.getQuantity();
         
         ProductInCart productInCartToModify = findProductInCart(productToModifyId);
         productInCartToModify.modifyQuantity(requestedQuantity);

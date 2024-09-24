@@ -1,5 +1,6 @@
 package org.apis.ecommerce.application.rest.controllers;
 
+import org.apis.ecommerce.application.rest.services.IAuthenticationService;
 import org.apis.ecommerce.domain.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.apis.ecommerce.application.rest.dtos.AuthenticationRequest;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final IAuthenticationService service;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(

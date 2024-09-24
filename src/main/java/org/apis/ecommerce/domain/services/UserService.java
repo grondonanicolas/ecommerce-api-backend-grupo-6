@@ -5,6 +5,7 @@ import org.apis.ecommerce.application.rest.dtos.UserDTO;
 import org.apis.ecommerce.domain.models.Favourite;
 import org.apis.ecommerce.domain.models.Historic;
 import org.apis.ecommerce.domain.models.Product;
+import org.apis.ecommerce.application.rest.services.IUserService;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.apis.ecommerce.infrastructure.repositories.UserRepository;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepository;
 

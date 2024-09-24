@@ -11,6 +11,7 @@ import org.apis.ecommerce.domain.models.Favourite;
 import org.apis.ecommerce.domain.models.Historic;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.models.User;
+import org.apis.ecommerce.application.rest.services.IUserService;
 import org.apis.ecommerce.domain.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,7 +28,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 @AllArgsConstructor
 public class UserController {
-    private UserService userService;
+    private IUserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) throws Exception {

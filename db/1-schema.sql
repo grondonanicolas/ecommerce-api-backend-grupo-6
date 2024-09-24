@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS product_bought
     `transaction_id` INT    NOT NULL,
     `quantity`       INT    NOT NULL,
     `price_per_unit` DOUBLE NOT NULL,
+    `description`    VARCHAR(255) NOT NULL,
+    `category`       VARCHAR(255) NOT NULL,
 
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON UPDATE CASCADE,
     FOREIGN KEY (`transaction_id`) REFERENCES transactions (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
