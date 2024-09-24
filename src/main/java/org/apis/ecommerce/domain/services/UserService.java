@@ -29,7 +29,7 @@ public class UserService implements IUserService {
         return new UserDTO(user.getId(), user.getUsername(), user.getEmail());
     }
 
-    public void addProductHistoric(Integer productId, @AuthenticationPrincipal User user) throws Exception {
+    public void addProductHistoric(Integer productId, User user) throws Exception {
         Product product = productRepository.findById(productId).orElseThrow(() -> new Exception("Producto no encontrado"));
 
         Historic historic = Historic.builder().user(user).product(product).build();

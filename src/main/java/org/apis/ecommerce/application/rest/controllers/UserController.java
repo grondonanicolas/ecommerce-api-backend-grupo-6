@@ -80,7 +80,7 @@ public class UserController {
                 .toList();
     }
 
-    @PostMapping("/historic")
+    @PostMapping("/favourite")
     public void addProductFavourite(@RequestBody FavouriteDTO favourite, @AuthenticationPrincipal User user) throws Exception {
         userService.addProductHistoric(favourite.getProductDTO().getId(), user);
     }
