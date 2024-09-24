@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/userdata")
 @AllArgsConstructor
 public class UserController {
     private IUserService userService;
