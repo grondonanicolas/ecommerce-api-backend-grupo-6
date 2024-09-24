@@ -23,6 +23,7 @@ public class ProfileController {
     public ProfileController(ITransactionService transactionService) {
         this.transactionService = transactionService;
     }
+    
     @GetMapping
     public UserProfileDTO getUserProfile(@AuthenticationPrincipal User requestingUser) {
         return new UserProfileDTO(
