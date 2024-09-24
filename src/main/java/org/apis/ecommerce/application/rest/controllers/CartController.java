@@ -8,7 +8,7 @@ import org.apis.ecommerce.domain.models.Cart;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.services.CartService;
-import org.apis.ecommerce.domain.services.ProductQuantityRequest;
+import org.apis.ecommerce.domain.services.ProductQuantityParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -69,13 +69,13 @@ public class CartController {
                                                        @AuthenticationPrincipal User requestingUser) {
         int requestedQuantity = productQuantityInCartDto.getQuantity(); 
         
-        ProductQuantityRequest productQuantityRequest = ProductQuantityRequest.builder()
+        ProductQuantityParameters productQuantityParameters = ProductQuantityParameters.builder()
                .productToModifyId(productToModifyId)
                .quantity(requestedQuantity)
                .user(requestingUser)
                .build();
         
-        cartService.modifyProductQuantity(productQuantityRequest);
+        cartService.modifyProductQuantity(productQuantityParameters);
         
         return new CartResponseDto("Se modificó la cantidad indicada del producto en el carrito");
     }

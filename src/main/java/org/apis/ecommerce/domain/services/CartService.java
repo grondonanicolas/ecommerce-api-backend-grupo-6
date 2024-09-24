@@ -66,9 +66,9 @@ public class CartService implements ICartService {
         transactionService.create(requestingUser, purchasedProducts);
     }
 
-    public void modifyProductQuantity(ProductQuantityRequest productQuantityRequest) {
-        Cart userCart = getUserCart(productQuantityRequest.getUser());
-        userCart.modifyProductQuantity(productQuantityRequest);
+    public void modifyProductQuantity(ProductQuantityParameters productQuantityParameters) {
+        Cart userCart = getUserCart(productQuantityParameters.getUser());
+        userCart.modifyProductQuantity(productQuantityParameters);
         cartRepository.save(userCart);
     }
 }
