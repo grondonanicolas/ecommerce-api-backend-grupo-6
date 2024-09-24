@@ -2,6 +2,7 @@ package org.apis.ecommerce.domain.services;
 
 
 import org.apis.ecommerce.application.rest.dtos.UserDTO;
+import org.apis.ecommerce.application.rest.services.IUserService;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.infrastructure.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
