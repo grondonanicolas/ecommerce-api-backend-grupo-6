@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface ICategoryRepository {
     public Optional<Category> findById(Integer id );
+
+    public Category save(Category category);
 }
