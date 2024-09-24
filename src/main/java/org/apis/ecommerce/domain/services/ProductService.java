@@ -4,17 +4,14 @@ import jakarta.persistence.EntityNotFoundException;
 import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
+import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.domain.repositories.ICategoryRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
-
 import org.apis.ecommerce.application.rest.services.IProductService;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.apis.ecommerce.domain.enums.ProductState.REMOVED;
 
@@ -92,5 +89,9 @@ public class ProductService implements IProductService {
         Product product = productRepository.findById(productID).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
         product.setCurrentState(REMOVED);
         productRepository.save(product);
+    }
+    public List<Product> getAllByUser(User user) throws Exception{
+        List<Product>  products = productRepository.findByUser(user);
+        return products;
     }
 }

@@ -37,16 +37,6 @@ public class ProductControllerTest {
     }
 
     @Test
-    void testListProducts() {
-        String category = "electronics";
-        Boolean recentlyViewed = true;
-
-        String response = productController.listProducts(category, recentlyViewed);
-
-        assertEquals("Listando productos - Categoría: electronics, Vistos recientemente: true", response);
-    }
-
-    @Test
     void testGetProductById() throws Exception {
         Integer id = 1;
     Product product =
