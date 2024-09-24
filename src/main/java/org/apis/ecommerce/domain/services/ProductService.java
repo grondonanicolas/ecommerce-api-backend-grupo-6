@@ -56,11 +56,15 @@ public class ProductService implements IProductService {
         return productRepository.save(product);
     }
 
-    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name) throws Exception{
+    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user) throws Exception{
     Product product =
         productRepository
             .findById(productID)
             .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+
+        if (product.getUser().getId() != user.getId()){
+            throw new IllegalArgumentException("No puede editar este producto");
+        }
 
         if (stock != null && stock != 0 && !stock.equals(product.getCurrentStock())) {
             product.setCurrentStock(stock);
@@ -92,8 +96,11 @@ public class ProductService implements IProductService {
 
     }
 
-    public void deleteProduct(Integer productID) throws Exception{
+    public void deleteProduct(Integer productID, User user) throws Exception{
         Product product = productRepository.findById(productID).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+        if (product.getUser().getId() != user.getId()){
+            throw new IllegalArgumentException("No puede editar este producto");
+        }
         product.setCurrentState(REMOVED);
         productRepository.save(product);
     }
