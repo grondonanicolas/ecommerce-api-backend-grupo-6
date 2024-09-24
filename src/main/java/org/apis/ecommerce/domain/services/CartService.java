@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -69,5 +70,13 @@ public class CartService {
         Cart userCart = getUserCart(productQuantityRequest.getUser());
         userCart.modifyProductQuantity(productQuantityRequest);
         cartRepository.save(userCart);
+    }
+
+    public void createUserCart(User user) {
+        Cart cart = Cart.builder()
+                .user(user)
+                .selectedProducts(new ArrayList<>())
+                .build();
+        cartRepository.save(cart);
     }
 }
