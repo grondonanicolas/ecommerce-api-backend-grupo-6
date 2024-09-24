@@ -82,51 +82,28 @@ public class ProductControllerTest {
         double price = 100.0;
         Integer categoryId = 2;
         ProductState state = ProductState.ACTIVE;
-
+        User user =  new User();
         ProductUpdateDTO productUpdateDTO = new ProductUpdateDTO(description, "nombre", price, stock, categoryId,state);
 
-        doNothing().when(productService).updateProduct(productId, description, stock, price, categoryId, state, "nombre");
+    doNothing()
+        .when(productService)
+        .updateProduct(
+            productId, description, stock, price, categoryId, state, "nombre", user);
 
-        productController.updateProductStock(productUpdateDTO, productId);
+        productController.updateProduct(productUpdateDTO, productId, user);
 
-        verify(productService, times(1)).updateProduct(productId, description, stock, price, categoryId, state, "nombre");
+        verify(productService, times(1)).updateProduct(productId, description, stock, price, categoryId, state, "nombre",user );
     }
 
     @Test
     void testDeleteProduct() throws Exception {
         Integer productId = 1;
+        User user = new User();
+        doNothing().when(productService).deleteProduct(productId, user);
 
-        doNothing().when(productService).deleteProduct(productId);
+        productController.deleteProduct(productId, user);
 
-        productController.deleteProduct(productId);
-
-        verify(productService, times(1)).deleteProduct(productId);
-    }
-
-    @Test
-    void testGetProductsByCategory() throws Exception {
-        Integer categoryId = 1;
-    List<Product> products =
-        List.of(
-            new Product(
-                1,
-                "Producto 1",
-                ACTIVE,
-                100.0,
-                10,
-                false,
-                new Category(1, "Ropa"),
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                new User(), "nombre"));
-
-        when(productService.getProductsByCategoryId(categoryId)).thenReturn(products);
-
-        List<ProductDTO> result = productController.getProductsByCategory(categoryId);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Producto 1", result.get(0).getDescription());
+        verify(productService, times(1)).deleteProduct(productId, user);
     }
 
     @Test

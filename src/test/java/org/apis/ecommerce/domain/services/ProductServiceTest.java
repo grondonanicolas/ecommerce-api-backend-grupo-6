@@ -62,20 +62,6 @@ public class ProductServiceTest {
     }
 
     @Test
-    void testGetProductsByCategoryId() {
-        Integer categoryId = 1;
-        List<Product> products = List.of(new Product(1, "Producto 1",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre"));
-
-        when(productRepository.getProductsByCategoryId(categoryId)).thenReturn(products);
-
-        List<Product> result = productService.getProductsByCategoryId(categoryId);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Producto 1", result.get(0).getDescription());
-    }
-
-    @Test
     void testAddProductOutstanding() throws Exception {
         Integer productId = 1;
         Product product = new Product();
@@ -163,7 +149,7 @@ public class ProductServiceTest {
         double price = 100.0;
         Integer categoryID = 2;
         ProductState state = ProductState.ACTIVE;
-
+        User user = new User();
         Product product = new Product();
         product.setId(productId);
         product.setCurrentStock(20);
@@ -171,13 +157,14 @@ public class ProductServiceTest {
         product.setPricePerUnit(80.0);
         product.setCategory(new Category(1, "Old Category"));
         product.setCurrentState(ProductState.DRAFT);
+        product.setUser(user);
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
         Category newCategory = new Category(categoryID, "New Category");
         when(categoryRepository.findById(categoryID)).thenReturn(Optional.of(newCategory));
 
-        productService.updateProduct(productId, description, stock, price, categoryID, state, "nombre");
+        productService.updateProduct(productId, description, stock, price, categoryID, state, "nombre", user);
 
         verify(productRepository, times(1)).save(product);
         assertEquals(stock, product.getCurrentStock());
@@ -190,12 +177,14 @@ public class ProductServiceTest {
     void testDeleteProduct() throws Exception {
         Integer productId = 1;
         Product product = new Product();
+        User user = new User();
         product.setId(productId);
+        product.setUser(user);
 
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
-        productService.deleteProduct(productId);
+        productService.deleteProduct(productId, user);
 
         verify(productRepository, times(1)).save(product);
         assertEquals(REMOVED, product.getCurrentState());

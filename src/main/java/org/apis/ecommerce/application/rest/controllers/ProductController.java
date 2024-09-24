@@ -58,13 +58,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void updateProductStock(@RequestBody @Valid ProductUpdateDTO product, @PathVariable Integer id) throws Exception {
-        productService.updateProduct(id, product.getDescription(), product.getStock(), product.getPrice(), product.getCategoryId(), product.getState(), product.getName());
+    public void updateProduct(@RequestBody @Valid ProductUpdateDTO product, @PathVariable Integer id, @AuthenticationPrincipal User user) throws Exception {
+        productService.updateProduct(id, product.getDescription(), product.getStock(), product.getPrice(), product.getCategoryId(), product.getState(), product.getName(), user);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Integer id) throws Exception {
-        productService.deleteProduct(id);
+    public void deleteProduct(@PathVariable Integer id, @AuthenticationPrincipal User user) throws Exception {
+        productService.deleteProduct(id, user);
     }
     
     @GetMapping("/category/{categoryId}")
