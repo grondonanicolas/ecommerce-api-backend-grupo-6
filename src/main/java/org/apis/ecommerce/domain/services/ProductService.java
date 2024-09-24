@@ -24,12 +24,20 @@ public class ProductService implements IProductService {
     private ICategoryRepository categoryRepository;
 
     public Product getProductById(Integer id) throws Exception{
-        return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("An error has ocurred"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("An error has ocurred"));
+        
+        if (!ProductState.ACTIVE.equals(product.getCurrentState())) {
+            throw new IllegalArgumentException("El producto seleccionado no está activo");
+        }
+        
+        return product;
     }
 
     public List<Product> getProductsByCategoryId(Integer categoryId) {
-        categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada"));
-       return productRepository.getProductsByCategoryId(categoryId);
+       categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada"));
+       return productRepository.getProductsByCategoryId(categoryId).stream()
+               .filter(product -> ProductState.ACTIVE.equals(product.getCurrentState()))
+               .toList();
     }
 
     public void addProductOutstanding(Integer productId) throws Exception {
