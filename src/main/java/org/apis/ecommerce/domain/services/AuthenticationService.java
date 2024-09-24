@@ -21,6 +21,7 @@ public class AuthenticationService implements IAuthenticationService {
         private final PasswordEncoder passwordEncoder;
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
+        private final CartService cartService;
 
         public AuthenticationResponse register(RegisterRequest request) {
                 var user = User.builder()
@@ -32,8 +33,8 @@ public class AuthenticationService implements IAuthenticationService {
                         .birthDate(request.getBirthDate())
                         .username(request.getUserName())
                         .build();
-
                 repository.save(user);
+                cartService.createUserCart(user);
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)

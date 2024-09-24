@@ -1,9 +1,7 @@
 package org.apis.ecommerce.domain.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apis.ecommerce.application.rest.dtos.CartDetailDto;
 import org.apis.ecommerce.application.rest.dtos.ProductInCartDto;
 import org.apis.ecommerce.domain.services.ProductQuantityParameters;
@@ -12,6 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Cart {
