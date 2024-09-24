@@ -3,10 +3,12 @@ package org.apis.ecommerce.application.rest.controllers;
 import org.apis.ecommerce.application.rest.dtos.ProductCreateDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
-import org.apis.ecommerce.application.rest.dtos.ProductStockDTO;
+import org.apis.ecommerce.application.rest.dtos.ProductUpdateDTO;
+import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.application.rest.services.IProductService;
+import org.apis.ecommerce.domain.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -49,7 +51,7 @@ public class ProductControllerTest {
         Integer id = 1;
     Product product =
         new Product(
-            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
+            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre");
 
     when(productService.getProductById(id)).thenReturn(product);
 
@@ -65,14 +67,14 @@ public class ProductControllerTest {
     @Test
     void testCreateProduct() throws Exception {
     ProductCreateDTO productDTO =
-        new ProductCreateDTO(null, "Nuevo Producto", 200.0, 20, 1);
+        new ProductCreateDTO( "Nuevo Producto", "nombre", 200.0, 20, 1);
         Product newProduct =
                 new Product(
-                        1, "Nuevo Producto", ACTIVE,200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
+                        1, "Nuevo Producto", ACTIVE,200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(),new User(), "nombre");
 
         when(productService.createProduct(any(Product.class), eq(1))).thenReturn(newProduct);
 
-        ProductDTO result = productController.createProduct(productDTO);
+        ProductDTO result = productController.createProduct(productDTO, User.builder().build());
 
         assertNotNull(result);
         assertEquals(1, result.getId());
@@ -83,14 +85,21 @@ public class ProductControllerTest {
 
     @Test
     void testUpdateProductStock() throws Exception {
-        ProductStockDTO stockDTO = new ProductStockDTO(30);
+        // Datos para el DTO de actualización de producto
         Integer productId = 1;
+        String description = "New description";
+        Integer stock = 30;
+        double price = 100.0;
+        Integer categoryId = 2;
+        ProductState state = ProductState.ACTIVE;
 
-        doNothing().when(productService).updateProductStock(stockDTO.getQuantity(), productId);
+        ProductUpdateDTO productUpdateDTO = new ProductUpdateDTO(description, "nombre", price, stock, categoryId,state);
 
-        productController.updateProductStock(stockDTO, productId);
+        doNothing().when(productService).updateProduct(productId, description, stock, price, categoryId, state, "nombre");
 
-        verify(productService, times(1)).updateProductStock(stockDTO.getQuantity(), productId);
+        productController.updateProductStock(productUpdateDTO, productId);
+
+        verify(productService, times(1)).updateProduct(productId, description, stock, price, categoryId, state, "nombre");
     }
 
     @Test
@@ -107,7 +116,19 @@ public class ProductControllerTest {
     @Test
     void testGetProductsByCategory() throws Exception {
         Integer categoryId = 1;
-        List<Product> products = List.of(new Product(1, "Producto 1",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now()));
+    List<Product> products =
+        List.of(
+            new Product(
+                1,
+                "Producto 1",
+                ACTIVE,
+                100.0,
+                10,
+                false,
+                new Category(1, "Ropa"),
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                new User(), "nombre"));
 
         when(productService.getProductsByCategoryId(categoryId)).thenReturn(products);
 
@@ -131,7 +152,7 @@ public class ProductControllerTest {
 
     @Test
     void testGetOutstandingProducts() throws Exception {
-        List<Product> products = List.of(new Product(1, "Remera Nike",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now()));
+        List<Product> products = List.of(new Product(1, "Remera Nike",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre"));
 
         when(productService.findAllOutstanding()).thenReturn(products);
 
