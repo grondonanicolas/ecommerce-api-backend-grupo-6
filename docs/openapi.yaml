@@ -141,7 +141,7 @@ paths:
         "400":
           description: Petición inválida
 
-  /products/{productId}:
+  /products/{id}:
     get:
       tags:
         - Catálogo de productos
