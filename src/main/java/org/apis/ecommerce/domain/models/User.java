@@ -44,6 +44,12 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Role role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Historic> historic;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Favourite> favourite;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -51,5 +57,13 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    public void addProductToHistoric(Historic h){
+        this.historic.add(h);
+    }
+
+    public void addProductToFavourite(Favourite f){
+        this.favourite.add(f);
     }
 }

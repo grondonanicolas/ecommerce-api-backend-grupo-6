@@ -131,3 +131,15 @@ CREATE TABLE IF NOT EXISTS historic
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
+
+  CREATE TABLE IF NOT EXISTS favourite
+(
+    `id`         INT NOT NULL AUTO_INCREMENT,
+    `user_id`    INT NOT NULL,
+    `product_id` INT NOT NULL,
+
+    FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (`id`)
+) CHARACTER SET utf8mb4
+  COLLATE utf8mb4_bin;
