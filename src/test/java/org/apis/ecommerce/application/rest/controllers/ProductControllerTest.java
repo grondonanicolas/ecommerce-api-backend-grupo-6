@@ -3,10 +3,12 @@ package org.apis.ecommerce.application.rest.controllers;
 import org.apis.ecommerce.application.rest.dtos.ProductCreateDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
 import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
-import org.apis.ecommerce.application.rest.dtos.ProductStockDTO;
+import org.apis.ecommerce.application.rest.dtos.ProductUpdateDTO;
+import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.application.rest.services.IProductService;
+import org.apis.ecommerce.domain.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -35,21 +37,11 @@ public class ProductControllerTest {
     }
 
     @Test
-    void testListProducts() {
-        String category = "electronics";
-        Boolean recentlyViewed = true;
-
-        String response = productController.listProducts(category, recentlyViewed);
-
-        assertEquals("Listando productos - Categoría: electronics, Vistos recientemente: true", response);
-    }
-
-    @Test
     void testGetProductById() throws Exception {
         Integer id = 1;
     Product product =
         new Product(
-            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
+            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre");
 
     when(productService.getProductById(id)).thenReturn(product);
 
@@ -65,14 +57,14 @@ public class ProductControllerTest {
     @Test
     void testCreateProduct() throws Exception {
     ProductCreateDTO productDTO =
-        new ProductCreateDTO(null, "Nuevo Producto", 200.0, 20, 1);
+        new ProductCreateDTO( "Nuevo Producto", "nombre", 200.0, 20, 1);
         Product newProduct =
                 new Product(
-                        1, "Nuevo Producto", ACTIVE,200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now());
+                        1, "Nuevo Producto", ACTIVE,200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(),new User(), "nombre");
 
         when(productService.createProduct(any(Product.class), eq(1))).thenReturn(newProduct);
 
-        ProductDTO result = productController.createProduct(productDTO);
+        ProductDTO result = productController.createProduct(productDTO, User.builder().build());
 
         assertNotNull(result);
         assertEquals(1, result.getId());
@@ -83,39 +75,35 @@ public class ProductControllerTest {
 
     @Test
     void testUpdateProductStock() throws Exception {
-        ProductStockDTO stockDTO = new ProductStockDTO(30);
+        // Datos para el DTO de actualización de producto
         Integer productId = 1;
+        String description = "New description";
+        Integer stock = 30;
+        double price = 100.0;
+        Integer categoryId = 2;
+        ProductState state = ProductState.ACTIVE;
+        User user =  new User();
+        ProductUpdateDTO productUpdateDTO = new ProductUpdateDTO(description, "nombre", price, stock, categoryId,state);
 
-        doNothing().when(productService).updateProductStock(stockDTO.getQuantity(), productId);
+    doNothing()
+        .when(productService)
+        .updateProduct(
+            productId, description, stock, price, categoryId, state, "nombre", user);
 
-        productController.updateProductStock(stockDTO, productId);
+        productController.updateProduct(productUpdateDTO, productId, user);
 
-        verify(productService, times(1)).updateProductStock(stockDTO.getQuantity(), productId);
+        verify(productService, times(1)).updateProduct(productId, description, stock, price, categoryId, state, "nombre",user );
     }
 
     @Test
     void testDeleteProduct() throws Exception {
         Integer productId = 1;
+        User user = new User();
+        doNothing().when(productService).deleteProduct(productId, user);
 
-        doNothing().when(productService).deleteProduct(productId);
+        productController.deleteProduct(productId, user);
 
-        productController.deleteProduct(productId);
-
-        verify(productService, times(1)).deleteProduct(productId);
-    }
-
-    @Test
-    void testGetProductsByCategory() throws Exception {
-        Integer categoryId = 1;
-        List<Product> products = List.of(new Product(1, "Producto 1",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now()));
-
-        when(productService.getProductsByCategoryId(categoryId)).thenReturn(products);
-
-        List<ProductDTO> result = productController.getProductsByCategory(categoryId);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Producto 1", result.get(0).getDescription());
+        verify(productService, times(1)).deleteProduct(productId, user);
     }
 
     @Test
@@ -131,7 +119,7 @@ public class ProductControllerTest {
 
     @Test
     void testGetOutstandingProducts() throws Exception {
-        List<Product> products = List.of(new Product(1, "Remera Nike",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now()));
+        List<Product> products = List.of(new Product(1, "Remera Nike",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre"));
 
         when(productService.findAllOutstanding()).thenReturn(products);
 

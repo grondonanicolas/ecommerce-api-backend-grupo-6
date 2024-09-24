@@ -112,8 +112,36 @@ paths:
       responses:
         "200":
           description: Lista de productos obtenida exitosamente
+    post:
+      tags:
+        - Gestión de productos
+      summary: Crear un nuevo producto
+      description: Crea un nuevo producto con las fotos, descripción, categoría, y stock
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                categoryId:
+                  type: integer
+                stock:
+                  type: integer
+                price:
+                  type: number
+      operationId: createProduct
+      responses:
+        "201":
+          description: Producto creado exitosamente
+        "400":
+          description: Petición inválida
 
-  /products/{productId}:
+  /products/{id}:
     get:
       tags:
         - Catálogo de productos
@@ -131,7 +159,59 @@ paths:
           description: Detalle del producto obtenido exitosamente
         "404":
           description: Producto no encontrado
-
+    put:
+      tags:
+        - Gestión de productos
+      summary: Actualizar un producto existente
+      description: Actualiza la información de un producto existente
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+                stock:
+                  type: integer
+                price:
+                  type: number
+      operationId: updateProduct
+      responses:
+        "200":
+          description: Producto actualizado exitosamente
+        "404":
+          description: Producto no encontrado
+        "400":
+          description: Petición inválida
+    delete:
+      tags:
+        - Gestión de productos
+      summary: Eliminar un producto existente
+      description: Elimina un producto existente de la base de datos
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: deleteProduct
+      responses:
+        "200":
+          description: Producto eliminado exitosamente
+        "404":
+          description: Producto no encontrado
   /cart:
     get:
       tags:
@@ -247,92 +327,6 @@ paths:
         "401":
           $ref: "#/components/responses/AuthenticationError"
 
-  /management/products:
-    post:
-      tags:
-        - Gestión de productos
-      summary: Crear un nuevo producto
-      description: Crea un nuevo producto con las fotos, descripción, categoría, y stock
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                category:
-                  type: string
-                stock:
-                  type: integer
-                price:
-                  type: number
-      operationId: createProduct
-      responses:
-        "201":
-          description: Producto creado exitosamente
-        "400":
-          description: Petición inválida
-
-  /management/products/{productId}:
-    put:
-      tags:
-        - Gestión de productos
-      summary: Actualizar un producto existente
-      description: Actualiza la información de un producto existente
-      parameters:
-        - name: productId
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                category:
-                  type: string
-                stock:
-                  type: integer
-                price:
-                  type: number
-      operationId: updateProduct
-      responses:
-        "200":
-          description: Producto actualizado exitosamente
-        "404":
-          description: Producto no encontrado
-        "400":
-          description: Petición inválida
-
-    delete:
-      tags:
-        - Gestión de productos
-      summary: Eliminar un producto existente
-      description: Elimina un producto existente de la base de datos
-      parameters:
-        - name: productId
-          in: path
-          required: true
-          schema:
-            type: string
-      operationId: deleteProduct
-      responses:
-        "200":
-          description: Producto eliminado exitosamente
-        "404":
-          description: Producto no encontrado
-
   /profile:
     get:
       tags:
@@ -358,6 +352,26 @@ paths:
           description: Historial obtenido de forma exitosa
         "401":
           $ref: "#/components/responses/AuthenticationError"
+
+  /category:
+    post:
+      tags:
+        - Crear categoria
+      summary: Crea una nueva categoria para productos
+      description: Crea una nueva categoria para productos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+      operationId: createCateogry
+      responses:
+        "200":
+          description: Categoria creada de manera exitosa
 
 components:
   securitySchemes:

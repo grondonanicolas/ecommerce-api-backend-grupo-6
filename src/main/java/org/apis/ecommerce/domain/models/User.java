@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -60,10 +61,16 @@ public class User implements UserDetails {
     }
 
     public void addProductToHistoric(Historic h){
+        if(this.historic != null ){
+            this.historic =  new ArrayList<>();
+        }
         this.historic.add(h);
     }
 
     public void addProductToFavourite(Favourite f){
+        if(this.favourite != null ){
+            this.favourite =  new ArrayList<>();
+        }
         this.favourite.add(f);
     }
 }

@@ -11,8 +11,9 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor 
-public class OutstandingDTO {
-    @NotNull(message = "El ID del producto no puede ser nulo")
-    @Min(value = 1, message = "El ID del producto debe ser mayor que 0")
+public class CreateHistoricDTO {
+
+    @NotNull(message = "ProductId no puede ser null")
+    @Min(value=1, message = "El productId debe ser mayor a 0")
     private Integer productId;
 }

@@ -65,7 +65,7 @@ public class CartController {
     @PutMapping(path = "/products/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public CartResponseDto modifyProductQuantityInCart(@PathVariable(name = "productId") int productToModifyId, 
-                                                       @RequestBody ProductQuantityInCartDto productQuantityInCartDto,
+                                                       @RequestBody @Valid ProductQuantityInCartDto productQuantityInCartDto,
                                                        @AuthenticationPrincipal User requestingUser) {
         int requestedQuantity = productQuantityInCartDto.getQuantity(); 
         

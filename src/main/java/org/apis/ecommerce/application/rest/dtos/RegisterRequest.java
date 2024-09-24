@@ -33,7 +33,7 @@ public class RegisterRequest {
     private String password;
 
     @NotNull(message = "El rol no puede ser nulo.")
-    private Role role; // Asumiendo que `Role` es una enumeración o clase válida con los valores 'USER' y 'ADMIN'
+    private Role role;
 
     @NotNull(message = "La fecha de nacimiento no puede ser nula.")
     @Past(message = "La fecha de nacimiento debe ser en el pasado.")

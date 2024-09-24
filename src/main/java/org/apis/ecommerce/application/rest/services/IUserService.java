@@ -7,7 +7,7 @@ import org.apis.ecommerce.domain.models.User;
 import java.util.List;
 
 public interface IUserService {
-    public UserDTO getUserById(Long id) throws Exception;
+    public UserDTO getUserById(Integer id) throws Exception;
 
     public List<Historic> getProductHistoric(User user) throws Exception;
 

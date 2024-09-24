@@ -1,7 +1,7 @@
 package org.apis.ecommerce.application.rest.controllers;
 
+import jakarta.validation.Valid;
 import org.apis.ecommerce.application.rest.services.IAuthenticationService;
-import org.apis.ecommerce.domain.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.apis.ecommerce.application.rest.dtos.AuthenticationRequest;
 import org.apis.ecommerce.application.rest.dtos.AuthenticationResponse;
@@ -19,12 +19,12 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request) {
+            @RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest request) {
             AuthenticationResponse response = service.authenticate(request);
             return ResponseEntity.ok(response);
     }

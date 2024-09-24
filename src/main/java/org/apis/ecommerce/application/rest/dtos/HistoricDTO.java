@@ -8,7 +8,19 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor 
+@NoArgsConstructor
 public class HistoricDTO {
-    private ProductDTO productDTO;
+    private Integer id;
+    private String description;
+    private Double price;
+    private Integer stock;
+    private String category;
+
+    public HistoricDTO(ProductDTO productDTO) {
+        this.id = productDTO.getId();
+        this.description = productDTO.getDescription();
+        this.price = productDTO.getPrice();
+        this.stock = productDTO.getStock();
+        this.category = productDTO.getCategory();
+    }
 }
