@@ -1,5 +1,6 @@
 package org.apis.ecommerce.domain.services;
 
+import org.apis.ecommerce.application.rest.services.ITransactionService;
 import org.apis.ecommerce.domain.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TransactionService {
+public class TransactionService implements ITransactionService {
     private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     private final TransactionRepository transactionRepository;
