@@ -27,7 +27,7 @@ public class SecurityConfig {
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers("/login", "/register").permitAll()
-                                        .requestMatchers(HttpMethod.POST, "/products/*").hasAuthority(Role.ADMIN.name())
+                                        .requestMatchers(HttpMethod.POST, "/products").hasAuthority(Role.ADMIN.name())
                                         .requestMatchers(HttpMethod.PUT, "/products/*").hasAuthority(Role.ADMIN.name())
                                         .anyRequest()
                                                 .authenticated())
