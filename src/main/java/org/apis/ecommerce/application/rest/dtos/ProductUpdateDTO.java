@@ -15,4 +15,5 @@ public class ProductUpdateDTO {
     private int stock;
     private Integer categoryId;
     private ProductState state;
+    private String image;
 }

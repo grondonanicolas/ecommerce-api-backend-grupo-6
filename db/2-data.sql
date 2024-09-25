@@ -29,12 +29,12 @@ VALUES (2, '2024-08-10 11:27:31'),
        (5, '2024-08-14 15:23:35');
 
 -- Inserciones para la tabla `product`
-INSERT INTO product (`product_state_id`, `category_id`, `user_id`, `stock`, `name`, `description`, `price_per_unit`, `created_at`, `updated_at`)
-VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de algodón', 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31'),
-       (1, 2, 3, 30, 'Pantalón', 'Pantalón vaquero', 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
-       (1, 3, 4, 20, 'Chaqueta', 'Chaqueta de cuero', 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33'),
-       (1, 4, 4, 100, 'Zapatillas', 'Zapatillas deportivas', 59.99, '2024-07-13 11:27:31', '2024-08-13 14:24:34'),
-       (1, 5, 5, 150, 'Gorra', 'Gorra de béisbol', 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
+INSERT INTO product (`product_state_id`, `category_id`, `user_id`, `stock`, `name`, `description`, `price_per_unit`, `created_at`, `updated_at`, `image_url`)
+VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de algodón', 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31','https://s3.amazonaws.com/fake-bucket/images/img1.jpg'),
+       (1, 2, 3, 30, 'Pantalón', 'Pantalón vaquero', 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32','https://s3.amazonaws.com/fake-bucket/images/img2.jpg'),
+       (1, 3, 4, 20, 'Chaqueta', 'Chaqueta de cuero', 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33','https://s3.amazonaws.com/fake-bucket/images/img3.jpg'),
+       (1, 4, 4, 100, 'Zapatillas', 'Zapatillas deportivas', 59.99, '2024-07-13 11:27:31', '2024-08-13 14:24:34','https://s3.amazonaws.com/fake-bucket/images/img4.jpg'),
+       (1, 5, 5, 150, 'Gorra', 'Gorra de béisbol', 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35','https://s3.amazonaws.com/fake-bucket/images/img5.jpg');
 
 -- Inserciones para la tabla `product_bought`
 INSERT INTO product_bought (`product_id`, `transaction_id`, `price_per_unit`, `quantity`, `description`, `category`)

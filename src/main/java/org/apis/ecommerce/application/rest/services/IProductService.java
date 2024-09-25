@@ -17,7 +17,7 @@ public interface IProductService {
 
     public Product createProduct(Product product, Integer categoryID) throws Exception;
 
-    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user) throws Exception;
+    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user, String image) throws Exception;
 
     public void deleteProduct(Integer productID, User user) throws Exception;
     public List<Product> getAllByUser(User user) throws Exception;

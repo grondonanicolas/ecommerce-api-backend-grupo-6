@@ -29,4 +29,7 @@ public class ProductCreateDTO {
     @NotNull(message = "El ID de la categoría no puede ser nulo")
     @Min(value = 1, message = "El ID de la categoría debe ser mayor que 0")
     private Integer categoryId;
+
+    @NotNull(message = "El producto tiene que tener imagen")
+    private String image;
 }

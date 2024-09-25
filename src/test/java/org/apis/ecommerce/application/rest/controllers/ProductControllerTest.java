@@ -41,7 +41,7 @@ public class ProductControllerTest {
         Integer id = 1;
     Product product =
         new Product(
-            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre");
+            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre", "image_url");
 
     when(productService.getProductById(id)).thenReturn(product);
 
@@ -57,10 +57,10 @@ public class ProductControllerTest {
     @Test
     void testCreateProduct() throws Exception {
     ProductCreateDTO productDTO =
-        new ProductCreateDTO( "Nuevo Producto", "nombre", 200.0, 20, 1);
+        new ProductCreateDTO( "Nuevo Producto", "nombre", 200.0, 20, 1, "image_url");
         Product newProduct =
                 new Product(
-                        1, "Nuevo Producto", ACTIVE,200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(),new User(), "nombre");
+                        1, "Nuevo Producto", ACTIVE,200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(),new User(), "nombre", "image_url");
 
         when(productService.createProduct(any(Product.class), eq(1))).thenReturn(newProduct);
 
@@ -83,16 +83,16 @@ public class ProductControllerTest {
         Integer categoryId = 2;
         ProductState state = ProductState.ACTIVE;
         User user =  new User();
-        ProductUpdateDTO productUpdateDTO = new ProductUpdateDTO(description, "nombre", price, stock, categoryId,state);
+        ProductUpdateDTO productUpdateDTO = new ProductUpdateDTO(description, "nombre", price, stock, categoryId,state, "image_url");
 
     doNothing()
         .when(productService)
         .updateProduct(
-            productId, description, stock, price, categoryId, state, "nombre", user);
+            productId, description, stock, price, categoryId, state, "nombre", user, "image_url");
 
         productController.updateProduct(productUpdateDTO, productId, user);
 
-        verify(productService, times(1)).updateProduct(productId, description, stock, price, categoryId, state, "nombre",user );
+        verify(productService, times(1)).updateProduct(productId, description, stock, price, categoryId, state, "nombre",user , "image_url");
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ProductControllerTest {
 
     @Test
     void testGetOutstandingProducts() throws Exception {
-        List<Product> products = List.of(new Product(1, "Remera Nike",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre"));
+        List<Product> products = List.of(new Product(1, "Remera Nike",ACTIVE, 100.0, 10, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre", "image_url"));
 
         when(productService.findAllOutstanding()).thenReturn(products);
 

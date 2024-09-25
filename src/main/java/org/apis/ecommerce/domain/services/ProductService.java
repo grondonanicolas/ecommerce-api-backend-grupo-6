@@ -64,7 +64,7 @@ public class ProductService implements IProductService {
         return productRepository.save(product);
     }
 
-    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user) throws Exception{
+    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user, String image) throws Exception{
     Product product =
         productRepository
             .findById(productID)
@@ -98,6 +98,10 @@ public class ProductService implements IProductService {
 
         if (state != null && !state.equals(product.getCurrentState())) {
             product.setCurrentState(state);
+        }
+
+        if (image != null && !image.equals(product.getImage())) {
+            product.setImage(image);
         }
 
         productRepository.save(product);

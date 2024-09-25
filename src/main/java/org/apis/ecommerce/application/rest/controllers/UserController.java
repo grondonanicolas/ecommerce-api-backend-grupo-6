@@ -44,7 +44,8 @@ public class UserController {
                             product.getDescription(), 
                             product.getPricePerUnit(), 
                             product.getCurrentStock(),
-                            product.getCategory() != null ? product.getCategory().getCategory() : null); 
+                            product.getCategory() != null ? product.getCategory().getCategory() : null,
+                            product.getImage());
     
                     return new HistoricDTO(productDTO);
                 })
@@ -63,7 +64,8 @@ public class UserController {
                         product.getDescription(), 
                         product.getPricePerUnit(), 
                         product.getCurrentStock(),
-                        product.getCategory() != null ? product.getCategory().getCategory() : null
+                        product.getCategory() != null ? product.getCategory().getCategory() : null,
+                        product.getImage()
                     );
                     
                     return new FavouriteDTO(productDTO); 

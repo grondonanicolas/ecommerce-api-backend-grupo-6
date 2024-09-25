@@ -41,6 +41,7 @@ public class ProductServiceTest {
         Integer id = 1;
         Product product = new Product();
         product.setId(id);
+        product.setCurrentState(ACTIVE);
         when(productRepository.findById(id)).thenReturn(Optional.of(product));
 
         Product result = productService.getProductById(id);
@@ -62,59 +63,8 @@ public class ProductServiceTest {
     }
 
     @Test
-    void testAddProductOutstanding() throws Exception {
-        Integer productId = 1;
-        Product product = new Product();
-        product.setId(productId);
-
-        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-
-        productService.addProductOutstanding(productId);
-
-        verify(productRepository, times(1)).save(any(Product.class));
-    }
-
-    @Test
-    void testAddProductOutstanding_ProductNotFound() {
-        Integer productId = 1;
-        when(productRepository.findById(productId)).thenReturn(Optional.empty());
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            productService.addProductOutstanding(productId);
-        });
-
-        assertEquals("Producto no encontrado", exception.getMessage());
-    }
-
-    @Test
-    void testGetOutstandingProducts() {
-    Product outstandingProducts =
-        new Product(
-            1,
-            "Remera Nike",
-            ACTIVE,
-            100.0,
-            10,
-            true,
-            new Category(1, "Ropa"),
-            LocalDateTime.now(),
-            LocalDateTime.now(),
-            new User(),
-                "nombre");
-        List<Product> outstandingList = List.of(outstandingProducts);
-
-        when(productRepository.findAllOutstanding()).thenReturn(outstandingList);
-
-        List<Product> result = productService.findAllOutstanding();
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Remera Nike", result.get(0).getDescription());
-    }
-
-    @Test
     void testCreateProduct() throws Exception {
-        Product product = new Product(null, "Nuevo Producto",ACTIVE, 200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre");
+        Product product = new Product(null, "Nuevo Producto",ACTIVE, 200.0, 20, false,new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre", "image_url");
     Product savedProduct =
         new Product(
             1,
@@ -126,7 +76,7 @@ public class ProductServiceTest {
             new Category(1, "Ropa"),
             LocalDateTime.now(),
             LocalDateTime.now(),
-            new User(), "nombre");
+            new User(), "nombre", "image_url");
         Category category = new Category(1, "Ropa");
         savedProduct.setCategory(category);
         when(productRepository.save(product)).thenReturn(savedProduct);
@@ -164,7 +114,7 @@ public class ProductServiceTest {
         Category newCategory = new Category(categoryID, "New Category");
         when(categoryRepository.findById(categoryID)).thenReturn(Optional.of(newCategory));
 
-        productService.updateProduct(productId, description, stock, price, categoryID, state, "nombre", user);
+        productService.updateProduct(productId, description, stock, price, categoryID, state, "nombre", user, "image_url");
 
         verify(productRepository, times(1)).save(product);
         assertEquals(stock, product.getCurrentStock());

@@ -52,6 +52,10 @@ public class Product {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "image_url")
+    private String image;
+    
     public void validateThatItIsActive() {
         if (!currentState.equals(ProductState.ACTIVE)) {
             throw new IllegalStateException(String.format("El producto '%s' no está activo", description));
