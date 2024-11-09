@@ -35,6 +35,7 @@ public class AuthenticationService implements IAuthenticationService {
                         .username(request.getUserName())
                         .historic(new ArrayList<>())
                         .favourite(new ArrayList<>())
+                        .imageURL(request.getImage())
                         .build();
                 repository.save(user);
                 cartService.createUserCart(user);
