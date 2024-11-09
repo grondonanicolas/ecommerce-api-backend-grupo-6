@@ -35,7 +35,6 @@ public class ProductServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
     @Test
     void testGetProductById() throws Exception {
         Integer id = 1;

@@ -1,10 +1,10 @@
 -- Inserciones para la tabla `users`
-INSERT INTO users (`role`, `first_name`, `last_name`, `email`, `user_name`, `password`, `birth_date`)
-VALUES ("ADMIN", 'John', 'Doe', 'john.doe@example.com', 'johndoe', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1985-02-15'),
-       ("USER", 'Jane', 'Smith', 'jane.smith@example.com', 'janesmith', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1990-05-21'),
-       ("USER", 'Michael', 'Brown', 'michael.brown@example.com', 'michaelbrown', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1988-11-11'),
-       ("USER", 'Emily', 'Johnson', 'emily.johnson@example.com', 'emilyjohnson', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1995-03-30'),
-       ("ADMIN", 'Sarah', 'Davis', 'sarah.davis@example.com', 'sarahdavis', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1992-07-17');
+INSERT INTO users (`role`, `first_name`, `last_name`, `email`, `user_name`, `password`, `birth_date`, `image_url`)
+VALUES ("ADMIN", 'John', 'Doe', 'john.doe@example.com', 'johndoe', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1985-02-15', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLui6cKL2tXUu4LkDYbN4uJKkgTHU6zVpgvQ&s'),
+       ("USER", 'Jane', 'Smith', 'jane.smith@example.com', 'janesmith', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1990-05-21', 'https://static.wikia.nocookie.net/the-secret-world-of-the-animated-characters/images/a/a3/Brett_Hand.jpg/revision/latest?cb=20211207145251'),
+       ("USER", 'Michael', 'Brown', 'michael.brown@example.com', 'michaelbrown', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1988-11-11','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLui6cKL2tXUu4LkDYbN4uJKkgTHU6zVpgvQ&s'),
+       ("USER", 'Emily', 'Johnson', 'emily.johnson@example.com', 'emilyjohnson', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1995-03-30','https://static.wikia.nocookie.net/the-secret-world-of-the-animated-characters/images/a/a3/Brett_Hand.jpg/revision/latest?cb=20211207145251'),
+       ("ADMIN", 'Sarah', 'Davis', 'sarah.davis@example.com', 'sarahdavis', '$2a$10$9GK5AKck9kZlnDM6ER/uL.P2Myy3Q3ifwsIuogoXK..oSjiNX.Pmm', '1992-07-17', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLui6cKL2tXUu4LkDYbN4uJKkgTHU6zVpgvQ&s');
 
 -- Inserciones para la tabla `product_state`
 INSERT INTO product_state (`id`, `status`)

@@ -42,4 +42,7 @@ public class RegisterRequest {
     @NotBlank(message = "El nombre de usuario no puede estar en blanco.")
     @Size(max = 255, message = "El nombre de usuario no puede tener más de 255 caracteres.")
     private String userName;
+
+    @Size(max = 255, message = "La url de la imagen no puede tener mas de 255 caracteres.")
+    private String image;
 }

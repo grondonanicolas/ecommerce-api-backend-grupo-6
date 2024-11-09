@@ -23,7 +23,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="user_name", unique = true, nullable = false)
+    @Column(name = "user_name", unique = true, nullable = false)
     private String username;
 
     @Column(unique = true, nullable = false)
@@ -38,8 +38,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false, name= "birth_date")
+    @Column(nullable = false, name = "birth_date")
     private LocalDate birthDate;
+
+    @Column(nullable = false, name = "image_url")
+    private String imageURL;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")

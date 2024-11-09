@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users
     `password`   VARCHAR(255) NOT NULL,
     `birth_date` DATE    NOT NULL,
     `role`       ENUM ('USER', 'ADMIN') NOT NULL,
+    `image_url`  VARCHAR(255),
 
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
