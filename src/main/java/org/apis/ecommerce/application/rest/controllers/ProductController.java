@@ -42,8 +42,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO getProductById(@PathVariable Integer id) throws Exception {
-        Product product = productService.getProductById(id);
+    public ProductDTO getProductById( @AuthenticationPrincipal User user, @PathVariable Integer id) throws Exception {
+        Product product = productService.getProductById(id, user);
         return new ProductDTO(product.getId(), product.getDescription(), product.getPricePerUnit(), product.getCurrentStock(), product.getCategory().getCategory(), product.getImage(), product.getName(),product.getCurrentState().toString());
     }
 

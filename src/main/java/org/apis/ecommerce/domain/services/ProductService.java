@@ -5,6 +5,7 @@ import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.models.User;
+import org.apis.ecommerce.domain.models.Role;
 import org.apis.ecommerce.domain.repositories.ICategoryRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,11 @@ public class ProductService implements IProductService {
     @Autowired
     private ICategoryRepository categoryRepository;
 
-    public Product getProductById(Integer id) throws Exception{
+    public Product getProductById(Integer id, User user) throws Exception{
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("An error has ocurred"));
-        
+        if (!ProductState.ACTIVE.equals(product.getCurrentState()) && user.getRole() != Role.ADMIN ) {
+            throw new IllegalArgumentException("El producto seleccionado no está activo");
+        }
         return product;
     }
 

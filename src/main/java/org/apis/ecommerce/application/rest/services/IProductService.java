@@ -7,7 +7,7 @@ import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.models.User;
 
 public interface IProductService {
-    public Product getProductById(Integer id) throws Exception;
+    public Product getProductById(Integer id, User user) throws Exception;
 
     public List<Product> getProductsByCategoryId(Integer id) throws Exception;
 
