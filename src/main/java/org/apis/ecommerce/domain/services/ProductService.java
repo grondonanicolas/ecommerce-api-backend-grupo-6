@@ -26,10 +26,6 @@ public class ProductService implements IProductService {
     public Product getProductById(Integer id) throws Exception{
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("An error has ocurred"));
         
-        if (!ProductState.ACTIVE.equals(product.getCurrentState())) {
-            throw new IllegalArgumentException("El producto seleccionado no está activo");
-        }
-        
         return product;
     }
 
