@@ -17,4 +17,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer>, IProd
 
     @Query(value = "SELECT u FROM Product u WHERE u.user = :user AND u.currentState IN(DRAFT, ACTIVE)")
     public List<Product> findByUser(@Param("user") User user);
+
+    @Query(value = "SELECT u FROM Product u WHERE u.currentState IN(ACTIVE)")
+    public List<Product> findAll();
 }

@@ -7,6 +7,7 @@ import org.apis.ecommerce.application.rest.dtos.OutstandingDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductUpdateDTO;
 import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Product;
+import org.apis.ecommerce.domain.models.Role;
 import org.apis.ecommerce.application.rest.services.IProductService;
 import org.apis.ecommerce.domain.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/products")
@@ -26,19 +28,24 @@ public class ProductController {
     @GetMapping
     public List<ProductDTO> listProducts(
             @AuthenticationPrincipal User user) throws Exception {
-         List<Product> products = productService.getAllByUser(user);;
-         return products.stream()
-                 .map(product ->
-                         new ProductDTO(
-                                 product.getId(),
-                                 product.getDescription(),
-                                 product.getPricePerUnit(),
-                                 product.getCurrentStock(),
-                                 product.getCategory().getCategory(),
-                                 product.getImage(),
-                                 product.getName(),
-                                 product.getCurrentState().toString()))
-                 .toList();
+                List<Product> products;
+                if(user.getRole().name().equals(Role.ADMIN.name())){
+                    products = productService.getAllByUser(user);;
+                } else {
+                    products = productService.getAllProducts();
+                }
+                return products.stream()
+                        .map(product ->
+                                new ProductDTO(
+                                        product.getId(),
+                                        product.getDescription(),
+                                        product.getPricePerUnit(),
+                                        product.getCurrentStock(),
+                                        product.getCategory().getCategory(),
+                                        product.getImage(),
+                                        product.getName(),
+                                        product.getCurrentState().toString()))
+                        .toList();
     }
 
     @GetMapping("/{id}")

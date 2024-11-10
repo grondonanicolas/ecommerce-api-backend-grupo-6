@@ -20,5 +20,8 @@ public interface IProductService {
     public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user, String image) throws Exception;
 
     public void deleteProduct(Integer productID, User user) throws Exception;
+
     public List<Product> getAllByUser(User user) throws Exception;
+
+    public List<Product> getAllProducts() throws Exception;
 }
