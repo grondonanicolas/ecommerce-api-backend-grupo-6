@@ -39,13 +39,15 @@ public class ProductControllerTest {
     @Test
     void testGetProductById() throws Exception {
         Integer id = 1;
-    Product product =
+        User user =  new User();
+
+        Product product =
         new Product(
-            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), new User(), "nombre", "image_url");
+            1, "Remera Nike",ACTIVE, 100.0, 10, false, new Category(1, "Ropa"), LocalDateTime.now(), LocalDateTime.now(), user, "nombre", "image_url");
 
-    when(productService.getProductById(id)).thenReturn(product);
+    when(productService.getProductById(id, user)).thenReturn(product);
 
-        ProductDTO result = productController.getProductById(id);
+        ProductDTO result = productController.getProductById(user,id);
 
         assertNotNull(result);
         assertEquals(1, result.getId());

@@ -39,11 +39,12 @@ public class ProductServiceTest {
     void testGetProductById() throws Exception {
         Integer id = 1;
         Product product = new Product();
+        User user =  new User();
         product.setId(id);
         product.setCurrentState(ACTIVE);
         when(productRepository.findById(id)).thenReturn(Optional.of(product));
 
-        Product result = productService.getProductById(id);
+        Product result = productService.getProductById(id, user);
 
         assertNotNull(result);
         assertEquals(id, result.getId());
@@ -52,10 +53,12 @@ public class ProductServiceTest {
     @Test
     void testGetProductById_NotFound() {
         Integer id = 1;
+        User user =  new User();
+
         when(productRepository.findById(id)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(Exception.class, () -> {
-            productService.getProductById(id);
+            productService.getProductById(id, user);
         });
 
         assertEquals("An error has ocurred", exception.getMessage());

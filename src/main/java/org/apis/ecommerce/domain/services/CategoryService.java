@@ -7,6 +7,7 @@ import org.apis.ecommerce.domain.repositories.ICategoryRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -19,5 +20,9 @@ public class CategoryService implements ICategoryService {
     public Category createCategory(String description){
         Category newCategory = categoryRepository.save(new Category(null, description));
         return newCategory;
+    }
+
+    public  List<Category> listCategories(){
+        return categoryRepository.findAll();
     }
 }
