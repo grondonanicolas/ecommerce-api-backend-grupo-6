@@ -119,4 +119,9 @@ public class ProductService implements IProductService {
         List<Product>  products = productRepository.findByUser(user);
         return products;
     }
+
+    public List<Product> getAllProducts() throws Exception{
+        List<Product> products = productRepository.findAll();
+        return products;
+    }
 }

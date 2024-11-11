@@ -18,4 +18,6 @@ public interface IProductRepository {
     public void deleteById(Integer id);
 
     public List<Product> findByUser(User user);
+
+    public List<Product> findAll();
 }
