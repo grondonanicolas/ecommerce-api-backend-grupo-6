@@ -1,5 +1,7 @@
 package org.apis.ecommerce.application.rest.dtos;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,8 @@ public class HistoricDTO {
     private Double price;
     private Integer stock;
     private String category;
+    private String name;
+    private List<PhotoDTO> photos;
 
     public HistoricDTO(ProductDTO productDTO) {
         this.id = productDTO.getId();
@@ -22,5 +26,7 @@ public class HistoricDTO {
         this.price = productDTO.getPrice();
         this.stock = productDTO.getStock();
         this.category = productDTO.getCategory();
+        this.name = productDTO.getName();
+        this.photos = productDTO.getPhotos();
     }
 }
