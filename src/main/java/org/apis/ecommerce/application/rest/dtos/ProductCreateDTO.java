@@ -1,13 +1,13 @@
 package org.apis.ecommerce.application.rest.dtos;
 
-
+import org.apis.ecommerce.application.rest.dtos.PhotoDTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
@@ -31,5 +31,5 @@ public class ProductCreateDTO {
     private Integer categoryId;
 
     @NotNull(message = "El producto tiene que tener imagen")
-    private String image;
+    private List<PhotoDTO> photos;
 }

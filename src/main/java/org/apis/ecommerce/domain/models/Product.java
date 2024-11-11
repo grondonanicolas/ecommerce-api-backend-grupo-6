@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.apis.ecommerce.domain.enums.ProductState;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -53,9 +54,10 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "image_url")
-    private String image;
-    
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photo> photos;
+
     public void validateThatItIsActive() {
         if (!currentState.equals(ProductState.ACTIVE)) {
             throw new IllegalStateException(String.format("El producto '%s' no está activo", description));

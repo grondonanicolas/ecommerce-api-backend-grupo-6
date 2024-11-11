@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.apis.ecommerce.domain.enums.ProductState;
-
+import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
@@ -15,5 +15,5 @@ public class ProductUpdateDTO {
     private int stock;
     private Integer categoryId;
     private ProductState state;
-    private String image;
+    private List<PhotoDTO> photos;
 }

@@ -5,6 +5,7 @@ import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
 import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.models.User;
+import org.apis.ecommerce.domain.models.Photo;
 import org.apis.ecommerce.domain.models.Role;
 import org.apis.ecommerce.domain.repositories.ICategoryRepository;
 import org.apis.ecommerce.domain.repositories.IProductRepository;
@@ -63,13 +64,12 @@ public class ProductService implements IProductService {
         return productRepository.save(product);
     }
 
-    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user, String image) throws Exception{
-    Product product =
-        productRepository
-            .findById(productID)
-            .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+    public void updateProduct(Integer productID, String description, Integer stock, double price, Integer categoryID, ProductState state, String name, User user, List<Photo> photos) throws Exception {
+        Product product = productRepository
+                .findById(productID)
+                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
 
-        if (product.getUser().getId() != user.getId()){
+        if (!product.getUser().getId().equals(user.getId())) {
             throw new IllegalArgumentException("No puede editar este producto");
         }
 
@@ -89,7 +89,7 @@ public class ProductService implements IProductService {
             product.setPricePerUnit(price);
         }
 
-        if (categoryID != null && !categoryID.equals(product.getCategory().getId())) { // Suponiendo que Category tiene un método getId()
+        if (categoryID != null && (product.getCategory() == null || !categoryID.equals(product.getCategory().getId()))) {
             Category category = categoryRepository.findById(categoryID)
                     .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada"));
             product.setCategory(category);
@@ -99,13 +99,17 @@ public class ProductService implements IProductService {
             product.setCurrentState(state);
         }
 
-        if (image != null && !image.equals(product.getImage())) {
-            product.setImage(image);
+        if (photos != null) {
+            product.getPhotos().clear();
+            for (Photo photo : photos) {
+                photo.setProduct(product); // Asocia cada foto al producto actual
+                product.getPhotos().add(photo);
+            }
         }
 
         productRepository.save(product);
-
     }
+
 
     public void deleteProduct(Integer productID, User user) throws Exception{
         Product product = productRepository.findById(productID).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
