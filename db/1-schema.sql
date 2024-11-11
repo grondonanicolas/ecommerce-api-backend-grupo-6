@@ -53,7 +53,6 @@ CREATE TABLE IF NOT EXISTS product
     `description`      VARCHAR(255) NOT NULL,
     `name`      VARCHAR(255) NOT NULL,
     `price_per_unit`   DOUBLE       NOT NULL,
-    `image_url`   VARCHAR(255) NOT NULL,
     `is_outstanding`   BOOLEAN      NOT NULL DEFAULT FALSE,
     `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -94,6 +93,7 @@ CREATE TABLE IF NOT EXISTS photo
 (
     `id`         INT          NOT NULL AUTO_INCREMENT,
     `product_id` INT          NOT NULL,
+    `priority`   INT          NOT NULL,
     `url`        VARCHAR(255) NOT NULL,
 
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

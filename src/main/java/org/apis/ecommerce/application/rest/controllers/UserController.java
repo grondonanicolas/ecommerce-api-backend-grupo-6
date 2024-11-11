@@ -7,6 +7,7 @@ import org.apis.ecommerce.application.rest.dtos.CreateFavouriteDTO;
 import org.apis.ecommerce.application.rest.dtos.FavouriteDTO;
 import org.apis.ecommerce.application.rest.dtos.HistoricDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductDTO;
+import org.apis.ecommerce.application.rest.dtos.PhotoDTO;
 import org.apis.ecommerce.domain.models.Favourite;
 import org.apis.ecommerce.domain.models.Historic;
 import org.apis.ecommerce.domain.models.Product;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -38,17 +40,20 @@ public class UserController {
         List<Historic> historic = userService.getProductHistoric(user);
         return historic.stream()
                 .map(historicItem -> {
-                    Product product = historicItem.getProduct(); 
+                    Product product = historicItem.getProduct();
                     ProductDTO productDTO = new ProductDTO(
-                            product.getId(), 
-                            product.getDescription(), 
-                            product.getPricePerUnit(), 
+                            product.getId(),
+                            product.getDescription(),
+                            product.getPricePerUnit(),
                             product.getCurrentStock(),
                             product.getCategory() != null ? product.getCategory().getCategory() : null,
-                            product.getImage(),
                             product.getName(),
-                            product.getCurrentState().toString());
-    
+                            product.getCurrentState().toString(),
+                            product.getPhotos().stream()
+                                    .map(photo -> new PhotoDTO(photo.getPriority(), photo.getUrl()))
+                                    .collect(Collectors.toList()) // Convertir a lista de PhotoDTOs
+                    );
+
                     return new HistoricDTO(productDTO);
                 })
                 .toList();
@@ -60,19 +65,21 @@ public class UserController {
         return favourites.stream()
                 .map(favouriteItem -> {
                     Product product = favouriteItem.getProduct();
-                    
+
                     ProductDTO productDTO = new ProductDTO(
-                        product.getId(), 
-                        product.getDescription(), 
-                        product.getPricePerUnit(), 
-                        product.getCurrentStock(),
-                        product.getCategory() != null ? product.getCategory().getCategory() : null,
-                        product.getImage(),
-                        product.getName(),
-                        product.getCurrentState().toString()
+                            product.getId(),
+                            product.getDescription(),
+                            product.getPricePerUnit(),
+                            product.getCurrentStock(),
+                            product.getCategory() != null ? product.getCategory().getCategory() : null,
+                            product.getName(),
+                            product.getCurrentState().toString(),
+                            product.getPhotos().stream()
+                                    .map(photo -> new PhotoDTO(photo.getPriority(), photo.getUrl()))
+                                    .collect(Collectors.toList()) // Convertir a lista de PhotoDTOs
                     );
-                    
-                    return new FavouriteDTO(productDTO); 
+
+                    return new FavouriteDTO(productDTO);
                 })
                 .toList();
     }

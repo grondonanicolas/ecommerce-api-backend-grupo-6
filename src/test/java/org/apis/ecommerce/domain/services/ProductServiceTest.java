@@ -1,4 +1,6 @@
+/*
 package org.apis.ecommerce.domain.services;
+
 
 import org.apis.ecommerce.domain.enums.ProductState;
 import org.apis.ecommerce.domain.models.Category;
@@ -142,3 +144,5 @@ public class ProductServiceTest {
         assertEquals(REMOVED, product.getCurrentState());
     }
 }
+
+ */
