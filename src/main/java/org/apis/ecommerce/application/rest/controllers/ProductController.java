@@ -28,12 +28,37 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
+    @GetMapping(value = "/all")
+    public List<ProductDTO> listAllProducts(
+            @AuthenticationPrincipal User user) throws Exception {
+        List<Product> products;
+        products = productService.getAllProducts();
+        return products.stream()
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getDescription(),
+                        product.getPricePerUnit(),
+                        product.getCurrentStock(),
+                        product.getCategory().getCategory(),
+                        product.getName(),
+                        product.getCurrentState().toString(),
+                        product.getPhotos().stream()
+                                .map(photo -> new PhotoDTO(
+                                        photo.getPriority(),
+                                        photo.getUrl()
+                                ))
+                                .collect(Collectors.toList())
+                ))
+                .toList();
+    }
+
+
     @GetMapping
     public List<ProductDTO> listProducts(
             @AuthenticationPrincipal User user) throws Exception {
                 List<Product> products;
                 if(user.getRole().name().equals(Role.ADMIN.name())){
-                    products = productService.getAllByUser(user);;
+                    products = productService.getAllByUser(user);
                 } else {
                     products = productService.getAllProducts();
                 }
