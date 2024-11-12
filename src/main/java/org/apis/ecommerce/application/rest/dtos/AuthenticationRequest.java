@@ -6,17 +6,18 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationRequest {
-
-    @NotBlank(message = "El email no puede estar en blanco.")
-    @Email(message = "El formato del email no es válido.")
     private String email;
+
+    private String username;
 
     @NotBlank(message = "La contraseña no puede estar en blanco.")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
