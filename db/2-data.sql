@@ -16,8 +16,8 @@ VALUES (0, 'BORRADOR'),
 INSERT INTO category (`category`)
 VALUES ('Camisetas'),
        ('Pantalones'),
-       ('Chaquetas'),
-       ('Zapatos'),
+       ('Camperas'),
+       ('Zapatillas'),
        ('Accesorios');
 
 -- Inserciones para la tabla `transactions`
@@ -32,7 +32,7 @@ VALUES (2, '2024-08-10 11:27:31'),
 INSERT INTO product (`product_state_id`, `category_id`, `user_id`, `stock`, `name`, `description`, `is_outstanding`,`price_per_unit`, `created_at`, `updated_at`)
 VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de la Selección Argentina', true, 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31'),
        (1, 2, 3, 30, 'Pantalón', 'Pantalón vaquero', true, 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
-       (1, 3, 4, 20, 'Chaqueta', 'Chaqueta de cuero', true, 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33'),
+       (1, 3, 4, 20, 'Campera', 'Campera Adidas Originals', true, 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33'),
        (1, 4, 4, 100, 'Zapatillas', 'Zapatillas deportivas', true, 59.99, '2024-07-13 11:27:31', '2024-08-13 14:24:34'),
        (1, 5, 5, 150, 'Gorra', 'Gorra de béisbol', true, 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
 
@@ -40,8 +40,8 @@ VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de la Selección Argentina', true, 15
 INSERT INTO product_bought (`product_id`, `transaction_id`, `price_per_unit`, `quantity`, `description`, `category`)
 VALUES (1, 1, 15.99, 1, 'Camiseta de la Selección Argentina', 'Camisetas'),
        (2, 2, 39.99, 2, 'Pantalón vaquero', 'Pantalones'),
-       (3, 3, 79.99, 3, 'Chaqueta de cuero', 'Chaquetas'),
-       (4, 4, 59.99, 4, 'Zapatillas deportivas', 'Zapatos'),
+       (3, 3, 79.99, 3, 'Campera Adidas Originals', 'Camperas'),
+       (4, 4, 59.99, 4, 'Zapatillas deportivas', 'Zapatillas'),
        (5, 5, 9.99, 5, 'Gorra de béisbol', 'Accesorios');
 
 -- Inserciones para la tabla `outstanding`
@@ -57,7 +57,7 @@ VALUES (1),
 INSERT INTO photo (`product_id`,`priority`, `url`)
 VALUES (1, 1,'https://s3.sa-east-1.amazonaws.com/www.vaypol.com.ar/variants/61r8qfnq1c0t0rcepynd5zlc9f4x/77e513bcd3762f47919c96f85e400038a39acdbb0d268f51c1fd98fe5327bd96'),
        (2, 1,'https://www.cottonclub.com.ar/media/catalog/product/cache/65e2670acbf1788249a95924f3789a80/0/4/041h2_1.jpg'),
-       (3, 1,'https://acdn.mitiendanube.com/stores/934/092/products/chaqueta-cuero-chamarra-oziris-11-8fbc9670434cacb79e15494824871054-1024-1024.jpg'),
+       (3, 1,'https://s3.sa-east-1.amazonaws.com/www.vaypol.com.ar/variants/92371qt9n7s9zz7rwkgb0e59ze2i/77e513bcd3762f47919c96f85e400038a39acdbb0d268f51c1fd98fe5327bd96'),
        (4, 1,'https://static.nike.com/a/images/t_default/km2tqfsvv77pll60gc2r/WMNS+AIR+MAX+COMMAND.png'),
        (5, 1,'https://ferreira.vtexassets.com/arquivos/ids/422047-800-auto?v=638340040747730000&width=800&height=auto&aspect=true');
 
