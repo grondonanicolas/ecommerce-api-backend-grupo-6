@@ -14,7 +14,7 @@ public class BoughtProduct {
     @EmbeddedId
     private BoughtProductId id;
     
-    @ManyToOne
+    @OneToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
@@ -32,4 +32,5 @@ public class BoughtProduct {
     private String description;
     @Column(name = "category")
     private String category;
+
 }

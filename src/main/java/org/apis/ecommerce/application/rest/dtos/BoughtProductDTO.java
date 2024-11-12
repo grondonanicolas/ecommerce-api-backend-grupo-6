@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.apis.ecommerce.domain.models.BoughtProduct;
+import org.apis.ecommerce.domain.models.Photo;
+import org.apis.ecommerce.domain.models.Product;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -25,10 +29,23 @@ public class BoughtProductDTO {
 
     private double subtotal;
 
+    private String image;
+    private String name;
+    private int productId;
+
     public BoughtProductDTO(BoughtProduct entity) {
         this.description = entity.getDescription();
         this.pricePerUnit = entity.getPricePerUnit();
         this.quantity = entity.getQuantity();
         this.subtotal = this.quantity * this.pricePerUnit;
+        Product p = entity.getProduct();
+        if (p != null) {
+            this.name = p.getName();
+            this.productId = p.getId();
+            List<Photo> photos = p.getPhotos();
+            if (!photos.isEmpty()) {
+                this.image = photos.get(0).getUrl();
+            }
+        }
     }
 }

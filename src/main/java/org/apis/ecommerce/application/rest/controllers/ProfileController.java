@@ -5,14 +5,12 @@ import org.apis.ecommerce.application.rest.dtos.UserProfileDTO;
 import org.apis.ecommerce.application.rest.services.ITransactionService;
 import org.apis.ecommerce.domain.models.Transaction;
 import org.apis.ecommerce.domain.models.User;
-import org.apis.ecommerce.domain.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
