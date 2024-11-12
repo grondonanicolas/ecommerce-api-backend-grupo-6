@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,7 +39,7 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("El producto seleccionado no está activo");
         }
         
-        Historic historic = Historic.builder().user(user).product(product).build();
+        Historic historic = Historic.builder().user(user).product(product).updatedAt(LocalDateTime.now()).build();
 
         user.addProductToHistoric(historic);
         userRepository.save(user);
@@ -75,6 +77,7 @@ public class UserService implements IUserService {
         user = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("An error has ocurred"));
         return user.getHistoric().stream()
                 .filter(historic -> ProductState.ACTIVE.equals(historic.getProduct().getCurrentState()))
+                .sorted((o1, o2) -> o1.getUpdatedAt().compareTo(o2.getUpdatedAt()))
                 .toList();
     }
 

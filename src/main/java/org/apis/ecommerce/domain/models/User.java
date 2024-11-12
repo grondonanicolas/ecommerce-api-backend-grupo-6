@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -49,10 +50,10 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Historic> historic;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Favourite> favourite;
 
     @Override
@@ -65,17 +66,37 @@ public class User implements UserDetails {
     }
 
     public void addProductToHistoric(Historic h){
-        if(this.historic != null ){
+        if(this.historic == null ){
             this.historic =  new ArrayList<>();
+        }
+        if (hasHistoric(h) ){
+            Historic existingHistoric = this.historic.stream()
+            .filter(his -> his.getProduct().getId().equals(h.getProduct().getId()))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("El producto en el historial no se ha encontrado")); 
+            existingHistoric.setUpdatedAt(LocalDateTime.now());
+            return;
         }
         this.historic.add(h);
     }
 
+    private boolean hasHistoric(Historic h){
+       return this.historic.stream().anyMatch(hist -> hist.getProduct().getId().equals(h.getProduct().getId()));
+    }
+
     public void addProductToFavourite(Favourite f){
-        if(this.favourite != null ){
+        if(this.favourite == null ){
             this.favourite =  new ArrayList<>();
+        } 
+        if (hasFavourite(f)){
+            // throw new IllegalStateException("El producto ya se encuentra como favorito");
+            return;
         }
         this.favourite.add(f);
+    }
+
+    private boolean hasFavourite(Favourite f){
+       return this.favourite.stream().anyMatch(fav -> fav.getProduct().getId().equals(f.getProduct().getId()));
     }
 
     public void removeProductFromFavourite(Favourite f) {
@@ -83,7 +104,7 @@ public class User implements UserDetails {
                 Favourite favouriteToRemove = this.favourite.stream()
                     .filter(fav -> fav.getProduct().getId().equals(f.getProduct().getId()))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("El producto favorito no se encuentra"));;
+                    .orElseThrow(() -> new IllegalArgumentException("El producto favorito no se encuentra"));
                 this.favourite.remove(favouriteToRemove);
         } else {
             throw new IllegalArgumentException("No hay productos en favoritos para eliminar");

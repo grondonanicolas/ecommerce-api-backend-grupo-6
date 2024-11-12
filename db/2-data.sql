@@ -29,12 +29,12 @@ VALUES (2, '2024-08-10 11:27:31'),
        (5, '2024-08-14 15:23:35');
 
 -- Inserciones para la tabla `product`
-INSERT INTO product (`product_state_id`, `category_id`, `user_id`, `stock`, `name`, `description`, `price_per_unit`, `created_at`, `updated_at`)
-VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de algodón', 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31'),
-       (1, 2, 3, 30, 'Pantalón', 'Pantalón vaquero', 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
-       (1, 3, 4, 20, 'Chaqueta', 'Chaqueta de cuero', 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33'),
-       (1, 4, 4, 100, 'Zapatillas', 'Zapatillas deportivas', 59.99, '2024-07-13 11:27:31', '2024-08-13 14:24:34'),
-       (1, 5, 5, 150, 'Gorra', 'Gorra de béisbol', 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
+INSERT INTO product (`product_state_id`, `category_id`, `user_id`, `stock`, `name`, `description`, `is_outstanding`,`price_per_unit`, `created_at`, `updated_at`)
+VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de algodón', true, 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31'),
+       (1, 2, 3, 30, 'Pantalón', 'Pantalón vaquero', true, 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
+       (1, 3, 4, 20, 'Chaqueta', 'Chaqueta de cuero', true, 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33'),
+       (1, 4, 4, 100, 'Zapatillas', 'Zapatillas deportivas', true, 59.99, '2024-07-13 11:27:31', '2024-08-13 14:24:34'),
+       (1, 5, 5, 150, 'Gorra', 'Gorra de béisbol', true, 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
 
 -- Inserciones para la tabla `product_bought`
 INSERT INTO product_bought (`product_id`, `transaction_id`, `price_per_unit`, `quantity`, `description`, `category`)
@@ -55,11 +55,11 @@ VALUES (1),
 
 -- Inserciones para la tabla `photo`
 INSERT INTO photo (`product_id`,`priority`, `url`)
-VALUES (1, 1,'https://example.com/photo1.jpg'),
-       (2, 1,'https://example.com/photo2.jpg'),
-       (3, 1,'https://example.com/photo3.jpg'),
-       (4, 1,'https://example.com/photo4.jpg'),
-       (5, 1,'https://example.com/photo5.jpg');
+VALUES (1, 1,'https://www.cottonclub.com.ar/media/catalog/product/cache/65e2670acbf1788249a95924f3789a80/1/1/1100_negra_copia.jpg'),
+       (2, 1,'https://www.cottonclub.com.ar/media/catalog/product/cache/65e2670acbf1788249a95924f3789a80/0/4/041h2_1.jpg'),
+       (3, 1,'https://acdn.mitiendanube.com/stores/934/092/products/chaqueta-cuero-chamarra-oziris-11-8fbc9670434cacb79e15494824871054-1024-1024.jpg'),
+       (4, 1,'https://nikearprod.vtexassets.com/arquivos/ids/658105/CW4554_001_A_PREM.jpg?v=638221802847400000'),
+       (5, 1,'https://ferreira.vtexassets.com/arquivos/ids/422047-800-auto?v=638340040747730000&width=800&height=auto&aspect=true');
 
 -- Inserciones para la tabla `cart`
 INSERT INTO cart (`user_id`)
@@ -78,12 +78,12 @@ VALUES (1, 1, 10),
        (5, 5, 50);
 
 -- Inserciones para la tabla `historic`
-INSERT INTO historic (`user_id`, `product_id`)
-VALUES (2, 1),
-       (2, 2),
-       (3, 3),
-       (4, 4),
-       (5, 5);
+INSERT INTO historic (`user_id`, `product_id`, `updated_at`)
+VALUES (2, 1, '2024-08-10 11:27:31'),
+       (2, 2, '2024-08-11 11:27:31'),
+       (3, 3, '2024-08-12 11:27:31'),
+       (4, 4, '2024-08-13 11:27:31'),
+       (5, 5, '2024-08-15 11:27:31');
 
 -- Inserciones para la tabla `favourite`
 INSERT INTO favourite (`user_id`, `product_id`)

@@ -128,9 +128,11 @@ CREATE TABLE IF NOT EXISTS historic
     `id`         INT NOT NULL AUTO_INCREMENT,
     `user_id`    INT NOT NULL,
     `product_id` INT NOT NULL,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE KEY (`product_id`, `user_id`),
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
@@ -143,6 +145,7 @@ CREATE TABLE IF NOT EXISTS historic
 
     FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE KEY (`product_id`, `user_id`),
     PRIMARY KEY (`id`)
 ) CHARACTER SET utf8mb4
   COLLATE utf8mb4_bin;
