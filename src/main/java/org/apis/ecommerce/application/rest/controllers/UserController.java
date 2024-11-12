@@ -14,6 +14,7 @@ import org.apis.ecommerce.domain.models.Product;
 import org.apis.ecommerce.domain.models.User;
 import org.apis.ecommerce.application.rest.services.IUserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,6 +88,11 @@ public class UserController {
     @PostMapping("/favourite")
     public void addProductFavourite(@RequestBody @Valid CreateFavouriteDTO favourite, @AuthenticationPrincipal User user) throws Exception {
         userService.addProductFavourite(favourite.getProductId(), user);
+    }
+
+    @DeleteMapping("/favourite")
+    public void deleteProductFavourite(@RequestBody @Valid CreateFavouriteDTO favourite, @AuthenticationPrincipal User user) throws Exception {
+        userService.deleteProductFavourite(favourite.getProductId(), user);
     }
 
 }

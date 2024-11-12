@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,7 +39,7 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("El producto seleccionado no está activo");
         }
         
-        Historic historic = Historic.builder().user(user).product(product).build();
+        Historic historic = Historic.builder().user(user).product(product).updatedAt(LocalDateTime.now()).build();
 
         user.addProductToHistoric(historic);
         userRepository.save(user);
@@ -56,13 +58,30 @@ public class UserService implements IUserService {
         userRepository.save(user);
     }
 
+    public void deleteProductFavourite(Integer productId, User user) throws Exception {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+        if (!ProductState.ACTIVE.equals(product.getCurrentState())) {
+            throw new IllegalArgumentException("El producto seleccionado no está activo");
+        }
+
+        Favourite favourite = Favourite.builder().user(user).product(product).build();
+
+        User userAux = userRepository.findById(user.getId()).orElseThrow(() -> new Exception("An error has ocurred"));
+
+        userAux.removeProductFromFavourite(favourite);
+        userRepository.save(userAux);
+
+    }
+
     public List<Historic> getProductHistoric(User user){
         user = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("An error has ocurred"));
         return user.getHistoric().stream()
                 .filter(historic -> ProductState.ACTIVE.equals(historic.getProduct().getCurrentState()))
+                .sorted((o1, o2) -> o1.getUpdatedAt().compareTo(o2.getUpdatedAt()))
                 .toList();
     }
 
+    
     public List<Favourite> getProductFavourites(User user){
         user = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("An error has ocurred"));
         return user.getFavourite().stream()

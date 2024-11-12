@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -28,4 +30,7 @@ public class Historic {
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
