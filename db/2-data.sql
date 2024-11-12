@@ -58,7 +58,7 @@ INSERT INTO photo (`product_id`,`priority`, `url`)
 VALUES (1, 1,'https://www.cottonclub.com.ar/media/catalog/product/cache/65e2670acbf1788249a95924f3789a80/1/1/1100_negra_copia.jpg'),
        (2, 1,'https://www.cottonclub.com.ar/media/catalog/product/cache/65e2670acbf1788249a95924f3789a80/0/4/041h2_1.jpg'),
        (3, 1,'https://acdn.mitiendanube.com/stores/934/092/products/chaqueta-cuero-chamarra-oziris-11-8fbc9670434cacb79e15494824871054-1024-1024.jpg'),
-       (4, 1,'https://nikearprod.vtexassets.com/arquivos/ids/658105/CW4554_001_A_PREM.jpg?v=638221802847400000'),
+       (4, 1,'https://static.nike.com/a/images/t_default/km2tqfsvv77pll60gc2r/WMNS+AIR+MAX+COMMAND.png'),
        (5, 1,'https://ferreira.vtexassets.com/arquivos/ids/422047-800-auto?v=638340040747730000&width=800&height=auto&aspect=true');
 
 -- Inserciones para la tabla `cart`
