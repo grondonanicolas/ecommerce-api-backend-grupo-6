@@ -47,7 +47,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
                 User user = repository.findByEmail(request.getEmail()).orElseGet(() ->
-                        repository.findByUsername(request.getEmail()).orElseThrow()
+                        repository.findByUsername(request.getUsername()).orElseThrow()
                 );
 
                 authenticationManager.authenticate(
