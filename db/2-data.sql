@@ -31,7 +31,7 @@ VALUES (2, '2024-08-10 11:27:31'),
 -- Inserciones para la tabla `product`
 INSERT INTO product (`product_state_id`, `category_id`, `user_id`, `stock`, `name`, `description`, `is_outstanding`,`price_per_unit`, `created_at`, `updated_at`)
 VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de la Selección Argentina', true, 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31'),
-       (1, 2, 3, 30, 'Pantalón', 'Pantalón vaquero', true, 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
+       (1, 2, 3, 30, 'Pantalón', 'Pantalón deportivo Nike', true, 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
        (1, 3, 4, 20, 'Campera', 'Campera Adidas Originals', true, 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33'),
        (1, 4, 4, 100, 'Zapatillas', 'Zapatillas deportivas', true, 59.99, '2024-07-13 11:27:31', '2024-08-13 14:24:34'),
        (1, 5, 5, 150, 'Gorra', 'Gorra de béisbol', true, 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
@@ -39,7 +39,7 @@ VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de la Selección Argentina', true, 15
 -- Inserciones para la tabla `product_bought`
 INSERT INTO product_bought (`product_id`, `transaction_id`, `price_per_unit`, `quantity`, `description`, `category`)
 VALUES (1, 1, 15.99, 1, 'Camiseta de la Selección Argentina', 'Camisetas'),
-       (2, 2, 39.99, 2, 'Pantalón vaquero', 'Pantalones'),
+       (2, 2, 39.99, 2, 'Pantalón deportivo Nike', 'Pantalones'),
        (3, 3, 79.99, 3, 'Campera Adidas Originals', 'Camperas'),
        (4, 4, 59.99, 4, 'Zapatillas deportivas', 'Zapatillas'),
        (5, 5, 9.99, 5, 'Gorra de béisbol', 'Accesorios');
@@ -56,7 +56,7 @@ VALUES (1),
 -- Inserciones para la tabla `photo`
 INSERT INTO photo (`product_id`,`priority`, `url`)
 VALUES (1, 1,'https://s3.sa-east-1.amazonaws.com/www.vaypol.com.ar/variants/61r8qfnq1c0t0rcepynd5zlc9f4x/77e513bcd3762f47919c96f85e400038a39acdbb0d268f51c1fd98fe5327bd96'),
-       (2, 1,'https://www.cottonclub.com.ar/media/catalog/product/cache/65e2670acbf1788249a95924f3789a80/0/4/041h2_1.jpg'),
+       (2, 1,'https://soccerpost.com/cdn/shop/products/064fb2103c11bc9cf2b11ae531e537cf.png?v=1673296638'),
        (3, 1,'https://s3.sa-east-1.amazonaws.com/www.vaypol.com.ar/variants/92371qt9n7s9zz7rwkgb0e59ze2i/77e513bcd3762f47919c96f85e400038a39acdbb0d268f51c1fd98fe5327bd96'),
        (4, 1,'https://static.nike.com/a/images/t_default/km2tqfsvv77pll60gc2r/WMNS+AIR+MAX+COMMAND.png'),
        (5, 1,'https://ferreira.vtexassets.com/arquivos/ids/422047-800-auto?v=638340040747730000&width=800&height=auto&aspect=true');
