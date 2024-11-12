@@ -30,19 +30,19 @@ VALUES (2, '2024-08-10 11:27:31'),
 
 -- Inserciones para la tabla `product`
 INSERT INTO product (`product_state_id`, `category_id`, `user_id`, `stock`, `name`, `description`, `is_outstanding`,`price_per_unit`, `created_at`, `updated_at`)
-VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de la Selección Argentina', true, 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31'),
-       (1, 2, 3, 30, 'Pantalón', 'Pantalón deportivo Nike', true, 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
+VALUES (1, 1, 3, 50, 'Camiseta', 'Camiseta de la Seleccion Argentina', true, 15.99, '2024-07-10 11:27:31', '2024-08-10 11:27:31'),
+       (1, 2, 3, 30, 'Pantalon', 'Pantalon deportivo Nike', true, 39.99, '2024-07-11 11:27:31', '2024-08-11 12:26:32'),
        (1, 3, 4, 20, 'Campera', 'Campera Adidas Originals', true, 79.99, '2024-07-12 11:27:31', '2024-08-12 13:25:33'),
        (1, 4, 4, 100, 'Zapatillas', 'Zapatillas deportivas', true, 59.99, '2024-07-13 11:27:31', '2024-08-13 14:24:34'),
-       (1, 5, 5, 150, 'Gorra', 'Gorra de béisbol', true, 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
+       (1, 5, 5, 150, 'Gorra', 'Gorra de beisbol', true, 9.99, '2024-07-14 11:27:31', '2024-08-14 15:23:35');
 
 -- Inserciones para la tabla `product_bought`
 INSERT INTO product_bought (`product_id`, `transaction_id`, `price_per_unit`, `quantity`, `description`, `category`)
-VALUES (1, 1, 15.99, 1, 'Camiseta de la Selección Argentina', 'Camisetas'),
-       (2, 2, 39.99, 2, 'Pantalón deportivo Nike', 'Pantalones'),
+VALUES (1, 1, 15.99, 1, 'Camiseta de la Seleccion Argentina', 'Camisetas'),
+       (2, 2, 39.99, 2, 'Pantalon deportivo Nike', 'Pantalones'),
        (3, 3, 79.99, 3, 'Campera Adidas Originals', 'Camperas'),
        (4, 4, 59.99, 4, 'Zapatillas deportivas', 'Zapatillas'),
-       (5, 5, 9.99, 5, 'Gorra de béisbol', 'Accesorios');
+       (5, 5, 9.99, 5, 'Gorra de beisbol', 'Accesorios');
 
 -- Inserciones para la tabla `outstanding`
 INSERT INTO outstanding (`product_id`)
