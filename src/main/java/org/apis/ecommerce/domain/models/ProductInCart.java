@@ -2,7 +2,10 @@ package org.apis.ecommerce.domain.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.apis.ecommerce.application.rest.dtos.PhotoDTO;
 import org.apis.ecommerce.application.rest.dtos.ProductInCartDto;
+
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -70,6 +73,12 @@ public class ProductInCart {
                 .description(product.getDescription())
                 .quantity(currentQuantity)
                 .pricePerUnit(product.getPricePerUnit())
+                .photos(product.getPhotos().stream()
+                        .map(photo -> new PhotoDTO(
+                                photo.getPriority(),
+                                photo.getUrl()
+                        ))
+                        .collect(Collectors.toList()))
                 .build();
     }
 
