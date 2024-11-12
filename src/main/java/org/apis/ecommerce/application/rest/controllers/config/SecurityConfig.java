@@ -31,7 +31,8 @@ public class SecurityConfig {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .cors() // Activar CORS en HttpSecurity
                                 .and()
-                                .authorizeHttpRequests(req -> req.requestMatchers("/login", "/register").permitAll()
+                                .authorizeHttpRequests(req -> req.requestMatchers("/login", "/register", "/category", "/products/outstanding", "/products/all").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/products/*").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/products").hasAuthority(Role.ADMIN.name())
                                         .requestMatchers(HttpMethod.PUT, "/products/*").hasAuthority(Role.ADMIN.name())
                                         .anyRequest()
