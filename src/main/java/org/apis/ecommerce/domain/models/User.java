@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -51,7 +52,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Historic> historic;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Favourite> favourite;
 
     @Override
@@ -75,5 +76,17 @@ public class User implements UserDetails {
             this.favourite =  new ArrayList<>();
         }
         this.favourite.add(f);
+    }
+
+    public void removeProductFromFavourite(Favourite f) {
+        if (this.favourite != null) {
+                Favourite favouriteToRemove = this.favourite.stream()
+                    .filter(fav -> fav.getProduct().getId().equals(f.getProduct().getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("El producto favorito no se encuentra"));;
+                this.favourite.remove(favouriteToRemove);
+        } else {
+            throw new IllegalArgumentException("No hay productos en favoritos para eliminar");
+        }
     }
 }

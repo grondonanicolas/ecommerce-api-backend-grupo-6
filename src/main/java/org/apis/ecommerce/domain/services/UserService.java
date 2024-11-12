@@ -56,6 +56,21 @@ public class UserService implements IUserService {
         userRepository.save(user);
     }
 
+    public void deleteProductFavourite(Integer productId, User user) throws Exception {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+        if (!ProductState.ACTIVE.equals(product.getCurrentState())) {
+            throw new IllegalArgumentException("El producto seleccionado no está activo");
+        }
+
+        Favourite favourite = Favourite.builder().user(user).product(product).build();
+
+        User userAux = userRepository.findById(user.getId()).orElseThrow(() -> new Exception("An error has ocurred"));
+
+        userAux.removeProductFromFavourite(favourite);
+        userRepository.save(userAux);
+
+    }
+
     public List<Historic> getProductHistoric(User user){
         user = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("An error has ocurred"));
         return user.getHistoric().stream()
@@ -63,6 +78,7 @@ public class UserService implements IUserService {
                 .toList();
     }
 
+    
     public List<Favourite> getProductFavourites(User user){
         user = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("An error has ocurred"));
         return user.getFavourite().stream()

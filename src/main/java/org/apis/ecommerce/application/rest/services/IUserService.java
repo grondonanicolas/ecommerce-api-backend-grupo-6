@@ -17,4 +17,6 @@ public interface IUserService {
 
     public void addProductHistoric(Integer productId, User user) throws Exception;
 
+    public void deleteProductFavourite(Integer productId, User user) throws Exception;
+
 }
