@@ -46,12 +46,15 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
+                User user = repository.findByEmail(request.getEmail()).orElseGet(() ->
+                        repository.findByUsername(request.getUsername()).orElseThrow()
+                );
+
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
-                                                request.getEmail(),
+                                                user.getEmail(),
                                                 request.getPassword()));
-                var user = repository.findByEmail(request.getEmail())
-                                .orElseThrow();
+
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)

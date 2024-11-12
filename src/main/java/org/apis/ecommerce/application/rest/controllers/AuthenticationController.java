@@ -25,8 +25,13 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest request) {
-            AuthenticationResponse response = service.authenticate(request);
-            return ResponseEntity.ok(response);
+        if ((request.getEmail() == null || request.getEmail().isEmpty()) &&
+                (request.getUsername() == null || request.getUsername().isEmpty())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Debe proporcionar un email o un username.");
+        }
+        AuthenticationResponse response = service.authenticate(request);
+        return ResponseEntity.ok(response);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
